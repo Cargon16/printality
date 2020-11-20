@@ -33,56 +33,68 @@
    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.0/js/bootstrap.min.js" integrity="sha384-uefMccjFJAIv6A+rW+L4AHf99KvxDjWSu1z9VI8SKNVmz4sk7buKt/6v9KI65qnm" crossorigin="anonymous"></script>
    
    <script src="js/pmgr.js"></script>
-
-   <div class="wrapper">
-    <!-- Sidebar -->
-    <nav id="sidebar">
-        <div class="sidebar-header">
-            <h3>Gestionar</h3>
-        </div>
-
-        <ul class="list-unstyled components">
-            <!--Seleccionar la gestión de impresoras-->
-            <li class="menu">
-              <img src="./img/impresoras.gif" onclick="ocultar('#impresoras', '#grupos');"/>
-            </li>
-            <!--Seleccionar la gestión de grupos-->
-            <li class="menu">
-             
-              <img src="./img/grupos.gif" onclick="ocultar('#grupos', '#impresoras');"/>
-            </li>
-            
-        </ul>
-
-    </nav>
-    <!-- Page Content -->
-    <div id="content">
-      <button type="button" id="sidebarCollapse" class="navbar-btn">
-        <span></span>
-        <span></span>
-        <span></span>
-    </button>
-
-    <!--Vista de la gestión de impresoras-->
-    <div class="collapse list-unstyled" id="impresoras">
-      asdlasjk  lasdjaklccosas
+  <nav class="navbar navbar-light bg-light">
+    <div class="wrapper">
+      <!-- Sidebar -->
+      <nav id="sidebar">
+          <div class="sidebar-header">
+              <h3>Gestionar</h3>
+          </div>
+  
+          <ul class="list-unstyled components">
+              <!--Seleccionar la gestión de impresoras-->
+              <li class="menu">
+                <img src="./img/impresoras.gif" onclick="ocultar('#impresoras', '#grupos');"/>
+              </li>
+              <!--Seleccionar la gestión de grupos-->
+              <li class="menu">
+               
+                <img src="./img/grupos.gif" onclick="ocultar('#grupos', '#impresoras');"/>
+              </li>
+              
+          </ul>
+  
+      </nav>
+      <!-- Page Content -->
+      <div id="content">
+        <button type="button" id="sidebarCollapse" class="navbar-btn">
+          <span></span>
+          <span></span>
+          <span></span>
+      </button>
+  
+      <!--Vista de la gestión de impresoras-->
+      <div class="collapse list-unstyled" id="impresoras">
+        <h2>
+          Gestionar impresora
+        </h2>
+        <table>
+          <tr>
+            <th>Modelo</th>
+            <th>Alias</th>
+            <th>Lugar</th>
+            <th>IP</th>
+            <th>Trabajos</th>
+          </tr>
+          <tr>
+            <td>Modelo</td>
+            <td>Alias</td>
+            <td>Lugar</td>
+            <td>IP</td>
+            <td>Trabajos</td>
+          </tr>
+        </table>
+      </div>
+  
+      <!--Vista de la gestión de grupos-->
+      <div class="collapse list-unstyled" id="grupos">
+        ksajlskjd
+      </div>
+  
+  
     </div>
-
-    <!--Vista de la gestión de grupos-->
-    <div class="collapse list-unstyled" id="grupos">
-      ksajlskjd
-    </div>
-
-    <!--Función para ocultar/mostrar las distintas vistas-->
-    <!--<script>
-      function ocultar(parent, ajeno) {            
-        $(ajeno).hide();
-        $(parent).show();
-      }
-    </script>-->
-
-</div>
-</div>
+  </nav>
+   
 
   <!-- JavaScript -->
   <!-- jQuery primero, Bootstrap después -->

@@ -101,3 +101,19 @@ a, a:hover, a:focus {
     text-decoration: none;
 }
 
+#impresoras{
+    margin-left: 30%;
+    border: 2px solid red;
+    width: auto;
+}
+
+#impresoras h2{
+    margin-left: 20%;
+}
+#impresoras table{
+    margin-left: 20%;
+}
+#impresoras table td{
+    margin-right: 100px;
+}
+

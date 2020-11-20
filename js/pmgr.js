@@ -175,6 +175,8 @@ $(document).ready(function () {
     });
 
 });
+
+//Función para ocultar/mostrar las distintas vistas
 function ocultar(parent, ajeno) {
     $(ajeno).hide();
     $(parent).show();
