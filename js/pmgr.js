@@ -169,11 +169,10 @@ $(function () {
 });
 
 $(document).ready(function () {
-
     $('#sidebarCollapse').on('click', function () {
         $('#sidebar').toggleClass('active');
+        $(this).toggleClass('active');
     });
-
 });
 
 //Función para ocultar/mostrar las distintas vistas
@@ -184,9 +183,14 @@ function ocultar(parent, ajeno) {
 
 $(document).ready(function(){
     $('.menu').click(function(e){
-    $('img').css('backgroundColor', '#7386D5');
-    $(e.target).css('backgroundColor', '#a9b6ec');
-     });
+       if(e.target.matches("img")) {
+            $('img').css('backgroundColor', '#acbed4');
+            $(e.target).css('backgroundColor', '#718fb3'); 
+       }
+    });
+
+    /* Seleccionado impresoras por defecto*/ 
+    $('#i').css('backgroundColor', '#718fb3');
   });
 // cosas que exponemos para usarlas desde la consola
 window.populate = populate
