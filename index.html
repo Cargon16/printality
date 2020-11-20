@@ -32,6 +32,8 @@
    <!-- Bootstrap JS -->
    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.0/js/bootstrap.min.js" integrity="sha384-uefMccjFJAIv6A+rW+L4AHf99KvxDjWSu1z9VI8SKNVmz4sk7buKt/6v9KI65qnm" crossorigin="anonymous"></script>
    
+   <script src="js/pmgr.js"></script>
+
    <div class="wrapper">
     <!-- Sidebar -->
     <nav id="sidebar">
@@ -41,12 +43,13 @@
 
         <ul class="list-unstyled components">
             <!--Seleccionar la gestión de impresoras-->
-            <li>
-              <a href="#impresoras" onclick="ocultar('#impresoras', '#grupos');" data-toggle="collapse" aria-expanded="false"><img src="/img/impresoras.gif" />Impresoras</a>
+            <li class="menu">
+              <img src="./img/impresoras.gif" onclick="ocultar('#impresoras', '#grupos');"/>
             </li>
             <!--Seleccionar la gestión de grupos-->
-            <li>
-              <a href="#grupos" onclick="ocultar('#grupos', '#impresoras');" data-toggle="collapse" aria-expanded="false" id="bgrupos"><img src="/img/grupos.gif" />Grupoas de impresoras</a>
+            <li class="menu">
+             
+              <img src="./img/grupos.gif" onclick="ocultar('#grupos', '#impresoras');"/>
             </li>
             
         </ul>
@@ -71,12 +74,12 @@
     </div>
 
     <!--Función para ocultar/mostrar las distintas vistas-->
-    <script>
+    <!--<script>
       function ocultar(parent, ajeno) {            
         $(ajeno).hide();
         $(parent).show();
       }
-    </script>
+    </script>-->
 
 </div>
 </div>

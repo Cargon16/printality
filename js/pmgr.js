@@ -24,22 +24,24 @@ import * as Pmgr from './pmgrapi.js'
 //
 
 function createPrinterItem(printer) {
-  const rid = 'x_' + Math.floor(Math.random()*1000000);
-  const hid = 'h_'+rid;
-  const cid = 'c_'+rid;
+    const rid = 'x_' + Math.floor(Math.random() * 1000000);
+    const hid = 'h_' + rid;
+    const cid = 'c_' + rid;
 
-  // usar [] en las claves las evalua (ver https://stackoverflow.com/a/19837961/15472)
-  const PS = Pmgr.PrinterStates;
-  let pillClass = { [PS.PAUSED] : "badge-secondary",
-                    [PS.PRINTING] : "badge-success",
-                    [PS.NO_INK] : "badge-danger",
-                    [PS.NO_PAPER] : "badge-danger" };
+    // usar [] en las claves las evalua (ver https://stackoverflow.com/a/19837961/15472)
+    const PS = Pmgr.PrinterStates;
+    let pillClass = {
+        [PS.PAUSED]: "badge-secondary",
+        [PS.PRINTING]: "badge-success",
+        [PS.NO_INK]: "badge-danger",
+        [PS.NO_PAPER]: "badge-danger"
+    };
 
-  let allJobs = printer.queue.map((id) =>
-     `<span class="badge badge-secondary">${id}</span>`
-  ).join(" ");
+    let allJobs = printer.queue.map((id) =>
+        `<span class="badge badge-secondary">${id}</span>`
+    ).join(" ");
 
-  return `
+    return `
     <div class="card">
     <div class="card-header" id="${hid}">
         <h2 class="mb-0">
@@ -68,26 +70,26 @@ function createPrinterItem(printer) {
 // funcion para generar datos de ejemplo: impresoras, grupos, trabajos, ...
 // se puede no-usar, o modificar libremente
 async function populate(minPrinters, maxPrinters, minGroups, maxGroups, jobCount) {
-      const U = Pmgr.Util;
+    const U = Pmgr.Util;
 
-      // genera datos de ejemplo
-      minPrinters = minPrinters || 10;
-      maxPrinters = maxPrinters || 20;
-      minGroups = minGroups || 1;
-      maxGroups = maxGroups || 3;
-      jobCount = jobCount || 100;
-      let lastId = 0;
+    // genera datos de ejemplo
+    minPrinters = minPrinters || 10;
+    maxPrinters = maxPrinters || 20;
+    minGroups = minGroups || 1;
+    maxGroups = maxGroups || 3;
+    jobCount = jobCount || 100;
+    let lastId = 0;
 
-      let printers = U.fill(U.randomInRange(minPrinters, maxPrinters),
-          () => U.randomPrinter(lastId ++));
+    let printers = U.fill(U.randomInRange(minPrinters, maxPrinters),
+        () => U.randomPrinter(lastId++));
 
-      let groups = U.fill(U.randomInRange(minPrinters, maxPrinters),
-          () => U.randomGroup(lastId ++, printers, 50));
+    let groups = U.fill(U.randomInRange(minPrinters, maxPrinters),
+        () => U.randomGroup(lastId++, printers, 50));
 
-      let jobs = [];
-      for (let i=0; i<jobCount; i++) {
-          let p = U.randomChoice(printers);
-          let j = new Pmgr.Job(lastId++,
+    let jobs = [];
+    for (let i = 0; i < jobCount; i++) {
+        let p = U.randomChoice(printers);
+        let j = new Pmgr.Job(lastId++,
             p.id,
             [
                 U.randomChoice([
@@ -98,32 +100,32 @@ async function populate(minPrinters, maxPrinters, minGroups, maxGroups, jobCount
                     "López", "Gutiérrez", "Pérez", "del Oso", "Anzúa", "Báñez", "Harris"]),
             ].join(" "),
             U.randomString() + ".pdf");
-          p.queue.push(j.id);
-          jobs.push(j);
-      }
+        p.queue.push(j.id);
+        jobs.push(j);
+    }
 
-      if (Pmgr.globalState.token) {
-          console.log("Updating server with all-new data");
+    if (Pmgr.globalState.token) {
+        console.log("Updating server with all-new data");
 
-          // FIXME: remove old data
-          // FIXME: prepare update-tasks
-          let tasks = [];
-          for (let t of tasks) {
+        // FIXME: remove old data
+        // FIXME: prepare update-tasks
+        let tasks = [];
+        for (let t of tasks) {
             try {
                 console.log("Starting a task ...");
                 await t().then(console.log("task finished!"));
             } catch (e) {
                 console.log("ABORTED DUE TO ", e);
             }
-          }
-      } else {
-          console.log("Local update - not connected to server");
-          Pmgr.updateState({
+        }
+    } else {
+        console.log("Local update - not connected to server");
+        Pmgr.updateState({
             jobs: jobs,
             printers: printers,
             groups: groups
-          });
-      }
+        });
+    }
 }
 
 //
@@ -131,39 +133,39 @@ async function populate(minPrinters, maxPrinters, minGroups, maxGroups, jobCount
 // Código de pegamento, ejecutado sólo una vez que la interfaz esté cargada.
 // Generalmente de la forma $("selector").cosaQueSucede(...)
 //
-$(function() { 
-  
-  // funcion de actualización de ejemplo. Llámala para refrescar interfaz
-  function update(result) {
-    try {
-      // vaciamos un contenedor
-      $("#accordionExample").empty();
-      // y lo volvemos a rellenar con su nuevo contenido
-      Pmgr.globalState.printers.forEach(m =>  $("#accordionExample").append(createPrinterItem(m)));
-      // y asi para cada cosa que pueda haber cambiado
-    } catch (e) {
-      console.log('Error actualizando', e);
+$(function () {
+
+    // funcion de actualización de ejemplo. Llámala para refrescar interfaz
+    function update(result) {
+        try {
+            // vaciamos un contenedor
+            $("#accordionExample").empty();
+            // y lo volvemos a rellenar con su nuevo contenido
+            Pmgr.globalState.printers.forEach(m => $("#accordionExample").append(createPrinterItem(m)));
+            // y asi para cada cosa que pueda haber cambiado
+        } catch (e) {
+            console.log('Error actualizando', e);
+        }
     }
-  }
 
 
-  // Servidor a utilizar. También puedes lanzar tú el tuyo en local (instrucciones en Github)
-  const serverUrl = "http://localhost:8080/api/";
-  Pmgr.connect(serverUrl);
+    // Servidor a utilizar. También puedes lanzar tú el tuyo en local (instrucciones en Github)
+    const serverUrl = "http://localhost:8080/api/";
+    Pmgr.connect(serverUrl);
 
-  // ejemplo de login
-  Pmgr.login("HDY0IQ", "cMbwKQ").then(d => {
-    if (d !== undefined) {
-        const u = Gb.resolve("HDY0IQ");
-        console.log("login ok!", u);
-    } else {
-        console.log(`error en login (revisa la URL: ${serverUrl}, y verifica que está vivo)`);
-        console.log("Generando datos de ejemplo para uso en local...")
+    // ejemplo de login
+    Pmgr.login("HDY0IQ", "cMbwKQ").then(d => {
+        if (d !== undefined) {
+            const u = Gb.resolve("HDY0IQ");
+            console.log("login ok!", u);
+        } else {
+            console.log(`error en login (revisa la URL: ${serverUrl}, y verifica que está vivo)`);
+            console.log("Generando datos de ejemplo para uso en local...")
 
-        populate();
-        update();
-    }
-  });
+            populate();
+            update();
+        }
+    });
 });
 
 $(document).ready(function () {
@@ -173,11 +175,19 @@ $(document).ready(function () {
     });
 
 });
+function ocultar(parent, ajeno) {
+    $(ajeno).hide();
+    $(parent).show();
+}
 
-
+$(document).ready(function(){
+    $('.menu').click(function(e){
+    $('img').css('backgroundColor', '#7386D5');
+    $(e.target).css('backgroundColor', '#a9b6ec');
+     });
+  });
 // cosas que exponemos para usarlas desde la consola
 window.populate = populate
 window.Pmgr = Pmgr;
 window.createPrinterItem = createPrinterItem
-
-
+window.ocultar = ocultar;
