@@ -184,7 +184,7 @@ function ocultar(parent, ajeno) {
 $(document).ready(function(){
     $('.menu').click(function(e){
        if(e.target.matches("img")) {
-            $('img').css('backgroundColor', '#acbed4');
+            $('.imgmenu').css('backgroundColor', '#acbed4');
             $(e.target).css('backgroundColor', '#718fb3'); 
        }
     });
@@ -192,6 +192,8 @@ $(document).ready(function(){
     /* Seleccionado impresoras por defecto*/ 
     $('#i').css('backgroundColor', '#718fb3');
   });
+
+ 
 // cosas que exponemos para usarlas desde la consola
 window.populate = populate
 window.Pmgr = Pmgr;
