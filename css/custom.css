@@ -6,6 +6,8 @@
 /*Barra de navegación superior*/
 .navbar {
     background-color: #9fc4f8;
+    display: flex !important;
+    flex-direction: row !important;
 }
 
 #navbarSupportedContent {
@@ -19,13 +21,19 @@
     margin-right: 8%;
 }
 
-#prueba, .nav-item{
-    float: left;
+.nav-item{
+    display: flex;
+    flex-direction: row;
+    align-items: center;
 }
 
 /*Tamaño de las imágenes de la barra superior*/
 .nav-item img {
-    width: 40%;
+    width: 40% !important;
+}
+.nav-item p{
+    color:whitesmoke;
+    margin-top: 10%;
 }
 
 /******************/
@@ -196,23 +204,23 @@ a:focus {
 }
 
 /*Vista gestión de impresoras*/
-#impresoras, #grupos {
+#impresoras, #grupos, #documentos {
     width: 100% !important;
 }
 
-#impresoras h2, #grupos h2 {
+#impresoras h2, #grupos h2, #documentos h2 {
     margin: 5%;
     margin-bottom: 2%;
 }
 
-#impresoras table, #grupos table {
+#impresoras table, #grupos table, #documentos table {
     width: 95%;
     margin-left: 5%;
     border: 2px solid black;
 }
 
 
-#impresoras table td, #grupos table td, #impresoras table th, #grupos table th  {
+#impresoras table td, #grupos table td, #impresoras table th, #grupos table th, #documentos table td, #documentos table th{
   text-align: center;
 }
 

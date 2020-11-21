@@ -176,24 +176,27 @@ $(document).ready(function () {
 });
 
 //Función para ocultar/mostrar las distintas vistas
-function ocultar(parent, ajeno) {
+function ocultar(parent, ajeno, ajeno2) {
     $(ajeno).hide();
+    $(ajeno2).hide();
     $(parent).show();
 }
 
-$(document).ready(function(){
-    $('.menu').click(function(e){
-       if(e.target.matches("img")) {
+$(document).ready(function () {
+    $('.menu').click(function (e) {
+        if (e.target.matches("img")) {
             $('.imgmenu').css('backgroundColor', '#acbed4');
-            $(e.target).css('backgroundColor', '#718fb3'); 
-       }
+            $(e.target).css('backgroundColor', '#718fb3');
+        }
     });
 
-    /* Seleccionado impresoras por defecto*/ 
+    /* Seleccionado impresoras por defecto*/
     $('#i').css('backgroundColor', '#718fb3');
-  });
+});
 
- 
+$(function () {
+    $('[data-toggle="popover"]').popover()
+})
 // cosas que exponemos para usarlas desde la consola
 window.populate = populate
 window.Pmgr = Pmgr;

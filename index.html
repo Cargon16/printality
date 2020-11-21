@@ -21,10 +21,10 @@
   <!-- Font Awesome JS -->
   <script defer src="https://use.fontawesome.com/releases/v5.0.13/js/solid.js"
     integrity="sha384-tzzSw1/Vo+0N5UhStP3bvwWPq+uvzCMfrN1fEFe+xBmv1C/AtVX5K0uZtmcHitFZ" crossorigin="anonymous">
-  </script>
+    </script>
   <script defer src="https://use.fontawesome.com/releases/v5.0.13/js/fontawesome.js"
     integrity="sha384-6OIrr52G08NpOFSZdxxz1xdNSndlD4vdcf/q2myIUVO0VsqaGHJsB0RaBE01VTOY" crossorigin="anonymous">
-  </script>
+    </script>
 
   <!-- Esto aparece como título de la ventana o pestaña en el navegador: cámbialo -->
   <title>Printality</title>
@@ -34,15 +34,15 @@
   <!-- jQuery CDN - Slim version (=without AJAX) -->
   <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
     integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous">
-  </script>
+    </script>
   <!-- Popper.JS -->
   <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.0/umd/popper.min.js"
     integrity="sha384-cs/chFZiN24E4KMATLdqdvsezGxaGsi4hLGOzlXwp5UZB1LY//20VyM2taTB4QvJ" crossorigin="anonymous">
-  </script>
+    </script>
   <!-- Bootstrap JS -->
   <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.0/js/bootstrap.min.js"
     integrity="sha384-uefMccjFJAIv6A+rW+L4AHf99KvxDjWSu1z9VI8SKNVmz4sk7buKt/6v9KI65qnm" crossorigin="anonymous">
-  </script>
+    </script>
 
   <script src="js/pmgr.js"></script>
 
@@ -65,9 +65,11 @@
       <ul class="navbar-nav mr-auto">
         <li class="nav-item">
           <img src="./img/imprimir.png" />
+          <p class="label">Imprimir</p>
         </li>
         <li class="nav-item">
           <img src="./img/detener.png" />
+          <p class="label">Cancelar</p>
         </li>
       </ul>
     </div>
@@ -78,11 +80,24 @@
       <ul class="list-unstyled components">
         <!--Seleccionar la gestión de impresoras-->
         <li class="menu">
-          <img class="imgmenu" id="i" src="./img/impresoras.gif" onclick="ocultar('#impresoras', '#grupos');" />
+          <div class>
+            <img class="imgmenu" id="i" src="./img/impresoras.gif"
+              onclick="ocultar('#impresoras', '#grupos', '#documentos');" />
+            <p>Impresoras</p>
+          </div>
         </li>
         <!--Seleccionar la gestión de grupos-->
         <li class="menu">
-          <img class="imgmenu" src="./img/grupos.gif" onclick="ocultar('#grupos', '#impresoras');" />
+          <div>
+            <img class="imgmenu" src="./img/grupos.gif" onclick="ocultar('#grupos', '#impresoras', '#documentos');" />
+            <p>Grupos</p>
+          </div>
+        </li>
+        <li class="menu">
+          <div>
+            <img class="imgmenu" src="./img/papel.gif" onclick="ocultar('#documentos', '#grupos', '#impresoras');" />
+            <p>Documentos pendientes</p>
+          </div>
         </li>
 
       </ul>
@@ -96,7 +111,7 @@
       </h2>
       <div class="table-wrapper-scroll-y my-custom-scrollbar">
         <table class="table table-bordered mb-0">
-          <thead class="table-active" >
+          <thead class="table-active">
             <tr>
               <th scope="col">Modelo</th>
               <th scope="col">Alias</th>
@@ -117,45 +132,60 @@
               <td>
                 <img src="./img/edit.png" onclick=TODO />
                 <img src="./img/delete.png" onclick=TODO />
+                <img src="./img/informacion.png" data-toggle="popover" data-placement="bottom" title="Lista de grupos"
+                  data-content="1-Trabajo<br /> 2-Dormitorio" data-html="true" />
+
               </td>
             </tr>
             <tr>
-              <th scope="row">HP DJ 3630</th>
-              <td>myprinter</td>
-              <td>home</td>
-              <td>192.168.1.3</td>
-              <td>2</td>
+              <th scope="row">HP ENVY 4530</th>
+              <td>Despacho</td>
+              <td>Work</td>
+              <td>192.168.1.55</td>
+              <td>0</td>
               <td>
                 <img src="./img/edit.png" onclick=TODO />
                 <img src="./img/delete.png" onclick=TODO />
+                <img src="./img/informacion.png" data-toggle="popover" data-placement="bottom" title="Lista de grupos"
+                  data-content="1-Contabilidad" data-html="true" />
               </td>
             </tr>
             <tr>
-              <th scope="row">HP DJ 3630</th>
-              <td>myprinter</td>
-              <td>home</td>
-              <td>192.168.1.3</td>
-              <td>2</td>
+              <th scope="row">EPSON 3210</th>
+              <td>cargonto</td>
+              <td>Home</td>
+              <td>192.168.20.3</td>
+              <td>4</td>
               <td>
                 <img src="./img/edit.png" onclick=TODO />
                 <img src="./img/delete.png" onclick=TODO />
+                <img src="./img/informacion.png" data-toggle="popover" data-placement="bottom" title="Lista de grupos"
+                  data-content="1-Biblioteca<br /> 2-Casa" data-html="true" />
               </td>
             </tr>
             <tr>
-              <th scope="row">HP DJ 3630</th>
-              <td>myprinter</td>
-              <td>home</td>
-              <td>192.168.1.3</td>
-              <td>2</td>
+              <th scope="row">Samsung royal</th>
+              <td>noeC02</td>
+              <td>Work</td>
+              <td>192.188.1.3</td>
+              <td>1</td>
               <td>
                 <img src="./img/edit.png" onclick=TODO />
                 <img src="./img/delete.png" onclick=TODO />
+                <img src="./img/informacion.png" data-toggle="popover" data-placement="bottom" title="Lista de grupos"
+                  data-content="-" data-html="true" />
               </td>
             </tr>
           </tbody>
         </table>
       </div>
       <button type='submit' id='submit_add' name='submit_add'>Añadir</button>
+
+      <select class="form-control">
+        <option value="+47">Norge (+47)</option>
+        <option value="+46">Sverige (+46)</option>
+        <option value="+45">Danmark (+45)</option>
+      </select>
     </div>
 
     <!--Vista de la gestión de grupos-->
@@ -166,7 +196,7 @@
 
       <div class="table-wrapper-scroll-y my-custom-scrollbar">
         <table class="table table-bordered mb-0">
-          <thead class="table-active" >
+          <thead class="table-active">
             <tr>
               <th scope="col">Nombre</th>
               <th scope="col">Nº impresoras</th>
@@ -205,17 +235,84 @@
       </div>
       <button type='submit' id='submit_add' name='submit_add'>Añadir</button>
 
-  </div>
+    </div>
+
+    <div class="collapse list-unstyled" id="documentos">
+      <h2>
+        Trabajos pendientes
+      </h2>
+      <div class="table-wrapper-scroll-y my-custom-scrollbar">
+        <table class="table table-bordered mb-0">
+          <thead class="table-active">
+            <tr>
+              <th scope="col">Modelo</th>
+              <th scope="col">Alias</th>
+              <th scope="col">Lugar</th>
+              <th scope="col">IP</th>
+              <th scope="col">Trabajos</th>
+              <th scope="col"></th>
+            </tr>
+          </thead>
+
+          <tbody>
+            <tr>
+              <th scope="row">HP DJ 3630</th>
+              <td>myprinter</td>
+              <td>home</td>
+              <td>192.168.1.3</td>
+              <td>2</td>
+              <td>
+                <img src="./img/edit.png" onclick=TODO />
+                <img src="./img/delete.png" onclick=TODO />
+              </td>
+            </tr>
+            <tr>
+              <th scope="row">HP ENVY 4530</th>
+              <td>Despacho</td>
+              <td>Work</td>
+              <td>192.168.1.55</td>
+              <td>0</td>
+              <td>
+                <img src="./img/edit.png" onclick=TODO />
+                <img src="./img/delete.png" onclick=TODO />
+              </td>
+            </tr>
+            <tr>
+              <th scope="row">EPSON 3210</th>
+              <td>cargonto</td>
+              <td>Home</td>
+              <td>192.168.20.3</td>
+              <td>4</td>
+              <td>
+                <img src="./img/edit.png" onclick=TODO />
+                <img src="./img/delete.png" onclick=TODO />
+              </td>
+            </tr>
+            <tr>
+              <th scope="row">Samsung royal</th>
+              <td>noeC02</td>
+              <td>Work</td>
+              <td>192.188.1.3</td>
+              <td>1</td>
+              <td>
+                <img src="./img/edit.png" onclick=TODO />
+                <img src="./img/delete.png" onclick=TODO />
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+      <button type='submit' id='submit_add' name='submit_add'>Añadir</button>
+    </div>
 
 
+    <!-- JavaScript -->
+    <!-- jQuery primero, Bootstrap después -->
+    <script src="js/jquery-3.3.1.js"></script>
+    <script src="js/bootstrap.bundle.js"></script>
 
-  <!-- JavaScript -->
-  <!-- jQuery primero, Bootstrap después -->
-  <script src="js/jquery-3.3.1.js"></script>
-  <script src="js/bootstrap.bundle.js"></script>
-
-  <!-- todos los scripts de interaccion, aqui -->
-  <script src="js/pmgr.js" type="module"></script>
+    <!-- todos los scripts de interaccion, aqui -->
+    <script src="js/pmgr.js" type="module"></script>
 
 </body>
 
