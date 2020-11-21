@@ -197,6 +197,9 @@ $(document).ready(function () {
 $(function () {
     $('[data-toggle="popover"]').popover()
 })
+
+
+
 // cosas que exponemos para usarlas desde la consola
 window.populate = populate
 window.Pmgr = Pmgr;

@@ -133,7 +133,7 @@
                 <img src="./img/edit.png" onclick=TODO />
                 <img src="./img/delete.png" onclick=TODO />
                 <img src="./img/informacion.png" data-toggle="popover" data-placement="bottom" title="Lista de grupos"
-                  data-content="1-Trabajo<br /> 2-Dormitorio" data-html="true" />
+                  data-content="1-Trabajo<br /> 2-Casa" data-html="true" />
 
               </td>
             </tr>
@@ -180,13 +180,26 @@
         </table>
       </div>
       <button type='submit' id='submit_add' name='submit_add'>Añadir</button>
-
-      <select class="form-control">
-        <option value="+47">Norge (+47)</option>
-        <option value="+46">Sverige (+46)</option>
-        <option value="+45">Danmark (+45)</option>
-      </select>
-    </div>
+      <div class="vd">
+        <div class="col-sm-3">
+          <select class="form-control">
+            <option value="myprinter">myprinter</option>
+            <option value="Despacho">Despacho</option>
+            <option value="cargonto">cargonto</option>
+            <option value="noeC02">noeC02</option>
+          </select>
+        
+          <select class="form-control">
+            <option value="Trabajo">Trabajo</option>
+            <option value="Casa">Casa</option>
+            <option value="Contabilidad">Contabilidad</option>
+            <option value="Biblioteca">Biblioteca</option>
+          </select>
+        </div>
+        <button type='submit' id='submit_v' name='submit_vin'>Vincular</button>
+        <button type='submit' id='submit_d' name='submit_des'>Desvincular</button>
+      </div>
+  </div>
 
     <!--Vista de la gestión de grupos-->
     <div class="collapse list-unstyled" id="grupos">
@@ -206,15 +219,15 @@
 
           <tbody>
             <tr>
-              <th scope="row">Oficina</th>
-              <td>20</td>
+              <th scope="row">Trabajo</th>
+              <td>1</td>
               <td>
                 <img src="./img/edit.png" onclick=TODO />
                 <img src="./img/delete.png" onclick=TODO />
               </td>
             </tr>
             <tr>
-              <th scope="row">casa</th>
+              <th scope="row">Casa</th>
               <td>2</td>
               <td>
                 <img src="./img/edit.png" onclick=TODO />
@@ -222,8 +235,16 @@
               </td>
             </tr>
             <tr>
-              <th scope="row">HP DJ 3630</th>
-              <td>myprinter</td>
+              <th scope="row">Contabilidad</th>
+              <td>1</td>
+              <td>
+                <img src="./img/edit.png" onclick=TODO />
+                <img src="./img/delete.png" onclick=TODO />
+              </td>
+            </tr>
+            <tr>
+              <th scope="row">Biblioteca/th>
+              <td>1</td>
               <td>
                 <img src="./img/edit.png" onclick=TODO />
                 <img src="./img/delete.png" onclick=TODO />
@@ -245,59 +266,47 @@
         <table class="table table-bordered mb-0">
           <thead class="table-active">
             <tr>
-              <th scope="col">Modelo</th>
-              <th scope="col">Alias</th>
-              <th scope="col">Lugar</th>
-              <th scope="col">IP</th>
-              <th scope="col">Trabajos</th>
-              <th scope="col"></th>
+              <th scope="col">ID_trabajo</th>
+              <th scope="col">Archivo</th>
+              <th scope="col">Impresora</th>
             </tr>
           </thead>
 
           <tbody>
             <tr>
-              <th scope="row">HP DJ 3630</th>
+              <th scope="row">01</th>
+              <td>tarea.pdf</td>
               <td>myprinter</td>
-              <td>home</td>
-              <td>192.168.1.3</td>
-              <td>2</td>
-              <td>
-                <img src="./img/edit.png" onclick=TODO />
-                <img src="./img/delete.png" onclick=TODO />
-              </td>
             </tr>
             <tr>
-              <th scope="row">HP ENVY 4530</th>
-              <td>Despacho</td>
-              <td>Work</td>
-              <td>192.168.1.55</td>
-              <td>0</td>
-              <td>
-                <img src="./img/edit.png" onclick=TODO />
-                <img src="./img/delete.png" onclick=TODO />
-              </td>
-            </tr>
-            <tr>
-              <th scope="row">EPSON 3210</th>
+              <th scope="row">02</th>
+              <td>aw.doc</td>
               <td>cargonto</td>
-              <td>Home</td>
-              <td>192.168.20.3</td>
-              <td>4</td>
-              <td>
-                <img src="./img/edit.png" onclick=TODO />
-                <img src="./img/delete.png" onclick=TODO />
-              </td>
             </tr>
             <tr>
-              <th scope="row">Samsung royal</th>
+              <th scope="row">03</th>
+              <td>sge.pdf</td>
+              <td>cargonto</td>
+            </tr>
+            <tr>
+              <th scope="row">04</th>
+              <td>entradas.pdf</td>
+              <td>myprinter</td>
+            </tr>
+            <tr>
+              <th scope="row">05</th>
+              <td>fotos.png</td>
               <td>noeC02</td>
-              <td>Work</td>
-              <td>192.188.1.3</td>
-              <td>1</td>
-              <td>
-                <img src="./img/edit.png" onclick=TODO />
-                <img src="./img/delete.png" onclick=TODO />
-              </td>
+            </tr>
+            <tr>
+              <th scope="row">06</th>
+              <td>tais1.pdf</td>
+              <td>cargonto</td>
+            </tr>
+            <tr>
+              <th scope="row">07</th>
+              <td>tais2.pdf</td>
+              <td>cargonto</td>
             </tr>
           </tbody>
         </table>
