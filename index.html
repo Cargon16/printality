@@ -12,7 +12,7 @@
   <!-- Bootstrap CSS -->
   <link rel="stylesheet" href="css/custom.css">
   <link rel="stylesheet" href="css/bootstrap.css">
-
+  <script src="/prueba.js"></script>
 
   <!--Cositas de bootstrap-->
   <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.0/css/bootstrap.min.css"
@@ -53,7 +53,6 @@
         <span></span>
         <span></span>
         <span></span>
-
       </button>
     </div>
 
@@ -66,6 +65,7 @@
       <ul class="navbar-nav mr-auto">
         <li class="nav-item">
           <img src="./img/imprimir.png" />
+          <!-- <input type="image" src="logg.png" name="saveForm" class="btTxt submit" id="saveForm" /> -->
           <p class="label">Imprimir</p>
         </li>
         <li class="nav-item">
@@ -111,7 +111,7 @@
         Gestionar impresora
       </h2>
       <div class="table-wrapper-scroll-y my-custom-scrollbar">
-        <table class="table table-bordered mb-0">
+        <table class="table table-bordered mb-0" id="myTable">
           <thead class="table-active">
             <tr>
               <th scope="col">Modelo</th>
@@ -132,7 +132,7 @@
               <td>2</td>
               <td>
                 <img src="./img/edit.png" onclick=TODO />
-                <img src="./img/delete.png" onclick=TODO />
+                <img src="./img/delete.png" onclick="deleteRow(1)" />
                 <img src="./img/informacion.png" data-toggle="popover" data-placement="bottom" title="Lista de grupos"
                   data-content="1-Trabajo<br /> 2-Casa" data-html="true" />
 
@@ -146,7 +146,7 @@
               <td>0</td>
               <td>
                 <img src="./img/edit.png" onclick=TODO />
-                <img src="./img/delete.png" onclick=TODO />
+                <img src="./img/delete.png" onclick="deleteRow(2)" />
                 <img src="./img/informacion.png" data-toggle="popover" data-placement="bottom" title="Lista de grupos"
                   data-content="1-Contabilidad" data-html="true" />
               </td>
@@ -159,9 +159,9 @@
               <td>4</td>
               <td>
                 <img src="./img/edit.png" onclick=TODO />
-                <img src="./img/delete.png" onclick=TODO />
+                <img src="./img/delete.png" onclick="deleteRow(3)"/>
                 <img src="./img/informacion.png" data-toggle="popover" data-placement="bottom" title="Lista de grupos"
-                  data-content="1-Biblioteca<br /> 2-Casa" data-html="true" />
+                  data-content="1-Biblioteca <br/> 2-Casa" data-html="true" />
               </td>
             </tr>
             <tr>
@@ -172,7 +172,7 @@
               <td>1</td>
               <td>
                 <img src="./img/edit.png" onclick=TODO />
-                <img src="./img/delete.png" onclick=TODO />
+                <img src="./img/delete.png" onclick="deleteRow()" />
                 <img src="./img/informacion.png" data-toggle="popover" data-placement="bottom" title="Lista de grupos"
                   data-content="-" data-html="true" />
               </td>
@@ -180,7 +180,48 @@
           </tbody>
         </table>
       </div>
-      <button type='submit' id='submit_add' name='submit_add'>Añadir</button>
+      <script>
+        function deleteRow(row) {
+          document.getElementById("myTable").deleteRow(row);
+        }
+      </script>
+      
+      <button data-model-target="#add-id" id='submit_add' name='submit_add'>Añadir</button>
+      
+      <!-- tabla para añadir datos a la impresora -->
+      <div class="add" id="add-id">
+        <div class="add-top">
+          <p>Completa los campos</p>
+          <button data-close-button class="close-button">&times;</button>
+        </div>
+        <div class="add-bottom">
+          <input id="modelo" type="text" placeholder="Modelo">
+          <input id="alias" type="text" placeholder="Alias">
+          <input id="lugar" type="text" placeholder="Lugar">
+          <input id="ip" type="text" placeholder="IP">
+          <input id="trabajos" type="text" placeholder="Trabajos">
+        </div>
+        <button onclick="addRow()" type="submit">Aceptar</button>
+      </div>
+      <!-- script para añadir una fila nueva a las impresoras -->
+      <script>
+        function addRow() {
+        var table = document.getElementById("myTable");
+        var row = table.insertRow();
+        var modelo = row.insertCell(0);
+        var alias = row.insertCell(1);
+        var lugar = row.insertCell(2);
+        var ip = row.insertCell(3);
+        var trabajos = row.insertCell(4);
+        
+        modelo.innerHTML = document.getElementById('modelo').textContent=document.getElementById('modelo').value;
+        alias.innerHTML = document.getElementById('alias').textContent=document.getElementById('alias').value;;
+        lugar.innerHTML = document.getElementById('lugar').textContent=document.getElementById('lugar').value;;
+        ip.innerHTML = document.getElementById('ip').textContent=document.getElementById('ip').value;;
+        trabajos.innerHTML = document.getElementById('trabajos').textContent=document.getElementById('trabajos').value;;
+       }
+      </script>  
+
       <div class="vd">
         <div class="col-sm-3">
           <select class="form-control">
@@ -218,7 +259,7 @@
             </tr>
           </thead>
 
-          <tbody>
+          <tbody id="myTable">
             <tr>
               <th scope="row">Trabajo</th>
               <td>1</td>
@@ -264,7 +305,7 @@
         Trabajos pendientes
       </h2>
       <div class="table-wrapper-scroll-y my-custom-scrollbar">
-        <table class="table table-bordered mb-0">
+        <table class="table table-bordered mb-0"id="myTable">
           <thead class="table-active">
             <tr>
               <th scope="col">ID_trabajo</th>
