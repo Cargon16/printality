@@ -43,8 +43,8 @@
     integrity="sha384-uefMccjFJAIv6A+rW+L4AHf99KvxDjWSu1z9VI8SKNVmz4sk7buKt/6v9KI65qnm" crossorigin="anonymous">
     </script>
 
-  <!--<script type="module" src="js/pmgr.js"></script>-->
-  <script src="js/engine.js"></script>
+  <script type="module" src="js/pmgr.js"></script>
+
 
   <nav class="navbar navbar-expand-lg navbar-light ">
     <div id="content">
@@ -62,10 +62,11 @@
       </form>
 
       <ul class="navbar-nav mr-auto">
-        <li class="nav-item">
-          <img src="./img/imprimir.png" />
-          <!-- <input type="image" src="logg.png" name="saveForm" class="btTxt submit" id="saveForm" /> -->
-          <p class="label">Imprimir</p>
+        <button id="submit_printer" type="button" class="btn btn-primary print-button" data-toggle="modal" data-target=".bd-example-modal-lg">
+          <li onclick="" class="nav-item">
+            <img src="./img/imprimir.png" />
+            <p class="label">Imprimir</p>
+        </button>
         </li>
         <li class="nav-item">
           <img src="./img/detener.png" />
@@ -158,7 +159,7 @@
               <td>4</td>
               <td>
                 <img src="./img/edit.png" onclick=TODO />
-                <img src="./img/delete.png" onclick="deleteRow(3)"/>
+                <img src="./img/delete.png" onclick="deleteRow(3)" />
                 <img src="./img/informacion.png" data-toggle="popover" data-placement="bottom" title="Lista de grupos"
                   data-content="1-Biblioteca <br/> 2-Casa" data-html="true" />
               </td>
@@ -171,7 +172,7 @@
               <td>1</td>
               <td>
                 <img src="./img/edit.png" onclick=TODO />
-                <img src="./img/delete.png" onclick="deleteRow()" />
+                <img src="./img/delete.png" onclick="deleteRow(4)" />
                 <img src="./img/informacion.png" data-toggle="popover" data-placement="bottom" title="Lista de grupos"
                   data-content="-" data-html="true" />
               </td>
@@ -179,73 +180,44 @@
           </tbody>
         </table>
       </div>
-      <script>
-        function deleteRow(row) {
-          document.getElementById("myTable").deleteRow(row);
-        }
-      </script>
       
-      <button data-model-target="#add-id" id='submit_add' name='submit_add'>Añadir</button>
-      
-      <!-- tabla para añadir datos a la impresora -->
-      <div class="add" id="add-id">
-        <div class="add-top">
-          <h4>Completa los campos</h4>
-          <button data-close-button id="close_modal" class="close-button">&times;</button>
+      <button data-model-target="#add-id" id='submit_add' data-toggle="modal"
+        data-target="#exampleModal">Añadir</button>
+      <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+        aria-hidden="true">
+        <div class="modal-dialog" role="document">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h5 class="modal-title">Completa los campos</h5>
+              <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+              </button>
+            </div>
+            <div class="modal-body">
+              <form id="printerAdd">
+                <div class="form-group">
+                  <label>Modelo</label>
+                  <input id="modelo" class="form-control w-100" placeholder="Modelo">
+                </div>
+                <div class="form-group">
+                  <label>Alias</label>
+                  <input id="alias" class="form-control w-100" placeholder="Alias">
+                </div>
+                <div class="form-group">
+                  <label>Lugar</label>
+                  <input id="lugar" class="form-control w-100" placeholder="Lugar">
+                </div>
+                <div class="form-group">
+                  <label>IP</label>
+                  <input id="ip" class="form-control w-100" placeholder="IP">
+                </div>
+                <button type="submit" class="btn btn-danger float-right">Cancelar</button>
+                <button type="submit" onclick="addRow()" class="btn btn-success">Aceptar</button>
+              </form>
+            </div>
+          </div>
         </div>
-        <form>
-          <div class="form-group">
-            <label>Modelo</label>
-            <input class="form-control w-100" placeholder="Modelo">
-          </div>
-          <div class="form-group">
-            <label>Alias</label>
-            <input class="form-control w-100" placeholder="Alias">
-          </div>
-          <div class="form-group">
-            <label>Lugar</label>
-            <input class="form-control w-100" placeholder="Lugar">
-          </div>
-          <div class="form-group">
-            <label>IP</label>
-            <input class="form-control w-100" placeholder="IP">
-          </div>
-          <button type="submit" onclick="addRow()" class="btn btn-success">Aceptar</button>
-          <button type="submit" class="btn btn-danger float-right">Cancelar</button>
-        </form>
-        <!--
-        <div class="add-top">
-          <p>Completa los campos</p>
-          <button data-close-button id="close_modal" class="close-button">&times;</button>
-        </div>
-        <div class="add-bottom">
-          <input id="modelo" type="text" placeholder="Modelo">
-          <input id="alias" type="text" placeholder="Alias">
-          <input id="lugar" type="text" placeholder="Lugar">
-          <input id="ip" type="text" placeholder="IP">
-          <input id="trabajos" type="text" placeholder="Trabajos">
-        </div>
-        <button onclick="addRow()" type="submit">Aceptar</button>
-        -->
       </div>
-      <!-- script para añadir una fila nueva a las impresoras -->
-      <script>
-        function addRow() {
-        var table = document.getElementById("myTable");
-        var row = table.insertRow();
-        var modelo = row.insertCell(0);
-        var alias = row.insertCell(1);
-        var lugar = row.insertCell(2);
-        var ip = row.insertCell(3);
-        var trabajos = row.insertCell(4);
-        
-        modelo.innerHTML = document.getElementById('modelo').textContent=document.getElementById('modelo').value;
-        alias.innerHTML = document.getElementById('alias').textContent=document.getElementById('alias').value;;
-        lugar.innerHTML = document.getElementById('lugar').textContent=document.getElementById('lugar').value;;
-        ip.innerHTML = document.getElementById('ip').textContent=document.getElementById('ip').value;;
-        trabajos.innerHTML = document.getElementById('trabajos').textContent=document.getElementById('trabajos').value;;
-       }
-      </script>  
 
       <div class="vd">
         <div class="col-sm-3">
@@ -255,7 +227,7 @@
             <option value="cargonto">cargonto</option>
             <option value="noeC02">noeC02</option>
           </select>
-        
+
           <select class="form-control">
             <option value="Trabajo">Trabajo</option>
             <option value="Casa">Casa</option>
@@ -266,7 +238,7 @@
         <button type='submit' id='submit_v' name='submit_vin'>Vincular</button>
         <button type='submit' id='submit_d' name='submit_des'>Desvincular</button>
       </div>
-  </div>
+    </div>
 
     <!--Vista de la gestión de grupos-->
     <div class="collapse list-unstyled" id="grupos">
@@ -321,7 +293,31 @@
           </tbody>
         </table>
       </div>
-      <button type='submit' id='submit_add' name='submit_add'>Añadir</button>
+      <button data-model-target="#add-id" id='submit_add' data-toggle="modal"
+        data-target="#exampleModalGr">Añadir</button>
+      <div class="modal fade" id="exampleModalGr" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+        aria-hidden="true">
+        <div class="modal-dialog" role="document">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h5 class="modal-title">Completa los campos</h5>
+              <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+              </button>
+            </div>
+            <div class="modal-body">
+              <form id="printerAdd">
+                <div class="form-group">
+                  <label>Nombre</label>
+                  <input id="modelo" class="form-control w-100" placeholder="Modelo">
+                </div>
+                <button type="submit" class="btn btn-danger float-right">Cancelar</button>
+                <button type="submit" onclick="addRowGr()" class="btn btn-success">Aceptar</button>
+              </form>
+            </div>
+          </div>
+        </div>
+      </div>
 
     </div>
 
@@ -330,7 +326,7 @@
         Trabajos pendientes
       </h2>
       <div class="table-wrapper-scroll-y my-custom-scrollbar">
-        <table class="table table-bordered mb-0"id="myTable">
+        <table class="table table-bordered mb-0" id="myTable">
           <thead class="table-active">
             <tr>
               <th scope="col">ID_trabajo</th>
@@ -378,10 +374,61 @@
           </tbody>
         </table>
       </div>
-      <button type='submit' id='submit_add' name='submit_add'>Añadir</button>
     </div>
 
+    <!-- ventana para seleccionar items para imprimir -->
+    <div class="modal fade bd-example-modal-lg" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
+      <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title">Selecionar archivo</h5>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>
+          <div class="modal-body">
+            <form>
+              <div class="modal-body work-container">
+                <div class="work">
+                  <img src="./img/papel.gif" alt="">
+                  <label>IU_gr09.pdf</label>
+                </div>
+                <div class="work">
+                  <img src="./img/papel.gif" alt="">
+                  <label>IU_gr03.pdf</label>
+                </div>
+                <div class="work">
+                  <img src="./img/papel.gif" alt="">
+                  <label>IU_gr01.pdf</label>
+                </div>
+                <div class="work">
+                  <img src="./img/papel.gif" alt="">
+                  <label>IU_gr10.pdf</label>
+                </div>
+              </div>
+              <div class="col-sm-3">
+                <select class="form-control">
+                  <option value="myprinter">Grupo1</option>
+                  <option value="Despacho">Grupo2</option>
+                  <option value="cargonto">Grupo3</option>
+                  <option value="noeC02">Grupo4</option>
+                </select>
 
+                <select class="form-control">
+                  <option value="Trabajo">Trabajo</option>
+                  <option value="Casa">Casa</option>
+                  <option value="Contabilidad">Contabilidad</option>
+                  <option value="Biblioteca">Biblioteca</option>
+                </select>
+              </div>
+
+              <button type="submit" class="btn btn-success accept">Aceptar</button>
+              <button type="submit" class="btn btn-danger float-right">Cancelar</button>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
     <!-- JavaScript -->
     <!-- jQuery primero, Bootstrap después -->
     <script src="js/jquery-3.3.1.js"></script>
@@ -389,8 +436,6 @@
 
     <!-- todos los scripts de interaccion, aqui -->
     <!--<script src="js/pmgr.js" type="module"></script>-->
-    <script type="module" src="js/engine.js"></script>
-    <script src="js/prueba.js"></script>
 
 </body>
 

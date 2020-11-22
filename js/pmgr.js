@@ -198,11 +198,39 @@ $(function () {
     $('[data-toggle="popover"]').popover()
 })
 
+//script para eliminar una fila nueva a las impresoras
+function deleteRow(row) {
+    document.getElementById("myTable").deleteRow(row);
+}
 
+//script para añadir una fila nueva a las impresoras
+function addRow() {
+    var table = document.getElementById("myTable");
+    var row = table.insertRow(0);
+    var newmodelo = row.insertCell(0);
+    var newalias = row.insertCell(1);
+    var newlugar = row.insertCell(2);
+    var newip = row.insertCell(3);
+    var newtrabajos = row.insertCell(4);
+
+    newmodelo.appendChild(document.getElementById('modelo').value);
+    newalias.appendChild(document.getElementById('alias').value);
+    newlugar.appendChild(document.getElementById('lugar').value);
+    newip.appendChild(document.getElementById('ip').value);
+    newtrabajos.appendChild(0);
+
+}
+
+function addRowGr(){
+    //TODO en implementación js
+}
 
 // cosas que exponemos para usarlas desde la consola
 window.populate = populate
 window.Pmgr = Pmgr;
 window.createPrinterItem = createPrinterItem
 window.ocultar = ocultar;
+window.deleteRow = deleteRow;
+window.addRow = addRow;
+window.addRowGr = addRowGr;
 

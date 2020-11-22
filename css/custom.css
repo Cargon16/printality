@@ -298,22 +298,33 @@ td img {
     margin-right: 5% !important;
     width: auto !important;
 }
-.add {
-    position: fixed;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%) scale(0);
-    transition: 200ms ease-in-out;
-    border: 1px solid black;
-    border-radius: 10px;
-    z-index: 10;
-    background-color: white;
-    width: 500px;
-    max-width: 80%;
 
+#printerAdd {
+    padding: 5%;
 }
-.active {
-    transform: translate(-50%, -50%) scale(1);
+
+form.print {
+    padding: 0%;
+}
+#submit_printer {
+    color: white !important;
+    background-color: #9fc4f8 !important;
+    border:none;
+}
+.buttons {
+    display: flex;
+    justify-content:space-between;
+    margin-left: 0px;
+}
+.work {
+    margin:5%;
+    align-items: center;
+}
+.work-container {
+    display: flex;
+}
+.accept {
+    margin-left: 36px;
 }
 .add-top {
     padding: 10px 15px;
@@ -321,8 +332,4 @@ td img {
     justify-content: space-between;
     align-items: center;
     border-bottom: 1px solid black;
-  }
-
-form {
-    padding: 5%;
 }
