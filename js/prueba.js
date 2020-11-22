@@ -1,12 +1,16 @@
-const open = document.getElementById('submit_add')
+const open_printers = document.getElementById('submit_add')
+const show_works = document.getElementById('show-works')
 const close = document.getElementById('close_modal')
 
 window.onload = function () {
-    open.addEventListener('click', () => {
-        const tab = document.querySelector(open.dataset.modelTarget)
+    open_printers.addEventListener('click', () => {
+        const tab = document.querySelector(open_printers.dataset.modelTarget)
         openTab(tab)
     })
-
+    show_works.addEventListener('click', () => {
+        const tab = document.querySelector(show_works.dataset.modelTarget)
+        openTab(tab)
+    })
     close.addEventListener('click', () => {
         const modal = close.closest('.add')
         closeTab(modal)
