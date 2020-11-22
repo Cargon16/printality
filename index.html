@@ -62,17 +62,10 @@
       </form>
 
       <ul class="navbar-nav mr-auto">
-<<<<<<< HEAD
         <button id="submit_printer" type="button" class="btn btn-primary print-button" data-toggle="modal" data-target=".bd-example-modal-lg">
           <li onclick="" class="nav-item">
             <img src="./img/imprimir.png" />
             <p class="label">Imprimir</p>
-=======
-        <button class ="print-buttom"data-model-target="#works" id='show-works' name='submit_add'>
-        <li onclick="" class="nav-item">
-          <img src="./img/imprimir.png"/>
-          <p class="label">Imprimir</p>
->>>>>>> e7991a8e5626cd84bb98f058e711d03de58b12eb
         </button>
         </li>
         <li class="nav-item">
@@ -139,7 +132,7 @@
               <td>2</td>
               <td>
                 <img src="./img/edit.png" onclick=TODO />
-                <img src="./img/delete.png" onclick=TODO />
+                <img src="./img/delete.png" onclick="deleteRow(1)" />
                 <img src="./img/informacion.png" data-toggle="popover" data-placement="bottom" title="Lista de grupos"
                   data-content="1-Trabajo<br /> 2-Casa" data-html="true" />
 
@@ -153,7 +146,7 @@
               <td>0</td>
               <td>
                 <img src="./img/edit.png" onclick=TODO />
-                <img src="./img/delete.png" onclick=TODO />
+                <img src="./img/delete.png" onclick="deleteRow(2)" />
                 <img src="./img/informacion.png" data-toggle="popover" data-placement="bottom" title="Lista de grupos"
                   data-content="1-Contabilidad" data-html="true" />
               </td>
@@ -166,11 +159,7 @@
               <td>4</td>
               <td>
                 <img src="./img/edit.png" onclick=TODO />
-<<<<<<< HEAD
                 <img src="./img/delete.png" onclick="deleteRow(3)" />
-=======
-                <img src="./img/delete.png" onclick=TODO/>
->>>>>>> e7991a8e5626cd84bb98f058e711d03de58b12eb
                 <img src="./img/informacion.png" data-toggle="popover" data-placement="bottom" title="Lista de grupos"
                   data-content="1-Biblioteca <br/> 2-Casa" data-html="true" />
               </td>
@@ -183,11 +172,7 @@
               <td>1</td>
               <td>
                 <img src="./img/edit.png" onclick=TODO />
-<<<<<<< HEAD
                 <img src="./img/delete.png" onclick="deleteRow(4)" />
-=======
-                <img src="./img/delete.png" onclick=TODO/>
->>>>>>> e7991a8e5626cd84bb98f058e711d03de58b12eb
                 <img src="./img/informacion.png" data-toggle="popover" data-placement="bottom" title="Lista de grupos"
                   data-content="-" data-html="true" />
               </td>
@@ -195,7 +180,6 @@
           </tbody>
         </table>
       </div>
-<<<<<<< HEAD
       
       <button data-model-target="#add-id" id='submit_add' data-toggle="modal"
         data-target="#exampleModal">Añadir</button>
@@ -231,69 +215,6 @@
                 <button type="submit" onclick="addRow()" class="btn btn-success">Aceptar</button>
               </form>
             </div>
-=======
-      <!-- ventana para seleccionar items para imprimir -->
-      <div class="modal-imprimir " tabindex="-1" role="dialog" id="works">
-        <div class="add-top">
-          <h4>Selecciona un archivo</h4>
-        </div>
-        <form>
-          <div class="modal-body work-container">
-            <div class="work">
-              <img src="/img/papel.gif" alt="">
-              <label>IU_gr09.pdf</label>
-            </div>
-            <div class="work">
-              <img src="/img/papel.gif" alt="">
-              <label>IU_gr03.pdf</label>
-            </div>
-            <div class="work">
-              <img src="/img/papel.gif" alt="">
-              <label>IU_gr01.pdf</label>
-            </div>
-            <div class="work">
-              <img src="/img/papel.gif" alt="">
-              <label>IU_gr10.pdf</label>
-            </div>
-          </div>
-          <div class="col-sm-3">
-            <select class="form-control">
-              <option value="myprinter">Grupo1</option>
-              <option value="Despacho">Grupo2</option>
-              <option value="cargonto">Grupo3</option>
-              <option value="noeC02">Grupo4</option>
-            </select>
-          
-            <select class="form-control">
-              <option value="Trabajo">Trabajo</option>
-              <option value="Casa">Casa</option>
-              <option value="Contabilidad">Contabilidad</option>
-              <option value="Biblioteca">Biblioteca</option>
-            </select>
-          </div>
-          
-          <button type="submit" class="btn btn-success accept">Aceptar</button>
-          <button type="submit" class="btn btn-danger float-right">Cancelar</button>
-        </form>
-      </div>
-
-
-      <button data-model-target="#add-id" id='submit_add' name='submit_add'>Añadir</button>
-      <!-- tabla para añadir datos a la impresora -->
-      <div class="add" id="add-id">
-        <div class="add-top">
-          <h4>Completa los campos</h4>
-          <button data-close-button id="close_modal" class="close-button">&times;</button>
-        </div>
-        <form>
-          <div class="form-group">
-            <label>Modelo</label>
-            <input class="form-control w-100" placeholder="Modelo">
-          </div>
-          <div class="form-group">
-            <label>Alias</label>
-            <input class="form-control w-100" placeholder="Alias">
->>>>>>> e7991a8e5626cd84bb98f058e711d03de58b12eb
           </div>
         </div>
       </div>
