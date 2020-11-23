@@ -20,6 +20,9 @@
     margin-right: 8%;
 }
 
+.navbar-nav button {
+    margin-right: 3%;
+}
 .nav-item{
     display: flex;
     flex-direction: row;
@@ -28,7 +31,7 @@
 
 /*Tamaño de las imágenes de la barra superior*/
 .nav-item img {
-    width: 40% !important;
+    width: 30% !important;
 }
 .nav-item p{
     color:whitesmoke;
@@ -81,7 +84,7 @@
 
 #sidebar {
     width: 15%;
-    min-height: calc(100vh - 68px);
+    height: calc( 100vh - 102px);
     background: #acbed4;
     color: #fff;
     transition: all 0.6s cubic-bezier(0.945, 0.020, 0.270, 0.665);
@@ -155,7 +158,7 @@ body {
 
 p {
     font-family: 'Poppins', sans-serif;
-    font-size: 1.1em;
+    font-size: 0.9em;
     font-weight: 300;
     line-height: 1.7em;
     color: #999;
@@ -176,15 +179,14 @@ a:focus {
 }
 
 #sidebar ul p {
+    margin-top: 2%;
     color: #fff;
-    padding: 10px;
 }
 
 #sidebar ul li {
-    margin-top: 10%;
-    margin-bottom: 40%;
     text-align: center;
     text-decoration: none;
+    margin-top: 10%;
 }
 
 #sidebar ul li a {
@@ -306,7 +308,7 @@ td img {
 form.print {
     padding: 0%;
 }
-#submit_printer {
+#submit_printer, #submit_stop {
     color: white !important;
     background-color: #9fc4f8 !important;
     border:none;
@@ -321,7 +323,9 @@ form.print {
     align-items: center;
 }
 .work-container {
-    display: flex;
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    grid-gap: 10px;
 }
 .accept {
     margin-left: 36px;

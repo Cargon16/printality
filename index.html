@@ -68,9 +68,11 @@
             <p class="label">Imprimir</p>
         </button>
         </li>
+        <button id="submit_stop" type="button" class="btn btn-primary print-button" data-toggle="modal" data-target=".stop">
         <li class="nav-item">
           <img src="./img/detener.png" />
           <p class="label">Cancelar</p>
+        </button>
         </li>
       </ul>
     </div>
@@ -96,7 +98,7 @@
         </li>
         <li class="menu">
           <div>
-            <img class="imgmenu" src="./img/papel.gif" onclick="ocultar('#documentos', '#grupos', '#impresoras');" />
+            <img class="imgmenu" src="./img/papel.png" onclick="ocultar('#documentos', '#grupos', '#impresoras');" />
             <p>Documentos pendientes</p>
           </div>
         </li>
@@ -423,6 +425,37 @@
               </div>
 
               <button type="submit" class="btn btn-success accept">Aceptar</button>
+              <button type="submit" class="btn btn-danger float-right">Cancelar</button>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+    <!-- ventana para seleccionar items para detener -->
+      <div class="modal fade stop"  tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+      <div class="modal-dialog" role="document">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title">Selecciona el trabajo que desea detener</h5>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>
+          <div class="modal-body">
+            <form>
+              <div class="col-sm-3">
+                <select class="form-control">
+                  <option value="01">01</option>
+                  <option value="02">02</option>
+                  <option value="03">03</option>
+                  <option value="04">04</option>
+                  <option value="05">05</option>
+                  <option value="06">06</option>
+                  <option value="07">07</option>
+                </select>
+              </div>
+
+              <button type="submit" class="btn btn-success accept">Detener trabajo</button>
               <button type="submit" class="btn btn-danger float-right">Cancelar</button>
             </form>
           </div>
