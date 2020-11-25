@@ -203,6 +203,11 @@ function deleteRow(row) {
     document.getElementById("myTable").deleteRow(row);
 }
 
+//script para eliminar una fila de trabajos pendientes
+function deleteWRow(row) {
+    document.getElementById("myWorks").deleteRow(row);
+}
+
 //script para añadir una fila nueva a las impresoras
 function addRow() {
     var table = document.getElementById("myTable");
@@ -231,6 +236,7 @@ window.Pmgr = Pmgr;
 window.createPrinterItem = createPrinterItem
 window.ocultar = ocultar;
 window.deleteRow = deleteRow;
+window.deleteWRow = deleteWRow
 window.addRow = addRow;
 window.addRowGr = addRowGr;
 

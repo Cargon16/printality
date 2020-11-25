@@ -6,7 +6,6 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 
-  <!--No sé para qué es, estaba probando, bro-->
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
 
   <!-- Bootstrap CSS -->
@@ -68,12 +67,14 @@
             <p class="label">Imprimir</p>
         </button>
         </li>
+        <!--
         <button id="submit_stop" type="button" class="btn btn-primary print-button" data-toggle="modal" data-target=".stop">
         <li class="nav-item">
           <img src="./img/detener.png" />
           <p class="label">Cancelar</p>
         </button>
         </li>
+        -->
       </ul>
     </div>
   </nav>
@@ -321,6 +322,26 @@
         </div>
       </div>
 
+
+      <div class="vd">
+        <div class="col-sm-3">
+          <select class="form-control">
+            <option value="myprinter">myprinter</option>
+            <option value="Despacho">Despacho</option>
+            <option value="cargonto">cargonto</option>
+            <option value="noeC02">noeC02</option>
+          </select>
+
+          <select class="form-control">
+            <option value="Trabajo">Trabajo</option>
+            <option value="Casa">Casa</option>
+            <option value="Contabilidad">Contabilidad</option>
+            <option value="Biblioteca">Biblioteca</option>
+          </select>
+        </div>
+        <button type='submit' id='submit_v' name='submit_vin'>Vincular</button>
+        <button type='submit' id='submit_d' name='submit_des'>Desvincular</button>
+      </div>
     </div>
 
     <div class="collapse list-unstyled" id="documentos">
@@ -328,12 +349,13 @@
         Trabajos pendientes
       </h2>
       <div class="table-wrapper-scroll-y my-custom-scrollbar">
-        <table class="table table-bordered mb-0" id="myTable">
+        <table class="table table-bordered mb-0" id="myWorks">
           <thead class="table-active">
             <tr>
               <th scope="col">ID_trabajo</th>
               <th scope="col">Archivo</th>
               <th scope="col">Impresora</th>
+              <th scope="col"></th>
             </tr>
           </thead>
 
@@ -342,36 +364,57 @@
               <th scope="row">01</th>
               <td>tarea.pdf</td>
               <td>myprinter</td>
+              <td>
+                <img src="./img/delete.png" onclick="deleteWRow(1)" />
+              </td>
             </tr>
             <tr>
               <th scope="row">02</th>
               <td>aw.doc</td>
               <td>cargonto</td>
+              <td>
+                <img src="./img/delete.png" onclick="deleteWRow(2)" />
+              </td>
             </tr>
             <tr>
               <th scope="row">03</th>
               <td>sge.pdf</td>
               <td>cargonto</td>
+              <td>
+                <img src="./img/delete.png" onclick="deleteWRow(3)" />
+              </td>
             </tr>
             <tr>
               <th scope="row">04</th>
               <td>entradas.pdf</td>
               <td>myprinter</td>
+              <td>
+                <img src="./img/delete.png" onclick="deleteWRow(4)" />
+              </td>
             </tr>
             <tr>
               <th scope="row">05</th>
               <td>fotos.png</td>
               <td>noeC02</td>
+              <td>
+                <img src="./img/delete.png" onclick="deleteWRow(5)" />
+              </td>
             </tr>
             <tr>
               <th scope="row">06</th>
               <td>tais1.pdf</td>
               <td>cargonto</td>
+              <td>
+                <img src="./img/delete.png" onclick="deleteWRow(6)" />
+              </td>
             </tr>
             <tr>
               <th scope="row">07</th>
               <td>tais2.pdf</td>
               <td>cargonto</td>
+              <td>
+                <img src="./img/delete.png" onclick="deleteWRow(7)" />
+              </td>
             </tr>
           </tbody>
         </table>
@@ -389,26 +432,11 @@
             </button>
           </div>
           <div class="modal-body">
-            <form>
-              <div class="modal-body work-container">
-                <div class="work">
-                  <img src="./img/papel.gif" alt="">
-                  <label>IU_gr09.pdf</label>
-                </div>
-                <div class="work">
-                  <img src="./img/papel.gif" alt="">
-                  <label>IU_gr03.pdf</label>
-                </div>
-                <div class="work">
-                  <img src="./img/papel.gif" alt="">
-                  <label>IU_gr01.pdf</label>
-                </div>
-                <div class="work">
-                  <img src="./img/papel.gif" alt="">
-                  <label>IU_gr10.pdf</label>
-                </div>
+            <form class="container">
+              <div class="row justify-content-center" id="inputFile" >
+                <input type="file" />
               </div>
-              <div class="col-sm-3">
+              <div class="row justify-content-center">
                 <select class="form-control">
                   <option value="myprinter">Grupo1</option>
                   <option value="Despacho">Grupo2</option>
@@ -425,37 +453,6 @@
               </div>
 
               <button type="submit" class="btn btn-success accept">Aceptar</button>
-              <button type="submit" class="btn btn-danger float-right">Cancelar</button>
-            </form>
-          </div>
-        </div>
-      </div>
-    </div>
-    <!-- ventana para seleccionar items para detener -->
-      <div class="modal fade stop"  tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-      <div class="modal-dialog" role="document">
-        <div class="modal-content">
-          <div class="modal-header">
-            <h5 class="modal-title">Selecciona el trabajo que desea detener</h5>
-            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-              <span aria-hidden="true">&times;</span>
-            </button>
-          </div>
-          <div class="modal-body">
-            <form>
-              <div class="col-sm-3">
-                <select class="form-control">
-                  <option value="01">01</option>
-                  <option value="02">02</option>
-                  <option value="03">03</option>
-                  <option value="04">04</option>
-                  <option value="05">05</option>
-                  <option value="06">06</option>
-                  <option value="07">07</option>
-                </select>
-              </div>
-
-              <button type="submit" class="btn btn-success accept">Detener trabajo</button>
               <button type="submit" class="btn btn-danger float-right">Cancelar</button>
             </form>
           </div>
