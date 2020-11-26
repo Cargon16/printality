@@ -48,7 +48,7 @@ function createPrinterItem(printer, position) {
               <td>${printer.model}</td>
               <td>${printer.location}</td>
               <td>${printer.ip}</td>
-              <td>288</td>
+              <td>${getJobsFromPrinter(printer).length}</td>
               <td>
                 <img src="./img/edit.png" onclick=TODO />
                 <img src="./img/delete.png" onclick="deleteRow(${position})" />
@@ -58,6 +58,14 @@ function createPrinterItem(printer, position) {
               </td>
             </tr>
  `;
+}
+
+function getJobsFromPrinter(printer) {
+    let works = [];
+
+    Pmgr.globalState.jobs.forEach(j => { if (j.printer == printer.id) works.push(j) });
+
+    return works;
 }
 
 // funcion para generar datos de ejemplo: impresoras, grupos, trabajos, ...
