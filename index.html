@@ -67,14 +67,6 @@
             <p class="label">Imprimir</p>
         </button>
         </li>
-        <!--
-        <button id="submit_stop" type="button" class="btn btn-primary print-button" data-toggle="modal" data-target=".stop">
-        <li class="nav-item">
-          <img src="./img/detener.png" />
-          <p class="label">Cancelar</p>
-        </button>
-        </li>
-        -->
       </ul>
     </div>
   </nav>
@@ -214,8 +206,8 @@
                   <label>IP</label>
                   <input id="ip" class="form-control w-100" placeholder="IP">
                 </div>
-                <button type="submit" class="btn btn-danger float-right">Cancelar</button>
-                <button type="submit" onclick="addRow()" class="btn btn-success">Aceptar</button>
+                <button type="button" class="btn btn-danger float-right" data-dismiss="modal" aria-label="Close">Cancelar</button>
+                <button type="button" onclick="addRow()" class="btn btn-success" data-dismiss="modal" aria-label="Close">Aceptar</button>
               </form>
             </div>
           </div>
@@ -314,8 +306,8 @@
                   <label>Nombre</label>
                   <input id="modelo" class="form-control w-100" placeholder="Modelo">
                 </div>
-                <button type="submit" class="btn btn-danger float-right">Cancelar</button>
-                <button type="submit" onclick="addRowGr()" class="btn btn-success">Aceptar</button>
+                <button type="button" class="btn btn-danger float-right" data-dismiss="modal" aria-label="Close">Cancelar</button>
+                <button type="button" onclick="addRowGr()" class="btn btn-success" data-dismiss="modal" aria-label="Close">Aceptar</button>
               </form>
             </div>
           </div>
