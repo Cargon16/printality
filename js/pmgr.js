@@ -24,7 +24,7 @@ import {Printer, PrinterStates} from "./pmgrapi.js";
 // en respuesta a algún evento.
 //
 
-function createPrinterItem(printer) {
+function createPrinterItem(printer, position) {
     const rid = 'x_' + Math.floor(Math.random() * 1000000);
     const hid = 'h_' + rid;
     const cid = 'c_' + rid;
@@ -51,7 +51,7 @@ function createPrinterItem(printer) {
               <td>288</td>
               <td>
                 <img src="./img/edit.png" onclick=TODO />
-                <img src="./img/delete.png" onclick="deleteRow(1)" />
+                <img src="./img/delete.png" onclick="deleteRow(${position})" />
                 <img src="./img/informacion.png" data-toggle="popover" data-placement="bottom" title="Lista de grupos"
                   data-content="1-Trabajo<br /> 2-Casa" data-html="true" />
 
@@ -130,15 +130,7 @@ $(function () {
 
     // funcion de actualización de ejemplo. Llámala para refrescar interfaz
     function update(result) {
-        try {
-            // vaciamos un contenedor
-            $("#printer_list").empty();
-            // y lo volvemos a rellenar con su nuevo contenido
-            Pmgr.globalState.printers.forEach(m => $("#printer_list").append(createPrinterItem(m)));
-            // y asi para cada cosa que pueda haber cambiado
-        } catch (e) {
-            console.log('Error actualizando', e);
-        }
+        reloadPrinters();
     }
 
 
@@ -193,7 +185,8 @@ $(function () {
 
 //script para eliminar una fila nueva a las impresoras
 function deleteRow(row) {
-    document.getElementById("myTable").deleteRow(row);
+    Pmgr.globalState.printers.splice(row, 1);
+    reloadPrinters();
 }
 
 //script para eliminar una fila de trabajos pendientes
@@ -215,16 +208,19 @@ function addRow() {
         )
     );
 
+    reloadPrinters();
+}
+
+function reloadPrinters() {
     try {
         // vaciamos un contenedor
         $("#printer_list").empty();
         // y lo volvemos a rellenar con su nuevo contenido
-        Pmgr.globalState.printers.forEach(m => $("#printer_list").append(createPrinterItem(m)));
+        Pmgr.globalState.printers.forEach(m => $("#printer_list").append(createPrinterItem(m, Pmgr.globalState.printers.indexOf(m))));
         // y asi para cada cosa que pueda haber cambiado
     } catch (e) {
         console.log('Error actualizando', e);
     }
-
 }
 
 function addRowGr(){
