@@ -1,6 +1,7 @@
 "use strict"
 
 import * as Pmgr from './pmgrapi.js'
+import {Printer, PrinterStates} from "./pmgrapi.js";
 
 /**
  * Librería de cliente para interaccionar con el servidor de PrinterManager (prmgr).
@@ -42,28 +43,20 @@ function createPrinterItem(printer) {
     ).join(" ");
 
     return `
-    <div class="card">
-    <div class="card-header" id="${hid}">
-        <h2 class="mb-0">
-            <button class="btn btn-link" type="button"
-                data-toggle="collapse" data-target="#${cid}",
-                aria-expanded="false" aria-controls="#${rid}">
-            <b class="pcard">${printer.alias}</b>
-            <span class="badge badge-pill ${pillClass[printer.status]}">${printer.status}</span>
-            <div class="small">
-                ${printer.model} at ${printer.location}
-            </div>
-            </button>
-        </h2>
-    </div>
+            <tr>
+              <th scope="row">${printer.alias}</th>
+              <td>${printer.model}</td>
+              <td>${printer.location}</td>
+              <td>${printer.ip}</td>
+              <td>288</td>
+              <td>
+                <img src="./img/edit.png" onclick=TODO />
+                <img src="./img/delete.png" onclick="deleteRow(1)" />
+                <img src="./img/informacion.png" data-toggle="popover" data-placement="bottom" title="Lista de grupos"
+                  data-content="1-Trabajo<br /> 2-Casa" data-html="true" />
 
-    <div id="${cid}" class="collapse hide" aria-labelledby="${hid}
-        data-parent="#accordionExample">
-        <div class="card-body pcard">
-            ${allJobs}
-    </div>
-    </div>
-    </div>
+              </td>
+            </tr>
  `;
 }
 
@@ -139,9 +132,9 @@ $(function () {
     function update(result) {
         try {
             // vaciamos un contenedor
-            $("#accordionExample").empty();
+            $("#printer_list").empty();
             // y lo volvemos a rellenar con su nuevo contenido
-            Pmgr.globalState.printers.forEach(m => $("#accordionExample").append(createPrinterItem(m)));
+            Pmgr.globalState.printers.forEach(m => $("#printer_list").append(createPrinterItem(m)));
             // y asi para cada cosa que pueda haber cambiado
         } catch (e) {
             console.log('Error actualizando', e);
@@ -210,19 +203,27 @@ function deleteWRow(row) {
 
 //script para añadir una fila nueva a las impresoras
 function addRow() {
-    var table = document.getElementById("myTable");
-    var row = table.insertRow(0);
-    var newmodelo = row.insertCell(0);
-    var newalias = row.insertCell(1);
-    var newlugar = row.insertCell(2);
-    var newip = row.insertCell(3);
-    var newtrabajos = row.insertCell(4);
+    Pmgr.globalState.printers.push(
+        new Printer(
+            Pmgr.globalState.printers.length,
+            document.getElementById('alias').value,
+            document.getElementById('modelo').value,
+            document.getElementById('lugar').value,
+            document.getElementById('ip').value,
+            null,
+            PrinterStates.NO_INK
+        )
+    );
 
-    newmodelo.appendChild(document.getElementById('modelo').value);
-    newalias.appendChild(document.getElementById('alias').value);
-    newlugar.appendChild(document.getElementById('lugar').value);
-    newip.appendChild(document.getElementById('ip').value);
-    newtrabajos.appendChild(0);
+    try {
+        // vaciamos un contenedor
+        $("#printer_list").empty();
+        // y lo volvemos a rellenar con su nuevo contenido
+        Pmgr.globalState.printers.forEach(m => $("#printer_list").append(createPrinterItem(m)));
+        // y asi para cada cosa que pueda haber cambiado
+    } catch (e) {
+        console.log('Error actualizando', e);
+    }
 
 }
 
