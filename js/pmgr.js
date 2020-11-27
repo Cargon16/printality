@@ -2,6 +2,7 @@
 
 import * as Pmgr from './pmgrapi.js'
 import {Printer, PrinterStates} from "./pmgrapi.js";
+import {Group} from "./pmgrapi.js";
 
 /**
  * Librería de cliente para interaccionar con el servidor de PrinterManager (prmgr).
@@ -49,6 +50,7 @@ function createPrinterItem(printer, position) {
               <td>${printer.location}</td>
               <td>${printer.ip}</td>
               <td>${getJobsFromPrinter(printer).length}</td>
+              <td>${printer.status}</td>
               <td>
                 <img src="./img/edit.png" onclick=TODO />
                 <img src="./img/delete.png" onclick="deleteRow(${position})" />
@@ -60,12 +62,84 @@ function createPrinterItem(printer, position) {
  `;
 }
 
+function createGroupItem(group, position) {
+    const rid = 'x_' + Math.floor(Math.random() * 1000000);
+    const hid = 'h_' + rid;
+    const cid = 'c_' + rid;
+
+    // usar [] en las claves las evalua (ver https://stackoverflow.com/a/19837961/15472)
+   /* const PS = Pmgr.PrinterStates;
+    let pillClass = {
+        [PS.PAUSED]: "badge-secondary",
+        [PS.PRINTING]: "badge-success",
+        [PS.NO_INK]: "badge-danger",
+        [PS.NO_PAPER]: "badge-danger"
+    };
+
+    let allJobs = group.queue.map((id) =>
+        `<span class="badge badge-secondary">${id}</span>`
+    ).join(" ");*/
+
+    return `
+            <tr>
+              <th scope="row">${group.name}</th>
+              <td>${group.printers.length}</td>
+              <td>
+                <img src="./img/edit.png" onclick=TODO />
+                <img src="./img/delete.png" onclick="deleteRow(${position})" />
+
+              </td>
+            </tr>
+ `;
+}
 function getJobsFromPrinter(printer) {
     let works = [];
 
     Pmgr.globalState.jobs.forEach(j => { if (j.printer == printer.id) works.push(j) });
 
     return works;
+}
+//Array de los alias de las impresoras generadas.
+function getNamePrinters() {
+    let p = [];
+    Pmgr.globalState.printers.forEach(printer =>  p.push(printer.alias) );
+    return p;
+}
+
+//generar las opciones de impresoras del select
+function getPrinters() {
+    let html= "<option>Impresoras...</option>";
+    let array = getNamePrinters();
+    if(array != null) {
+        let tam = array.length;
+        for(let i = 0; i<tam; i++) {
+            html += `
+                    <option value= "${array[i]}" >${array[i]}</option>
+            `;
+        };
+    }
+   return html;
+}
+//Array de los alias de los grupos generados.
+function getNameGroups() {
+    let g = [];
+    Pmgr.globalState.groups.forEach(group => g.push(group.name));
+    return g;
+}
+
+//generar las opciones de impresoras del select
+function getGroups() {
+    let html= "<option>Grupos...</option>";
+    let array = getNameGroups();
+    if(array != null) {
+        let tam = array.length;
+        for(let i = 0; i<tam; i++) {
+            html += `
+                    <option value= "${array[i]}" >${array[i]}</option>
+            `;
+        };
+    }
+   return html;
 }
 
 // funcion para generar datos de ejemplo: impresoras, grupos, trabajos, ...
@@ -139,6 +213,7 @@ $(function () {
     // funcion de actualización de ejemplo. Llámala para refrescar interfaz
     function update(result) {
         reloadPrinters();
+        reloadGroups();
     }
 
 
@@ -226,6 +301,25 @@ function reloadPrinters() {
         // y lo volvemos a rellenar con su nuevo contenido
         Pmgr.globalState.printers.forEach(m => $("#printer_list").append(createPrinterItem(m, Pmgr.globalState.printers.indexOf(m))));
         // y asi para cada cosa que pueda haber cambiado
+        $("#printers").empty();
+        $("#printers").append(getPrinters());
+        $("#groups").empty();
+        $("#groups").append(getGroups());
+    } catch (e) {
+        console.log('Error actualizando', e);
+    }
+}
+function reloadGroups() {
+    try {
+        // vaciamos un contenedor
+        $("#group_list").empty();
+        // y lo volvemos a rellenar con su nuevo contenido
+        Pmgr.globalState.groups.forEach(m => $("#group_list").append(createGroupItem(m, Pmgr.globalState.groups.indexOf(m))));
+        // y asi para cada cosa que pueda haber cambiado
+        $("#printersg").empty();
+        $("#printersg").append(getPrinters());
+        $("#groupsg").empty();
+        $("#groupsg").append(getGroups());
     } catch (e) {
         console.log('Error actualizando', e);
     }
@@ -233,15 +327,26 @@ function reloadPrinters() {
 
 function addRowGr(){
     //TODO en implementación js
+    Pmgr.globalState.groups.push(
+        new Group(
+            Pmgr.globalState.groups.length,
+            document.getElementById('nameg').value,
+            null,
+        )
+    );
+
+    reloadGroups();
 }
 
 // cosas que exponemos para usarlas desde la consola
 window.populate = populate
 window.Pmgr = Pmgr;
 window.createPrinterItem = createPrinterItem
+window.createGroupItem = createGroupItem
 window.ocultar = ocultar;
 window.deleteRow = deleteRow;
 window.deleteWRow = deleteWRow
 window.addRow = addRow;
 window.addRowGr = addRowGr;
-
+window.getPrinters = getPrinters;
+window.getGroups = getGroups;

@@ -114,68 +114,17 @@
               <th scope="col">Lugar</th>
               <th scope="col">IP</th>
               <th scope="col">Trabajos</th>
+              <th scope="col">Estado</th>
               <th scope="col"></th>
             </tr>
           </thead>
-
           <tbody id="printer_list">
-            <tr>
-              <th scope="row">HP DJ 3630</th>
-              <td>myprinter</td>
-              <td>home</td>
-              <td>192.168.1.3</td>
-              <td>2</td>
-              <td>
-                <img src="./img/edit.png" onclick=TODO />
-                <img src="./img/delete.png" onclick="deleteRow(1)" />
-                <img src="./img/informacion.png" data-toggle="popover" data-placement="bottom" title="Lista de grupos"
-                  data-content="1-Trabajo<br /> 2-Casa" data-html="true" />
-
-              </td>
-            </tr>
-            <tr>
-              <th scope="row">HP ENVY 4530</th>
-              <td>Despacho</td>
-              <td>Work</td>
-              <td>192.168.1.55</td>
-              <td>0</td>
-              <td>
-                <img src="./img/edit.png" onclick=TODO />
-                <img src="./img/delete.png" onclick="deleteRow(2)" />
-                <img src="./img/informacion.png" data-toggle="popover" data-placement="bottom" title="Lista de grupos"
-                  data-content="1-Contabilidad" data-html="true" />
-              </td>
-            </tr>
-            <tr>
-              <th scope="row">EPSON 3210</th>
-              <td>cargonto</td>
-              <td>Home</td>
-              <td>192.168.20.3</td>
-              <td>4</td>
-              <td>
-                <img src="./img/edit.png" onclick=TODO />
-                <img src="./img/delete.png" onclick="deleteRow(3)" />
-                <img src="./img/informacion.png" data-toggle="popover" data-placement="bottom" title="Lista de grupos"
-                  data-content="1-Biblioteca <br/> 2-Casa" data-html="true" />
-              </td>
-            </tr>
-            <tr>
-              <th scope="row">Samsung royal</th>
-              <td>noeC02</td>
-              <td>Work</td>
-              <td>192.188.1.3</td>
-              <td>1</td>
-              <td>
-                <img src="./img/edit.png" onclick=TODO />
-                <img src="./img/delete.png" onclick="deleteRow(4)" />
-                <img src="./img/informacion.png" data-toggle="popover" data-placement="bottom" title="Lista de grupos"
-                  data-content="-" data-html="true" />
-              </td>
-            </tr>
+            <!--La lista de impresoras se rellena con el js.-->
           </tbody>
         </table>
       </div>
-      
+
+      <!--Añadir una nueva impresora a la lista-->
       <button data-model-target="#add-id" id='submit_add' data-toggle="modal"
         data-target="#exampleModal">Añadir</button>
       <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
@@ -216,19 +165,29 @@
 
       <div class="vd">
         <div class="col-sm-3">
-          <select class="form-control">
+          
+            <select class="form-control" name="printers" id="printers">
+          
+            </select>
+           
+            <select class="form-control" name="groups" id="groups">
+              
+             </select>
+         <!-- <select class="form-control" id="printers">
             <option value="myprinter">myprinter</option>
             <option value="Despacho">Despacho</option>
             <option value="cargonto">cargonto</option>
             <option value="noeC02">noeC02</option>
+            
+            
           </select>
-
+          
           <select class="form-control">
             <option value="Trabajo">Trabajo</option>
             <option value="Casa">Casa</option>
             <option value="Contabilidad">Contabilidad</option>
             <option value="Biblioteca">Biblioteca</option>
-          </select>
+          </select>-->
         </div>
         <button type='submit' id='submit_v' name='submit_vin'>Vincular</button>
         <button type='submit' id='submit_d' name='submit_des'>Desvincular</button>
@@ -251,43 +210,13 @@
             </tr>
           </thead>
 
-          <tbody id="myTable">
-            <tr>
-              <th scope="row">Trabajo</th>
-              <td>1</td>
-              <td>
-                <img src="./img/edit.png" onclick=TODO />
-                <img src="./img/delete.png" onclick=TODO />
-              </td>
-            </tr>
-            <tr>
-              <th scope="row">Casa</th>
-              <td>2</td>
-              <td>
-                <img src="./img/edit.png" onclick=TODO />
-                <img src="./img/delete.png" onclick=TODO />
-              </td>
-            </tr>
-            <tr>
-              <th scope="row">Contabilidad</th>
-              <td>1</td>
-              <td>
-                <img src="./img/edit.png" onclick=TODO />
-                <img src="./img/delete.png" onclick=TODO />
-              </td>
-            </tr>
-            <tr>
-              <th scope="row">Biblioteca/th>
-              <td>1</td>
-              <td>
-                <img src="./img/edit.png" onclick=TODO />
-                <img src="./img/delete.png" onclick=TODO />
-              </td>
-            </tr>
-
+          <tbody id="group_list">
+            <!--La lista de grupos se genera con el js-->
           </tbody>
         </table>
       </div>
+
+      <!--Añadir un nuevo grupo-->
       <button data-model-target="#add-id" id='submit_add' data-toggle="modal"
         data-target="#exampleModalGr">Añadir</button>
       <div class="modal fade" id="exampleModalGr" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
@@ -304,7 +233,7 @@
               <form id="printerAdd">
                 <div class="form-group">
                   <label>Nombre</label>
-                  <input id="modelo" class="form-control w-100" placeholder="Modelo">
+                  <input id="nameg" class="form-control w-100" placeholder="Nombre">
                 </div>
                 <button type="button" class="btn btn-danger float-right" data-dismiss="modal" aria-label="Close">Cancelar</button>
                 <button type="button" onclick="addRowGr()" class="btn btn-success" data-dismiss="modal" aria-label="Close">Aceptar</button>
@@ -317,19 +246,13 @@
 
       <div class="vd">
         <div class="col-sm-3">
-          <select class="form-control">
-            <option value="myprinter">myprinter</option>
-            <option value="Despacho">Despacho</option>
-            <option value="cargonto">cargonto</option>
-            <option value="noeC02">noeC02</option>
+          <select class="form-control" name="printersg" id="printersg">
+          
           </select>
-
-          <select class="form-control">
-            <option value="Trabajo">Trabajo</option>
-            <option value="Casa">Casa</option>
-            <option value="Contabilidad">Contabilidad</option>
-            <option value="Biblioteca">Biblioteca</option>
-          </select>
+         
+          <select class="form-control" name="groupsg" id="groupsg">
+            
+           </select>
         </div>
         <button type='submit' id='submit_v' name='submit_vin'>Vincular</button>
         <button type='submit' id='submit_d' name='submit_des'>Desvincular</button>
