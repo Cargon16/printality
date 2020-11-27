@@ -86,7 +86,7 @@ function createGroupItem(group, position) {
               <td>${group.printers.length}</td>
               <td>
                 <img src="./img/edit.png" onclick=TODO />
-                <img src="./img/delete.png" onclick="deleteRow(${position})" />
+                <img src="./img/delete.png" onclick="deleteRowg(${position})" />
 
               </td>
             </tr>
@@ -272,6 +272,13 @@ function deleteRow(row) {
     reloadPrinters();
 }
 
+//script para eliminar una fila de grupos
+function deleteRowg(row) {
+    Pmgr.globalState.groups.splice(row, 1);
+    reloadGroups();
+}
+
+
 //script para eliminar una fila de trabajos pendientes
 function deleteWRow(row) {
     document.getElementById("myWorks").deleteRow(row);
@@ -345,6 +352,7 @@ window.createPrinterItem = createPrinterItem
 window.createGroupItem = createGroupItem
 window.ocultar = ocultar;
 window.deleteRow = deleteRow;
+window.deleteRowg = deleteRowg;
 window.deleteWRow = deleteWRow
 window.addRow = addRow;
 window.addRowGr = addRowGr;
