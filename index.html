@@ -61,8 +61,9 @@
       </form>
 
       <ul class="navbar-nav mr-auto">
-        <button id="submit_printer" type="button" class="btn btn-primary print-button" data-toggle="modal" data-target=".bd-example-modal-lg">
-          <li onclick="" class="nav-item">
+        <button id="submit_printer" type="button" class="btn btn-primary print-button" data-toggle="modal"
+          data-target=".bd-example-modal-lg">
+          <li class="nav-item">
             <img src="./img/imprimir.png" />
             <p class="label">Imprimir</p>
         </button>
@@ -155,8 +156,10 @@
                   <label>IP</label>
                   <input id="ip" class="form-control w-100" placeholder="IP">
                 </div>
-                <button type="button" class="btn btn-danger float-right" data-dismiss="modal" aria-label="Close">Cancelar</button>
-                <button type="button" onclick="addRow()" class="btn btn-success" data-dismiss="modal" aria-label="Close">Aceptar</button>
+                <button type="button" class="btn btn-danger float-right" data-dismiss="modal"
+                  aria-label="Close">Cancelar</button>
+                <button type="button" onclick="addRow()" class="btn btn-success" data-dismiss="modal"
+                  aria-label="Close">Aceptar</button>
               </form>
             </div>
           </div>
@@ -165,15 +168,15 @@
 
       <div class="vd">
         <div class="col-sm-3">
-          
-            <select class="form-control" name="printers" id="printers">
-          
-            </select>
-           
-            <select class="form-control" name="groups" id="groups">
-              
-             </select>
-         <!-- <select class="form-control" id="printers">
+
+          <select class="form-control" name="printers" id="printers">
+
+          </select>
+
+          <select class="form-control" name="groups" id="groups">
+
+          </select>
+          <!-- <select class="form-control" id="printers">
             <option value="myprinter">myprinter</option>
             <option value="Despacho">Despacho</option>
             <option value="cargonto">cargonto</option>
@@ -235,8 +238,10 @@
                   <label>Nombre</label>
                   <input id="nameg" class="form-control w-100" placeholder="Nombre">
                 </div>
-                <button type="button" class="btn btn-danger float-right" data-dismiss="modal" aria-label="Close">Cancelar</button>
-                <button type="button" onclick="addRowGr()" class="btn btn-success" data-dismiss="modal" aria-label="Close">Aceptar</button>
+                <button type="button" class="btn btn-danger float-right" data-dismiss="modal"
+                  aria-label="Close">Cancelar</button>
+                <button type="button" onclick="addRowGr()" class="btn btn-success" data-dismiss="modal"
+                  aria-label="Close">Aceptar</button>
               </form>
             </div>
           </div>
@@ -247,12 +252,12 @@
       <div class="vd">
         <div class="col-sm-3">
           <select class="form-control" name="printersg" id="printersg">
-          
+
           </select>
-         
+
           <select class="form-control" name="groupsg" id="groupsg">
-            
-           </select>
+
+          </select>
         </div>
         <button type='submit' id='submit_v' name='submit_vin'>Vincular</button>
         <button type='submit' id='submit_d' name='submit_des'>Desvincular</button>
@@ -267,77 +272,24 @@
         <table class="table table-bordered mb-0" id="myWorks">
           <thead class="table-active">
             <tr>
-              <th scope="col">ID_trabajo</th>
-              <th scope="col">Archivo</th>
+              <th scope="col">Id</th>
               <th scope="col">Impresora</th>
+              <th scope="col">Propietario</th>
+              <th scope="col">Nombre del archivo</th>
               <th scope="col"></th>
             </tr>
           </thead>
 
-          <tbody>
-            <tr>
-              <th scope="row">01</th>
-              <td>tarea.pdf</td>
-              <td>myprinter</td>
-              <td>
-                <img src="./img/delete.png" onclick="deleteWRow(1)" />
-              </td>
-            </tr>
-            <tr>
-              <th scope="row">02</th>
-              <td>aw.doc</td>
-              <td>cargonto</td>
-              <td>
-                <img src="./img/delete.png" onclick="deleteWRow(2)" />
-              </td>
-            </tr>
-            <tr>
-              <th scope="row">03</th>
-              <td>sge.pdf</td>
-              <td>cargonto</td>
-              <td>
-                <img src="./img/delete.png" onclick="deleteWRow(3)" />
-              </td>
-            </tr>
-            <tr>
-              <th scope="row">04</th>
-              <td>entradas.pdf</td>
-              <td>myprinter</td>
-              <td>
-                <img src="./img/delete.png" onclick="deleteWRow(4)" />
-              </td>
-            </tr>
-            <tr>
-              <th scope="row">05</th>
-              <td>fotos.png</td>
-              <td>noeC02</td>
-              <td>
-                <img src="./img/delete.png" onclick="deleteWRow(5)" />
-              </td>
-            </tr>
-            <tr>
-              <th scope="row">06</th>
-              <td>tais1.pdf</td>
-              <td>cargonto</td>
-              <td>
-                <img src="./img/delete.png" onclick="deleteWRow(6)" />
-              </td>
-            </tr>
-            <tr>
-              <th scope="row">07</th>
-              <td>tais2.pdf</td>
-              <td>cargonto</td>
-              <td>
-                <img src="./img/delete.png" onclick="deleteWRow(7)" />
-              </td>
-            </tr>
+          <tbody id="files_list">
+
           </tbody>
         </table>
       </div>
     </div>
 
     <!-- ventana para seleccionar items para imprimir -->
-    <div class="modal fade bd-example-modal-lg" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
+    <div class="modal fade bd-example-modal-lg" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel"
+      aria-hidden="true" id="trabajos">
       <div class="modal-dialog modal-lg">
         <div class="modal-content">
           <div class="modal-header">
@@ -348,22 +300,16 @@
           </div>
           <div class="modal-body">
             <form class="container">
-              <div class="row justify-content-center" id="inputFile" >
+              <div class="row justify-content-center" id="inputFile">
                 <input type="file" />
               </div>
               <div class="row justify-content-center">
-                <select class="form-control">
-                  <option value="myprinter">Grupo1</option>
-                  <option value="Despacho">Grupo2</option>
-                  <option value="cargonto">Grupo3</option>
-                  <option value="noeC02">Grupo4</option>
+                <select class="form-control" name="printersg" id="pepito">
+
                 </select>
 
-                <select class="form-control">
-                  <option value="Trabajo">Trabajo</option>
-                  <option value="Casa">Casa</option>
-                  <option value="Contabilidad">Contabilidad</option>
-                  <option value="Biblioteca">Biblioteca</option>
+                <select class="form-control" name="groupsg" id="jorgito">
+
                 </select>
               </div>
 

@@ -1,8 +1,8 @@
 "use strict"
 
 import * as Pmgr from './pmgrapi.js'
-import {Printer, PrinterStates} from "./pmgrapi.js";
-import {Group} from "./pmgrapi.js";
+import { Printer, PrinterStates } from "./pmgrapi.js";
+import { Group } from "./pmgrapi.js";
 
 /**
  * Librería de cliente para interaccionar con el servidor de PrinterManager (prmgr).
@@ -54,9 +54,6 @@ function createPrinterItem(printer, position) {
               <td>
                 <img src="./img/edit.png" onclick=TODO />
                 <img src="./img/delete.png" onclick="deleteRow(${position})" />
-                <img src="./img/informacion.png" data-toggle="popover" data-placement="bottom" title="Lista de grupos"
-                  data-content="1-Trabajo<br /> 2-Casa" data-html="true" />
-
               </td>
             </tr>
  `;
@@ -68,17 +65,17 @@ function createGroupItem(group, position) {
     const cid = 'c_' + rid;
 
     // usar [] en las claves las evalua (ver https://stackoverflow.com/a/19837961/15472)
-   /* const PS = Pmgr.PrinterStates;
-    let pillClass = {
-        [PS.PAUSED]: "badge-secondary",
-        [PS.PRINTING]: "badge-success",
-        [PS.NO_INK]: "badge-danger",
-        [PS.NO_PAPER]: "badge-danger"
-    };
-
-    let allJobs = group.queue.map((id) =>
-        `<span class="badge badge-secondary">${id}</span>`
-    ).join(" ");*/
+    /* const PS = Pmgr.PrinterStates;
+     let pillClass = {
+         [PS.PAUSED]: "badge-secondary",
+         [PS.PRINTING]: "badge-success",
+         [PS.NO_INK]: "badge-danger",
+         [PS.NO_PAPER]: "badge-danger"
+     };
+ 
+     let allJobs = group.queue.map((id) =>
+         `<span class="badge badge-secondary">${id}</span>`
+     ).join(" ");*/
 
     return `
             <tr>
@@ -87,6 +84,38 @@ function createGroupItem(group, position) {
               <td>
                 <img src="./img/edit.png" onclick=TODO />
                 <img src="./img/delete.png" onclick="deleteRowg(${position})" />
+
+              </td>
+            </tr>
+ `;
+}
+function createFilesItem(file, position) {
+    const rid = 'x_' + Math.floor(Math.random() * 1000000);
+    const hid = 'h_' + rid;
+    const cid = 'c_' + rid;
+
+    // usar [] en las claves las evalua (ver https://stackoverflow.com/a/19837961/15472)
+    /* const PS = Pmgr.PrinterStates;
+     let pillClass = {
+         [PS.PAUSED]: "badge-secondary",
+         [PS.PRINTING]: "badge-success",
+         [PS.NO_INK]: "badge-danger",
+         [PS.NO_PAPER]: "badge-danger"
+     };
+ 
+     let allJobs = group.queue.map((id) =>
+         `<span class="badge badge-secondary">${id}</span>`
+     ).join(" ");*/
+
+    return `
+            <tr>
+            <th scope="row">${file.id}</th>
+            <th scope="row">${file.printer}</th>
+            <th scope="row">${file.owner}</th>
+              <th scope="row">${file.fileName}</th>
+              <td>
+                <img src="./img/edit.png" onclick=TODO />
+                <img src="./img/delete.png" onclick="deleteWRow(${position})" />
 
               </td>
             </tr>
@@ -102,23 +131,23 @@ function getJobsFromPrinter(printer) {
 //Array de los alias de las impresoras generadas.
 function getNamePrinters() {
     let p = [];
-    Pmgr.globalState.printers.forEach(printer =>  p.push(printer.alias) );
+    Pmgr.globalState.printers.forEach(printer => p.push(printer.alias));
     return p;
 }
 
 //generar las opciones de impresoras del select
 function getPrinters() {
-    let html= "<option>Impresoras...</option>";
+    let html = "<option>Impresoras...</option>";
     let array = getNamePrinters();
-    if(array != null) {
+    if (array != null) {
         let tam = array.length;
-        for(let i = 0; i<tam; i++) {
+        for (let i = 0; i < tam; i++) {
             html += `
                     <option value= "${array[i]}" >${array[i]}</option>
             `;
         };
     }
-   return html;
+    return html;
 }
 //Array de los alias de los grupos generados.
 function getNameGroups() {
@@ -129,17 +158,17 @@ function getNameGroups() {
 
 //generar las opciones de impresoras del select
 function getGroups() {
-    let html= "<option>Grupos...</option>";
+    let html = "<option>Grupos...</option>";
     let array = getNameGroups();
-    if(array != null) {
+    if (array != null) {
         let tam = array.length;
-        for(let i = 0; i<tam; i++) {
+        for (let i = 0; i < tam; i++) {
             html += `
                     <option value= "${array[i]}" >${array[i]}</option>
             `;
         };
     }
-   return html;
+    return html;
 }
 
 // funcion para generar datos de ejemplo: impresoras, grupos, trabajos, ...
@@ -214,6 +243,7 @@ $(function () {
     function update(result) {
         reloadPrinters();
         reloadGroups();
+        reloadFiles();
     }
 
 
@@ -281,7 +311,8 @@ function deleteRowg(row) {
 
 //script para eliminar una fila de trabajos pendientes
 function deleteWRow(row) {
-    document.getElementById("myWorks").deleteRow(row);
+    Pmgr.globalState.jobs.splice(row, 1);
+    reloadFiles();
 }
 
 //script para añadir una fila nueva a las impresoras
@@ -316,6 +347,12 @@ function reloadPrinters() {
         console.log('Error actualizando', e);
     }
 }
+function reloadFilesCosas() {
+    //$("#printersg").empty();
+    $("#pepito").html(getPrinters());
+    // $("#groupsg").empty();
+    $("#jorgito").html(getGroups());
+}
 function reloadGroups() {
     try {
         // vaciamos un contenedor
@@ -332,7 +369,20 @@ function reloadGroups() {
     }
 }
 
-function addRowGr(){
+function reloadFiles() {
+    try {
+        // vaciamos un contenedor
+        $("#files_list").empty();
+        // y lo volvemos a rellenar con su nuevo contenido
+        Pmgr.globalState.jobs.forEach(m => $("#files_list").append(createFilesItem(m, Pmgr.globalState.jobs.indexOf(m))));
+        // y asi para cada cosa que pueda haber cambiado
+
+    } catch (e) {
+        console.log('Error actualizando', e);
+    }
+}
+
+function addRowGr() {
     //TODO en implementación js
     Pmgr.globalState.groups.push(
         new Group(
@@ -345,11 +395,19 @@ function addRowGr(){
     reloadGroups();
 }
 
+
+$(document).ready(function () { 
+    $('#trabajos').on('show.bs.modal', function (e) {
+          reloadFilesCosas();
+     });
+});
+
 // cosas que exponemos para usarlas desde la consola
-window.populate = populate
+window.populate = populate;
 window.Pmgr = Pmgr;
-window.createPrinterItem = createPrinterItem
-window.createGroupItem = createGroupItem
+window.createPrinterItem = createPrinterItem;
+window.createGroupItem = createGroupItem;
+window.createFilesItem = createFilesItem;
 window.ocultar = ocultar;
 window.deleteRow = deleteRow;
 window.deleteRowg = deleteRowg;
@@ -358,3 +416,4 @@ window.addRow = addRow;
 window.addRowGr = addRowGr;
 window.getPrinters = getPrinters;
 window.getGroups = getGroups;
+window.reloadFilesCosas = reloadFilesCosas;
