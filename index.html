@@ -110,8 +110,8 @@
         <table class="table table-bordered mb-0" id="myTable">
           <thead class="table-active">
             <tr>
-              <th scope="col">Modelo</th>
               <th scope="col">Alias</th>
+              <th scope="col">Modelo</th>
               <th scope="col">Lugar</th>
               <th scope="col">IP</th>
               <th scope="col">Trabajos</th>
@@ -177,21 +177,7 @@
           <select class="form-control" name="groups" id="groups">
 
           </select>
-          <!-- <select class="form-control" id="printers">
-            <option value="myprinter">myprinter</option>
-            <option value="Despacho">Despacho</option>
-            <option value="cargonto">cargonto</option>
-            <option value="noeC02">noeC02</option>
-            
-            
-          </select>
           
-          <select class="form-control">
-            <option value="Trabajo">Trabajo</option>
-            <option value="Casa">Casa</option>
-            <option value="Contabilidad">Contabilidad</option>
-            <option value="Biblioteca">Biblioteca</option>
-          </select>-->
         </div>
         <button type='submit' id='submit_v' name='submit_vin' onclick="addPrinterToGroup();">Vincular</button>
         <button type='submit' id='submit_d' name='submit_des' onclick="delPrinterToGroup();">Desvincular</button>
@@ -321,6 +307,72 @@
         </div>
       </div>
     </div>
+
+    <!-- Modal para editar las impresoras-->
+    <div class="modal fade" id="editModalP" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+    aria-hidden="true">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title">Editar una impresora</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+          <form id="printerEdit">
+            <div class="form-group">
+              <label>Alias</label>
+              <input id="aliasEdit" class="form-control w-100" placeholder="Alias">
+            </div>
+            <div class="form-group">
+              <label>Lugar</label>
+              <input id="lugarEdit" class="form-control w-100" placeholder="Lugar">
+            </div>
+            <div class="form-group">
+              <label>IP</label>
+              <input id="ipEdit" class="form-control w-100" placeholder="IP">
+            </div>
+            <button type="button" class="btn btn-danger float-right" data-dismiss="modal"
+              aria-label="Close">Cancelar</button>
+            <button type="button" onclick="editPrinter()" class="btn btn-success" data-dismiss="modal"
+              aria-label="Close">Editar</button>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Modal para editar grupos-->
+  <!-- Modal para editar las impresoras-->
+    <div class="modal fade" id="editModalG" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+    aria-hidden="true">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title">Editar un grupo</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+          <form id="groupEdit">
+            <div class="form-group">
+              <label>Nombre</label>
+              <input id="nameEdit" class="form-control w-100" placeholder="Nombre">
+            </div>
+            <button type="button" class="btn btn-danger float-right" data-dismiss="modal"
+              aria-label="Close">Cancelar</button>
+            <button type="button" onclick="editGroup()" class="btn btn-success" data-dismiss="modal"
+              aria-label="Close">Editar</button>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+
+
+
     <!-- JavaScript -->
     <!-- jQuery primero, Bootstrap después -->
     <script src="js/jquery-3.3.1.js"></script>

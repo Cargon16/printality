@@ -53,7 +53,7 @@ function createPrinterItem(printer, position) {
               <td>${showGroupPrinters(printer.id)}</td>
               <td>${printer.status}</td>
               <td>
-                <img src="./img/edit.png" onclick=TODO />
+                <img src="./img/edit.png" onclick="editModalP(${printer.id})" />
                 <img src="./img/delete.png" onclick="deleteRow(${position})" />
               </td>
             </tr>
@@ -83,7 +83,7 @@ function createGroupItem(group, position) {
               <th scope="row">${group.name}</th>
               <td>${group.printers.length}</td>
               <td>
-                <img src="./img/edit.png" onclick=TODO />
+                <img src="./img/edit.png" onclick="editModalG(${group.id})" />
                 <img src="./img/delete.png" onclick="deleteRowg(${position})" />
 
               </td>
@@ -115,7 +115,6 @@ function createFilesItem(file, position) {
             <th scope="row">${file.owner}</th>
               <th scope="row">${file.fileName}</th>
               <td>
-                <img src="./img/edit.png" onclick=TODO />
                 <img src="./img/delete.png" onclick="deleteWRow(${position})" />
 
               </td>
@@ -429,6 +428,7 @@ function addPrinterToGroup(){
     else alert("No se ha vinculado la impresora");
 
     reloadGroups();
+    reloadPrinters();
 
 }
 function delPrinterToGroup(){
@@ -456,6 +456,7 @@ function delPrinterToGroup(){
     else alert("No se ha desvinculado la impresora");
     
     reloadGroups();
+    reloadPrinters();
 
 }
 
@@ -469,6 +470,49 @@ function showGroupPrinters(printerId){
         }
     }
     return resultado;
+}
+
+let idP;
+
+function editModalP(idPrinter){
+    $('#editModalP').modal('show');
+    idP = idPrinter;
+}
+function editPrinter(){
+    let p = Pmgr.globalState.printers;
+    let y =0;
+    while(y < p.length && p[y].id != idP){
+        y++;
+    }
+
+    if( document.getElementById('aliasEdit').value != "")
+        p[y].alias =  document.getElementById('aliasEdit').value;
+    if(document.getElementById('lugarEdit').value != "")
+        p[y].location = document.getElementById('lugarEdit').value;
+    if(document.getElementById('ipEdit').value != "")
+        p[y].ip = document.getElementById('ipEdit').value;
+
+    reloadPrinters();
+}
+
+let idG= idP+1;
+
+function editModalG(idGroup){
+    $('#editModalG').modal('show');
+    idG = idGroup;
+}
+function editGroup(){
+    let g = Pmgr.globalState.groups;
+    let y =0;
+    while(y < g.length && g[y].id != idG){
+        y++;
+    }
+
+    if( document.getElementById('nameEdit').value != "")
+        g[y].name =  document.getElementById('nameEdit').value;
+
+    reloadGroups();
+    reloadPrinters();
 }
 
 // cosas que exponemos para usarlas desde la consola
@@ -488,3 +532,7 @@ window.getGroups = getGroups;
 window.reloadFilesCosas = reloadFilesCosas;
 window.addPrinterToGroup = addPrinterToGroup;
 window.delPrinterToGroup = delPrinterToGroup;
+window.editModalP = editModalP;
+window.editPrinter = editPrinter;
+window.editModalG = editModalG;
+window.editGroup = editGroup;
