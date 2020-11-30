@@ -1,32 +1,84 @@
 <!DOCTYPE html>
 <html lang="es">
+
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
     <title>Leeme.html</title>
     <h1>PRINTALITY: Grupo 9</h1>
-       <p>Noelia Calderón Mateo</p>
-       <p>Carlos González Torres</p>
-       <p>Miguel Robledo Blanco</p>
-       <p>José Andrés Velasco Santos</p>
+    <p>Noelia Calderón Mateo</p>
+    <p>Carlos González Torres</p>
+    <p>Miguel Robledo Blanco</p>
+    <p>José Andrés Velasco Santos</p>
 </head>
-<body>
 
-    <h2>Cambios realizados en la interfaz</h2>
-    <ul>
-        <li>Eliminado el botón de cancelar del menú superior.</li>
-        <li>Modificada la vista de impresión. Ahora utiliza input type file en vez de mostrar los trabajos disponibles.</li>
-        <li>Añadida funcionalidad para desvincular y vincular impresoras de grupos. Muestra una alerta y modifica la tabla.</li>
-        <li>Modal para editar grupo. Nueva ventana para modificar el nombre.</li>
-        <li>Modal para editar impresora. Nueva ventana para modificar alias, lugar e ip.</li>
-        <li>Sripts para eliminar filas en impresoras, grupos y trabajos pendientes.</li>
-        <li>Cuando se elimina una impresora
-            <ul> 
-                <li>Se reduce el numero de impresoras del grupo al que pertenece.</li>
-                <li>Se eliminan los trabajos pendientes que tuviese.</li>
+<body>
+    <div class="container">
+
+        <h3>Cambios realizados en la interfaz</h3>
+       <div class="tab">
+           <button class= "tablinks" onclick="opentab(evento, 'v1')">
+            Entrega 1
+           </button>
+           <button class= "tablinks" onclick="opentab(evento, 'v2')">
+            Entrega 2
+           </button>
+       </div>
+        <br>
+        <div class="tabcontent" id="v1">
+            <ul>
+                <li>Modificación del menú lateral. Se ha añadido el acceso a trabajos pendientes.</li>
+                <li>Modificación en las tablas de gestión de impresoras.
+                    <ul>
+                        <li>Nuevo botón para ver los grupos.</li>
+                        <li>La celda de trabajos muestra únicamente la cantidad de trabajos.</li>
+                    </ul>
+                </li>
+                <li>Botón de añadir. Muestra una ventana emergente para introducir los campos necesarios.</li>
+                <li>Funcionalidad Vincular/Desvincular. Se gestiona únicamente desde la vista de gestión de impresoras.
+                </li>
+                <li>El botón de imprimir muestra una ventana emergente para seleccionar los archivos. También
+                    puedes elegir la impresora o grupo que desees. </li>
+                <li>El botón Cancelar. Muestra una ventana emergente donde puedes elegir el trabajo que deseas detener.
+                </li>
             </ul>
-        </li>
-            
+        </div>
+        <div class="tabcontent" id="v2">
+            <ul>
+                <li>Eliminado el botón de cancelar del menú superior.</li>
+                <li>Modificada la vista de impresión. Ahora utiliza input type file en vez de mostrar los trabajos
+                    disponibles.</li>
+                <li>Añadida funcionalidad para desvincular y vincular impresoras de grupos. Muestra una alerta y
+                    modifica la tabla.</li>
+                <li>Modal para editar grupo. Nueva ventana para modificar el nombre.</li>
+                <li>Modal para editar impresora. Nueva ventana para modificar alias, lugar e ip.</li>
+                <li>Sripts para eliminar filas en impresoras, grupos y trabajos pendientes.</li>
+                <li>Cuando se elimina una impresora
+                    <ul>
+                        <li>Se reduce el numero de impresoras del grupo al que pertenece.</li>
+                        <li>Se eliminan los trabajos pendientes que tuviese.</li>
+                    </ul>
+                </li>
+        </div>
+    </div>
+<script>
+    function opentab(evt, cityName) {
+      var i, tabcontent, tablinks;
+      tabcontent = document.getElementsByClassName("tabcontent");
+      for (i = 0; i < tabcontent.length; i++) {
+        tabcontent[i].style.display = "none";
+      }
+      tablinks = document.getElementsByClassName("tablinks");
+      for (i = 0; i < tablinks.length; i++) {
+        tablinks[i].className = tablinks[i].className.replace(" active", "");
+      }
+      document.getElementById(cityName).style.display = "block";
+      evt.currentTarget.className += " active";
+    }
+    </script>
 </body>
 
 </html>
