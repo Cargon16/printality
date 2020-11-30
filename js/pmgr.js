@@ -54,7 +54,7 @@ function createPrinterItem(printer, position) {
               <td>${printer.status}</td>
               <td>
                 <img src="./img/edit.png" onclick="editModalP(${printer.id})" />
-                <img src="./img/delete.png" onclick="deleteRow(${position})" />
+                <img src="./img/delete.png" onclick="deleteRow(${printer.id})" />
               </td>
             </tr>
  `;
@@ -84,7 +84,7 @@ function createGroupItem(group, position) {
               <td>${group.printers.length}</td>
               <td>
                 <img src="./img/edit.png" onclick="editModalG(${group.id})" />
-                <img src="./img/delete.png" onclick="deleteRowg(${position})" />
+                <img src="./img/delete.png" onclick="deleteRowg(${group.id})" />
 
               </td>
             </tr>
@@ -115,7 +115,7 @@ function createFilesItem(file, position) {
             <th scope="row">${file.owner}</th>
               <th scope="row">${file.fileName}</th>
               <td>
-                <img src="./img/delete.png" onclick="deleteWRow(${position})" />
+                <img src="./img/delete.png" onclick="deleteWRow(${file.id})" />
 
               </td>
             </tr>
@@ -297,21 +297,63 @@ $(function () {
 })
 
 //script para eliminar una fila nueva a las impresoras
-function deleteRow(row) {
-    Pmgr.globalState.printers.splice(row, 1);
+function deleteRow(id) {
+    let p = Pmgr.globalState.printers;
+    let k=0;
+    while(k < p.length && p[k].id != id) {
+        k++;
+    }
+    if(k != p.length){
+      p.splice(k, 1);
+    }
+    let  g = Pmgr.globalState.groups;
+    for(let i =0; i < g.length; ++i){
+        let j= 0;
+        while(j <g[i].printers.length && g[i].printers[j] != id){
+           j++;
+        }
+        if(j != g[i].printers.length) {
+            g[i].printers.splice(j,1);
+        }
+    }
+
+    let  f = Pmgr.globalState.jobs;
+    for(let i =0; i < f.length; ++i){
+        if(f[i].printer == id){
+           f.splice(i,1);
+           i--;
+        }
+    }
     reloadPrinters();
+    reloadGroups();
+    reloadFiles();
 }
 
 //script para eliminar una fila de grupos
-function deleteRowg(row) {
-    Pmgr.globalState.groups.splice(row, 1);
+function deleteRowg(id) {
+    let g = Pmgr.globalState.groups;
+    let k=0;
+    while(k < g.length && g[k].id != id) {
+        k++;
+    }
+    if(k != g.length){
+      g.splice(k, 1);
+    }
     reloadGroups();
+    reloadPrinters();
 }
 
 
 //script para eliminar una fila de trabajos pendientes
-function deleteWRow(row) {
-    Pmgr.globalState.jobs.splice(row, 1);
+function deleteWRow(id) {
+    let f = Pmgr.globalState.jobs;
+    let k=0;
+    while(k < f.length && f[k].id != id) {
+        k++;
+    }
+    if(k != f.length){
+      f.splice(k, 1);
+    }
     reloadFiles();
 }
 
