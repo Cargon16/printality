@@ -115,6 +115,7 @@
               <th scope="col">Lugar</th>
               <th scope="col">IP</th>
               <th scope="col">Trabajos</th>
+              <th scope="col">Grupos</th>
               <th scope="col">Estado</th>
               <th scope="col"></th>
             </tr>
@@ -192,8 +193,8 @@
             <option value="Biblioteca">Biblioteca</option>
           </select>-->
         </div>
-        <button type='submit' id='submit_v' name='submit_vin'>Vincular</button>
-        <button type='submit' id='submit_d' name='submit_des'>Desvincular</button>
+        <button type='submit' id='submit_v' name='submit_vin' onclick="addPrinterToGroup();">Vincular</button>
+        <button type='submit' id='submit_d' name='submit_des' onclick="delPrinterToGroup();">Desvincular</button>
       </div>
     </div>
 
@@ -259,8 +260,8 @@
 
           </select>
         </div>
-        <button type='submit' id='submit_v' name='submit_vin'>Vincular</button>
-        <button type='submit' id='submit_d' name='submit_des'>Desvincular</button>
+        <button type='submit' id='submit_v' name='submit_vin' onclick="addPrinterToGroup();">Vincular</button>
+        <button type='submit' id='submit_d' name='submit_des' onclick="delPrinterToGroup();">Desvincular</button>
       </div>
     </div>
 

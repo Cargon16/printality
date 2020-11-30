@@ -50,6 +50,7 @@ function createPrinterItem(printer, position) {
               <td>${printer.location}</td>
               <td>${printer.ip}</td>
               <td>${getJobsFromPrinter(printer).length}</td>
+              <td>${showGroupPrinters(printer.id)}</td>
               <td>${printer.status}</td>
               <td>
                 <img src="./img/edit.png" onclick=TODO />
@@ -402,6 +403,74 @@ $(document).ready(function () {
      });
 });
 
+function addPrinterToGroup(){
+    let impresora = $( "#printers option:selected" ).text();
+    if(impresora == "Impresoras...") impresora = $( "#printersg option:selected" ).text();
+    let grupo = $( "#groups option:selected" ).text();
+    if(grupo == "Grupos...") grupo = $( "#groupsg option:selected" ).text();
+    let  g = Pmgr.globalState.groups;
+    let p = Pmgr.globalState.printers;
+    let x =0, y =0;
+    while(x < g.length && g[x].name != grupo){
+        x++;
+    }
+    while(y < p.length && p[y].alias != impresora){
+        y++;
+    }
+
+    let i=0;
+    while(g[x].printers[i] != p[y].id && i < g[x].printers.length){
+        i++;
+    }
+    if(i == g[x].printers.length){
+    g[x].printers.push(p[y].id);
+    alert("Se ha vinculado la impresora " + impresora + " del grupo " + grupo );
+    }
+    else alert("No se ha vinculado la impresora");
+
+    reloadGroups();
+
+}
+function delPrinterToGroup(){
+    let impresora = $( "#printers option:selected" ).text();
+    if(impresora == "Impresoras...") impresora = $( "#printersg option:selected" ).text();
+    let grupo = $( "#groups option:selected" ).text();
+    if(grupo == "Grupos...") grupo = $( "#groupsg option:selected" ).text();
+    let  g = Pmgr.globalState.groups;
+    let p = Pmgr.globalState.printers;
+    let x =0, y =0;
+    while(x < g.length && g[x].name != grupo){
+        x++;
+    }
+    while(y < p.length && p[y].alias != impresora){
+        y++;
+    }
+    let i=0;
+    while(g[x].printers[i] != p[y].id && i < g[x].printers.length){
+        i++;
+    }
+    if(i < g[x].printers.length){
+        g[x].printers.splice(i, 1);
+        alert("Se ha desvinculado la impresora " + impresora + " del grupo " + grupo );
+    }
+    else alert("No se ha desvinculado la impresora");
+    
+    reloadGroups();
+
+}
+
+function showGroupPrinters(printerId){
+    let resultado= "| ";
+    let  g = Pmgr.globalState.groups;
+    for(let i =0; i < g.length; ++i){
+        for(let j=0; j < g[i].printers.length; ++j){
+            if(g[i].printers[j] == printerId)
+                resultado += g[i].name + " | ";
+        }
+    }
+    return resultado;
+}
+
 // cosas que exponemos para usarlas desde la consola
 window.populate = populate;
 window.Pmgr = Pmgr;
@@ -417,3 +486,5 @@ window.addRowGr = addRowGr;
 window.getPrinters = getPrinters;
 window.getGroups = getGroups;
 window.reloadFilesCosas = reloadFilesCosas;
+window.addPrinterToGroup = addPrinterToGroup;
+window.delPrinterToGroup = delPrinterToGroup;
