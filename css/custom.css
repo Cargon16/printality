@@ -340,4 +340,13 @@ form.print {
 
 #inputFile {
     margin-bottom: 1em;
+    align-items: center !important;
+}
+#pepito {
+    margin-left: 15% !important;
+}
+/*commit manuel*/
+.iulist {
+    max-height: 800px;
+    overflow: scroll;
 }

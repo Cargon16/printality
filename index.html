@@ -160,7 +160,7 @@
                 <button type="button" class="btn btn-danger float-right" data-dismiss="modal"
                   aria-label="Close">Cancelar</button>
                 <button type="button" onclick="addRow()" class="btn btn-success" data-dismiss="modal"
-                  aria-label="Close">Aceptar</button>
+                  aria-label="Close" id="btnadd">Aceptar</button>
               </form>
             </div>
           </div>
@@ -191,7 +191,7 @@
       </h2>
 
       <div class="table-wrapper-scroll-y my-custom-scrollbar">
-        <table class="table table-bordered mb-0">
+        <table class="table table-bordered mb-0" id="myTable1">
           <thead class="table-active">
             <tr>
               <th scope="col">Nombre</th>
@@ -288,20 +288,15 @@
           <div class="modal-body">
             <form class="container">
               <div class="row justify-content-center" id="inputFile">
-                <input type="file" />
-              </div>
-              <div class="row justify-content-center">
+                <input type="file"  id= "namefile" />
+             
                 <select class="form-control" name="printersg" id="pepito">
 
                 </select>
-
-                <select class="form-control" name="groupsg" id="jorgito">
-
-                </select>
               </div>
 
-              <button type="submit" class="btn btn-success accept">Aceptar</button>
-              <button type="submit" class="btn btn-danger float-right">Cancelar</button>
+              <button type="button" class="btn btn-success accept" onclick="addFile();">Aceptar</button>
+              <button type="button" class="btn btn-danger float-right">Cancelar</button>
             </form>
           </div>
         </div>
