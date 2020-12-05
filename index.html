@@ -56,8 +56,10 @@
 
     <div id="navbarSupportedContent">
       <form class="form-inline my-2 my-lg-0" id="prueba">
-        <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search">
-        <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
+        <!--<input class="form-control mr-sm-2" type="search" id="search1" placeholder="Buscar..." aria-label="Search">
+
+        <button class="btn btn-outline-success my-2 my-sm-0" type="submit" onclick="buscar();">Buscar</button>-->
+        <input type="text" id="search1" onkeyup="buscar()" placeholder="Busca una impresora..." title="Escribe un alias">
       </form>
 
       <ul class="navbar-nav mr-auto">
@@ -191,7 +193,7 @@
       </h2>
 
       <div class="table-wrapper-scroll-y my-custom-scrollbar">
-        <table class="table table-bordered mb-0" id="myTable1">
+        <table class="table table-bordered mb-0" id="myTable">
           <thead class="table-active">
             <tr>
               <th scope="col">Nombre</th>
