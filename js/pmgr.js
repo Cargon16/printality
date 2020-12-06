@@ -305,6 +305,7 @@ function update(result) {
         //$("#printersg").empty();
         $("#pepito").html(getPrinters());
 
+
     } catch (e) {
         console.log('Error actualizando', e);
     }
@@ -372,19 +373,16 @@ $(function () {
 //script para eliminar una fila nueva a las impresoras
 function deleteRow(id) {
     Pmgr.rmPrinter(id).then(update());
-    location.reload();
 }
 
 //script para eliminar una fila de grupos
 function deleteRowg(id) {
     Pmgr.rmGroup(id).then(update());
-    location.reload();
 }
 
 //script para eliminar una fila de trabajos pendientes
 function deleteWRow(id) {
     Pmgr.rmJob(id).then(update());
-    location.reload();
 }
 
 //Añadir una nueva impresora
@@ -400,7 +398,7 @@ function addRow() {
             PrinterStates.NO_INK
         )
     ).then(update());
-    location.reload();
+    
 }
 
 //Añadir un nuevo grupo
@@ -412,7 +410,6 @@ function addRowGr() {
             []
         )
     ).then(update());
-    location.reload();
 }
 
 function addFile() {
@@ -422,7 +419,7 @@ function addFile() {
     while (y < p.length && p[y].alias != impresora) {
         y++;
     }
-    let file = document.getElementById('namefile').files[0].name;
+   let file = document.getElementById('namefile').files[0].name;
 
     Pmgr.addJob(
         new Job(
@@ -432,7 +429,6 @@ function addFile() {
             file
         )
     ).then(update());
-    location.reload();
 }
 
 //Vincular una impresora a un grupo
@@ -531,7 +527,6 @@ function editPrinter() {
         p[y].ip = document.getElementById('ipEdit').value;
 
     Pmgr.setPrinter(p[y]);
-    Pmgr.setGroup(g[x]);
     update();
 }
 
@@ -552,8 +547,7 @@ function editGroup() {
     if (document.getElementById('nameEdit').value != "")
         g[y].name = document.getElementById('nameEdit').value;
 
-    Pmgr.setPrinter(p[y]);
-    Pmgr.setGroup(g[x]);
+    Pmgr.setGroup(g[y]);
     update();
 }
 
