@@ -1,8 +1,13 @@
 "use strict"
 
 import * as Pmgr from './pmgrapi.js'
-import { Printer, PrinterStates } from "./pmgrapi.js";
-import { Group } from "./pmgrapi.js";
+import {
+    Printer,
+    PrinterStates,
+    Group,
+    Job
+} from "./pmgrapi.js";
+
 
 /**
  * Librería de cliente para interaccionar con el servidor de PrinterManager (prmgr).
@@ -40,7 +45,10 @@ function createPrinterItem(printer, position) {
     };
 
     let allJobs = printer.queue.map((id) =>
-        `<span class="badge badge-secondary">${id}</span>`
+        `<span class="badge badge-dark">${id}</span>`
+    ).join(" ");
+    let allGroups = showGroupPrinters(printer.id).map((name) =>
+        `<span class="badge badge-info">${name}</span>`
     ).join(" ");
 
     return `
@@ -49,9 +57,9 @@ function createPrinterItem(printer, position) {
               <td>${printer.model}</td>
               <td>${printer.location}</td>
               <td>${printer.ip}</td>
-              <td>${getJobsFromPrinter(printer).length}</td>
-              <td>${showGroupPrinters(printer.id)}</td>
-              <td>${printer.status}</td>
+              <td>${allJobs}</td>
+              <td>${allGroups}</td>
+              <td><span class="badge badge-pill ${pillClass[printer.status.toLowerCase()]}">${printer.status}</span></td>
               <td>
                 <img src="./img/edit.png" onclick="editModalP(${printer.id})" />
                 <img src="./img/delete.png" onclick="deleteRow(${printer.id})" />
@@ -59,6 +67,43 @@ function createPrinterItem(printer, position) {
             </tr>
  `;
 }
+/*
+  function createPrinterItem(printer) {
+  const rid = 'x_' + Math.floor(Math.random()*1000000);
+  const hid = 'h_'+rid;
+  const cid = 'c_'+rid;
+
+  // usar [] en las claves las evalua (ver https://stackoverflow.com/a/19837961/15472)
+  const PS = Pmgr.PrinterStates;
+  let pillClass = { [PS.PAUSED] : "badge-secondary",
+                    [PS.PRINTING] : "badge-success",
+                    [PS.NO_INK] : "badge-danger",
+                    [PS.NO_PAPER] : "badge-danger" };
+
+  let allJobs = printer.queue.map((id) =>
+     `<span class="badge badge-secondary">${id}</span>`
+  ).join(" ");
+
+  return `
+    <div class="card">
+    <div class="card-header" id="${hid}">
+        <h4 class="mb-0">
+            ${printer.alias}
+        </h4>
+        <span class="badge badge-pill ${pillClass[printer.status.toLowerCase()]}">${printer.status}</span>
+    </div>
+    <div>
+        <div class="card-body pcard">
+            ${printer.model} at ${printer.location}
+            <hr>
+            ${allJobs}
+        </div>
+    </div>
+    </div>
+ `;
+}
+ */
+
 
 function createGroupItem(group, position) {
     const rid = 'x_' + Math.floor(Math.random() * 1000000);
@@ -77,11 +122,14 @@ function createGroupItem(group, position) {
      let allJobs = group.queue.map((id) =>
          `<span class="badge badge-secondary">${id}</span>`
      ).join(" ");*/
+    let allPrinters = group.printers.map((id) =>
+        `<span class="badge badge-secondary">${Pmgr.resolve(id).alias}</span>`
+    ).join(" ");
 
     return `
             <tr>
               <th scope="row">${group.name}</th>
-              <td>${group.printers.length}</td>
+              <td>${allPrinters}</td>
               <td>
                 <img src="./img/edit.png" onclick="editModalG(${group.id})" />
                 <img src="./img/delete.png" onclick="deleteRowg(${group.id})" />
@@ -90,7 +138,27 @@ function createGroupItem(group, position) {
             </tr>
  `;
 }
-function createFilesItem(file, position) {
+/*
+function createGroupItem(group) {
+  let allPrinters = group.printers.map((id) =>
+     `<span class="badge badge-secondary">${Pmgr.resolve(id).alias}</span>`
+  ).join(" ");
+ return `
+    <div class="card">
+    <div class="card-header">
+        <h4 class="mb-0">
+            <b class="pcard">${group.name}</b>
+        </h4>
+    </div>
+    <div class="card-body pcard">
+        ${allPrinters}
+    </div>
+    </div>
+`;
+}
+*/
+
+function createJobItem(file, position) {
     const rid = 'x_' + Math.floor(Math.random() * 1000000);
     const hid = 'h_' + rid;
     const cid = 'c_' + rid;
@@ -121,10 +189,47 @@ function createFilesItem(file, position) {
             </tr>
  `;
 }
+/*
+function createJobItem(job) {
+ return `
+    <div class="card">
+    <div class="card-header">
+        <h4 class="mb-0">
+            <b class="pcard">${job.fileName}</b>
+        </h4>
+    </div>
+    <div class="card-body pcard">
+        ${job.owner} @${Pmgr.resolve(job.printer).alias}
+    </div>
+    </div>
+`;
+}
+*/
+function buscar() {
+    var input, filter, table, tr, td, i, txtValue;
+    input = document.getElementById("search1");
+    filter = input.value.toUpperCase();
+    table = document.getElementById("myTable");
+    tr = table.getElementsByTagName("tr");
+    for (i = 0; i < tr.length; i++) {
+        td = tr[i].getElementsByTagName("th")[0];
+        if (td) {
+            txtValue = td.textContent || td.innerText;
+            if (txtValue.toUpperCase().indexOf(filter) > -1) {
+                tr[i].style.display = "";
+            } else {
+                tr[i].style.display = "none";
+            }
+        }
+    }
+}
+
 function getJobsFromPrinter(printer) {
     let works = [];
 
-    Pmgr.globalState.jobs.forEach(j => { if (j.printer == printer.id) works.push(j) });
+    Pmgr.globalState.jobs.forEach(j => {
+        if (j.printer == printer.id) works.push(j);
+    });
 
     return works;
 }
@@ -171,66 +276,43 @@ function getGroups() {
     return html;
 }
 
-// funcion para generar datos de ejemplo: impresoras, grupos, trabajos, ...
-// se puede no-usar, o modificar libremente
-async function populate(minPrinters, maxPrinters, minGroups, maxGroups, jobCount) {
-    const U = Pmgr.Util;
 
-    // genera datos de ejemplo
-    minPrinters = minPrinters || 10;
-    maxPrinters = maxPrinters || 20;
-    minGroups = minGroups || 1;
-    maxGroups = maxGroups || 3;
-    jobCount = jobCount || 100;
-    let lastId = 0;
 
-    let printers = U.fill(U.randomInRange(minPrinters, maxPrinters),
-        () => U.randomPrinter(lastId++));
+function update(result) {
+    try {
+        // vaciamos los contenedores
+        $("#printer_list").empty();
+        $("#group_list").empty();
+        $("#files_list").empty();
+        // y los volvemos a rellenar con su nuevo contenido
+        Pmgr.globalState.printers.forEach(m => $("#printer_list").append(createPrinterItem(m)));
+        Pmgr.globalState.groups.forEach(m => $("#group_list").append(createGroupItem(m)));
+        Pmgr.globalState.jobs.forEach(m => $("#files_list").append(createJobItem(m)));
 
-    let groups = U.fill(U.randomInRange(minPrinters, maxPrinters),
-        () => U.randomGroup(lastId++, printers, 50));
+        //selects vista impresora
+        $("#printers").empty();
+        $("#printers").append(getPrinters());
+        $("#groups").empty();
+        $("#groups").append(getGroups());
 
-    let jobs = [];
-    for (let i = 0; i < jobCount; i++) {
-        let p = U.randomChoice(printers);
-        let j = new Pmgr.Job(lastId++,
-            p.id,
-            [
-                U.randomChoice([
-                    "Alice", "Bob", "Carol", "Daryl", "Eduardo", "Facundo", "Gloria", "Humberto"]),
-                U.randomChoice([
-                    "Fernández", "García", "Pérez", "Giménez", "Hervás", "Haya", "McEnroe"]),
-                U.randomChoice([
-                    "López", "Gutiérrez", "Pérez", "del Oso", "Anzúa", "Báñez", "Harris"]),
-            ].join(" "),
-            U.randomString() + ".pdf");
-        p.queue.push(j.id);
-        jobs.push(j);
+        //selects vista grupos
+        $("#printersg").empty();
+        $("#printersg").append(getPrinters());
+        $("#groupsg").empty();
+        $("#groupsg").append(getGroups());
+
+        //Selects de imprimir
+        //$("#printersg").empty();
+        $("#pepito").html(getPrinters());
+
+
+    } catch (e) {
+        console.log('Error actualizando', e);
     }
 
-    if (Pmgr.globalState.token) {
-        console.log("Updating server with all-new data");
 
-        // FIXME: remove old data
-        // FIXME: prepare update-tasks
-        let tasks = [];
-        for (let t of tasks) {
-            try {
-                console.log("Starting a task ...");
-                await t().then(console.log("task finished!"));
-            } catch (e) {
-                console.log("ABORTED DUE TO ", e);
-            }
-        }
-    } else {
-        console.log("Local update - not connected to server");
-        Pmgr.updateState({
-            jobs: jobs,
-            printers: printers,
-            groups: groups
-        });
-    }
 }
+
 
 //
 // PARTE 2:
@@ -238,38 +320,22 @@ async function populate(minPrinters, maxPrinters, minGroups, maxGroups, jobCount
 // Generalmente de la forma $("selector").cosaQueSucede(...)
 //
 $(function () {
-
-    // funcion de actualización de ejemplo. Llámala para refrescar interfaz
-    function update(result) {
-        reloadPrinters();
-        reloadGroups();
-        reloadFiles();
-    }
-
-
     // Servidor a utilizar. También puedes lanzar tú el tuyo en local (instrucciones en Github)
-    const serverUrl = "http://localhost:8080/api/";
+    const serverUrl = "http://gin.fdi.ucm.es:3128/api/";
     Pmgr.connect(serverUrl);
 
     // ejemplo de login
-    Pmgr.login("HDY0IQ", "cMbwKQ").then(d => {
+    Pmgr.login("g9", "Grupo_09IU").then(d => {
         if (d !== undefined) {
-            const u = Gb.resolve("HDY0IQ");
-            console.log("login ok!", u);
+            console.log("login ok!");
+            update();
         } else {
             console.log(`error en login (revisa la URL: ${serverUrl}, y verifica que está vivo)`);
             console.log("Generando datos de ejemplo para uso en local...")
 
-            populate();
+            Pmgr.populate();
             update();
         }
-    });
-});
-
-$(document).ready(function () {
-    $('#sidebarCollapse').on('click', function () {
-        $('#sidebar').toggleClass('active');
-        $(this).toggleClass('active');
     });
 });
 
@@ -281,6 +347,11 @@ function ocultar(parent, ajeno, ajeno2) {
 }
 
 $(document).ready(function () {
+    $('#sidebarCollapse').on('click', function () {
+        $('#sidebar').toggleClass('active');
+        $(this).toggleClass('active');
+    });
+
     $('.menu').click(function (e) {
         if (e.target.matches("img")) {
             $('.imgmenu').css('backgroundColor', '#acbed4');
@@ -290,6 +361,9 @@ $(document).ready(function () {
 
     /* Seleccionado impresoras por defecto*/
     $('#i').css('backgroundColor', '#718fb3');
+
+
+
 });
 
 $(function () {
@@ -298,217 +372,134 @@ $(function () {
 
 //script para eliminar una fila nueva a las impresoras
 function deleteRow(id) {
-    let p = Pmgr.globalState.printers;
-    let k=0;
-    while(k < p.length && p[k].id != id) {
-        k++;
-    }
-    if(k != p.length){
-      p.splice(k, 1);
-    }
-    let  g = Pmgr.globalState.groups;
-    for(let i =0; i < g.length; ++i){
-        let j= 0;
-        while(j <g[i].printers.length && g[i].printers[j] != id){
-           j++;
-        }
-        if(j != g[i].printers.length) {
-            g[i].printers.splice(j,1);
-        }
-    }
-
-    let  f = Pmgr.globalState.jobs;
-    for(let i =0; i < f.length; ++i){
-        if(f[i].printer == id){
-           f.splice(i,1);
-           i--;
-        }
-    }
-    reloadPrinters();
-    reloadGroups();
-    reloadFiles();
+    Pmgr.rmPrinter(id).then(update());
 }
 
 //script para eliminar una fila de grupos
 function deleteRowg(id) {
-    let g = Pmgr.globalState.groups;
-    let k=0;
-    while(k < g.length && g[k].id != id) {
-        k++;
-    }
-    if(k != g.length){
-      g.splice(k, 1);
-    }
-    reloadGroups();
-    reloadPrinters();
+    Pmgr.rmGroup(id).then(update());
 }
-
 
 //script para eliminar una fila de trabajos pendientes
 function deleteWRow(id) {
-    let f = Pmgr.globalState.jobs;
-    let k=0;
-    while(k < f.length && f[k].id != id) {
-        k++;
-    }
-    if(k != f.length){
-      f.splice(k, 1);
-    }
-    reloadFiles();
+    Pmgr.rmJob(id).then(update());
 }
 
-//script para añadir una fila nueva a las impresoras
+//Añadir una nueva impresora
 function addRow() {
-    Pmgr.globalState.printers.push(
+    Pmgr.addPrinter(
         new Printer(
             Pmgr.globalState.printers.length,
             document.getElementById('alias').value,
             document.getElementById('modelo').value,
             document.getElementById('lugar').value,
             document.getElementById('ip').value,
-            null,
+            [],
             PrinterStates.NO_INK
         )
-    );
-
-    reloadPrinters();
+    ).then(update());
+    
 }
 
-function reloadPrinters() {
-    try {
-        // vaciamos un contenedor
-        $("#printer_list").empty();
-        // y lo volvemos a rellenar con su nuevo contenido
-        Pmgr.globalState.printers.forEach(m => $("#printer_list").append(createPrinterItem(m, Pmgr.globalState.printers.indexOf(m))));
-        // y asi para cada cosa que pueda haber cambiado
-        $("#printers").empty();
-        $("#printers").append(getPrinters());
-        $("#groups").empty();
-        $("#groups").append(getGroups());
-    } catch (e) {
-        console.log('Error actualizando', e);
-    }
-}
-function reloadFilesCosas() {
-    //$("#printersg").empty();
-    $("#pepito").html(getPrinters());
-    // $("#groupsg").empty();
-    $("#jorgito").html(getGroups());
-}
-function reloadGroups() {
-    try {
-        // vaciamos un contenedor
-        $("#group_list").empty();
-        // y lo volvemos a rellenar con su nuevo contenido
-        Pmgr.globalState.groups.forEach(m => $("#group_list").append(createGroupItem(m, Pmgr.globalState.groups.indexOf(m))));
-        // y asi para cada cosa que pueda haber cambiado
-        $("#printersg").empty();
-        $("#printersg").append(getPrinters());
-        $("#groupsg").empty();
-        $("#groupsg").append(getGroups());
-    } catch (e) {
-        console.log('Error actualizando', e);
-    }
-}
-
-function reloadFiles() {
-    try {
-        // vaciamos un contenedor
-        $("#files_list").empty();
-        // y lo volvemos a rellenar con su nuevo contenido
-        Pmgr.globalState.jobs.forEach(m => $("#files_list").append(createFilesItem(m, Pmgr.globalState.jobs.indexOf(m))));
-        // y asi para cada cosa que pueda haber cambiado
-
-    } catch (e) {
-        console.log('Error actualizando', e);
-    }
-}
-
+//Añadir un nuevo grupo
 function addRowGr() {
-    //TODO en implementación js
-    Pmgr.globalState.groups.push(
+    Pmgr.addGroup(
         new Group(
             Pmgr.globalState.groups.length,
             document.getElementById('nameg').value,
-            null,
+            []
         )
-    );
-
-    reloadGroups();
+    ).then(update());
 }
 
-
-$(document).ready(function () { 
-    $('#trabajos').on('show.bs.modal', function (e) {
-          reloadFilesCosas();
-     });
-});
-
-function addPrinterToGroup(){
-    let impresora = $( "#printers option:selected" ).text();
-    if(impresora == "Impresoras...") impresora = $( "#printersg option:selected" ).text();
-    let grupo = $( "#groups option:selected" ).text();
-    if(grupo == "Grupos...") grupo = $( "#groupsg option:selected" ).text();
-    let  g = Pmgr.globalState.groups;
+function addFile() {
+    let impresora = $("#pepito option:selected").text();
     let p = Pmgr.globalState.printers;
-    let x =0, y =0;
-    while(x < g.length && g[x].name != grupo){
+    let y = 0;
+    while (y < p.length && p[y].alias != impresora) {
+        y++;
+    }
+   let file = document.getElementById('namefile').files[0].name;
+
+    Pmgr.addJob(
+        new Job(
+            Pmgr.globalState.jobs.length,
+            p[y].id,
+            "grupo09",
+            file
+        )
+    ).then(update());
+}
+
+//Vincular una impresora a un grupo
+function addPrinterToGroup() {
+    let impresora = $("#printers option:selected").text();
+    if (impresora == "Impresoras...") impresora = $("#printersg option:selected").text();
+    let grupo = $("#groups option:selected").text();
+    if (grupo == "Grupos...") grupo = $("#groupsg option:selected").text();
+    let g = Pmgr.globalState.groups;
+    let p = Pmgr.globalState.printers;
+    let x = 0,
+        y = 0;
+    while (x < g.length && g[x].name != grupo) {
         x++;
     }
-    while(y < p.length && p[y].alias != impresora){
+    while (y < p.length && p[y].alias != impresora) {
         y++;
     }
 
-    let i=0;
-    while(g[x].printers[i] != p[y].id && i < g[x].printers.length){
+    let i = 0;
+    while (g[x].printers[i] != p[y].id && i < g[x].printers.length) {
         i++;
     }
-    if(i == g[x].printers.length){
-    g[x].printers.push(p[y].id);
-    alert("Se ha vinculado la impresora " + impresora + " del grupo " + grupo );
-    }
-    else alert("No se ha vinculado la impresora");
-
-    reloadGroups();
-    reloadPrinters();
+    if (i == g[x].printers.length) {
+        g[x].printers.push(p[y].id);
+        alert("Se ha vinculado la impresora " + impresora + " del grupo " + grupo);
+    } else alert("No se ha vinculado la impresora");
+    Pmgr.setPrinter(p[y]);
+    Pmgr.setGroup(g[x]);
+    update();
 
 }
-function delPrinterToGroup(){
-    let impresora = $( "#printers option:selected" ).text();
-    if(impresora == "Impresoras...") impresora = $( "#printersg option:selected" ).text();
-    let grupo = $( "#groups option:selected" ).text();
-    if(grupo == "Grupos...") grupo = $( "#groupsg option:selected" ).text();
-    let  g = Pmgr.globalState.groups;
+
+//Desvincular una impresora de un grupo
+function delPrinterToGroup() {
+    let impresora = $("#printers option:selected").text();
+    if (impresora == "Impresoras...") impresora = $("#printersg option:selected").text();
+    let grupo = $("#groups option:selected").text();
+    if (grupo == "Grupos...") grupo = $("#groupsg option:selected").text();
+    let g = Pmgr.globalState.groups;
     let p = Pmgr.globalState.printers;
-    let x =0, y =0;
-    while(x < g.length && g[x].name != grupo){
+    let x = 0,
+        y = 0;
+    while (x < g.length && g[x].name != grupo) {
         x++;
     }
-    while(y < p.length && p[y].alias != impresora){
+    while (y < p.length && p[y].alias != impresora) {
         y++;
     }
-    let i=0;
-    while(g[x].printers[i] != p[y].id && i < g[x].printers.length){
+    let i = 0;
+    while (g[x].printers[i] != p[y].id && i < g[x].printers.length) {
         i++;
     }
-    if(i < g[x].printers.length){
+    if (i < g[x].printers.length) {
         g[x].printers.splice(i, 1);
-        alert("Se ha desvinculado la impresora " + impresora + " del grupo " + grupo );
-    }
-    else alert("No se ha desvinculado la impresora");
-    
-    reloadGroups();
-    reloadPrinters();
+        alert("Se ha desvinculado la impresora " + impresora + " del grupo " + grupo);
+    } else alert("No se ha desvinculado la impresora");
+
+    Pmgr.setPrinter(p[y]);
+    Pmgr.setGroup(g[x]);
+    update();
 
 }
 
-function showGroupPrinters(printerId){
-    let resultado= "| ";
-    let  g = Pmgr.globalState.groups;
-    for(let i =0; i < g.length; ++i){
-        for(let j=0; j < g[i].printers.length; ++j){
-            if(g[i].printers[j] == printerId)
-                resultado += g[i].name + " | ";
+function showGroupPrinters(printerId) {
+    let resultado = [];
+    let g = Pmgr.globalState.groups;
+    for (let i = 0; i < g.length; ++i) {
+        for (let j = 0; j < g[i].printers.length; ++j) {
+            if (g[i].printers[j] == printerId)
+                resultado.push(g[i].name);
         }
     }
     return resultado;
@@ -516,65 +507,69 @@ function showGroupPrinters(printerId){
 
 let idP;
 
-function editModalP(idPrinter){
+function editModalP(idPrinter) {
     $('#editModalP').modal('show');
     idP = idPrinter;
 }
-function editPrinter(){
+
+function editPrinter() {
     let p = Pmgr.globalState.printers;
-    let y =0;
-    while(y < p.length && p[y].id != idP){
+    let y = 0;
+    while (y < p.length && p[y].id != idP) {
         y++;
     }
 
-    if( document.getElementById('aliasEdit').value != "")
-        p[y].alias =  document.getElementById('aliasEdit').value;
-    if(document.getElementById('lugarEdit').value != "")
+    if (document.getElementById('aliasEdit').value != "")
+        p[y].alias = document.getElementById('aliasEdit').value;
+    if (document.getElementById('lugarEdit').value != "")
         p[y].location = document.getElementById('lugarEdit').value;
-    if(document.getElementById('ipEdit').value != "")
+    if (document.getElementById('ipEdit').value != "")
         p[y].ip = document.getElementById('ipEdit').value;
 
-    reloadPrinters();
+    Pmgr.setPrinter(p[y]);
+    update();
 }
 
-let idG= idP+1;
+let idG = idP + 1;
 
-function editModalG(idGroup){
+function editModalG(idGroup) {
     $('#editModalG').modal('show');
     idG = idGroup;
 }
-function editGroup(){
+
+function editGroup() {
     let g = Pmgr.globalState.groups;
-    let y =0;
-    while(y < g.length && g[y].id != idG){
+    let y = 0;
+    while (y < g.length && g[y].id != idG) {
         y++;
     }
 
-    if( document.getElementById('nameEdit').value != "")
-        g[y].name =  document.getElementById('nameEdit').value;
+    if (document.getElementById('nameEdit').value != "")
+        g[y].name = document.getElementById('nameEdit').value;
 
-    reloadGroups();
-    reloadPrinters();
+    Pmgr.setGroup(g[y]);
+    update();
 }
 
 // cosas que exponemos para usarlas desde la consola
-window.populate = populate;
+/*window.populate = populate;*/
 window.Pmgr = Pmgr;
 window.createPrinterItem = createPrinterItem;
 window.createGroupItem = createGroupItem;
-window.createFilesItem = createFilesItem;
+window.createJobItem = createJobItem;
 window.ocultar = ocultar;
 window.deleteRow = deleteRow;
 window.deleteRowg = deleteRowg;
 window.deleteWRow = deleteWRow
 window.addRow = addRow;
 window.addRowGr = addRowGr;
+window.addFile = addFile;
 window.getPrinters = getPrinters;
 window.getGroups = getGroups;
-window.reloadFilesCosas = reloadFilesCosas;
 window.addPrinterToGroup = addPrinterToGroup;
 window.delPrinterToGroup = delPrinterToGroup;
 window.editModalP = editModalP;
 window.editPrinter = editPrinter;
 window.editModalG = editModalG;
 window.editGroup = editGroup;
+window.buscar = buscar;
