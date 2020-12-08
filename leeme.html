@@ -5,30 +5,26 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+    <link rel="stylesheet" href="./css/custom.css">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
     <title>Leeme.html</title>
-    <h1>PRINTALITY: Grupo 9</h1>
-    <p>Noelia Calderón Mateo</p>
-    <p>Carlos González Torres</p>
-    <p>Miguel Robledo Blanco</p>
-    <p>José Andrés Velasco Santos</p>
 </head>
 
 <body>
     <div class="container">
-
+        <h1 id="titulo">PRINTALITY: Grupo 9</h1>
         <h3>Cambios realizados en la interfaz</h3>
-       <div class="tab">
-           <button class= "tablinks" onclick="opentab(evento, 'v1')">
-            Entrega 1
-           </button>
-           <button class= "tablinks" onclick="opentab(evento, 'v2')">
-            Entrega 2
-           </button>
-       </div>
+        <div class="tab">
+            <button class="tablinks active" onclick="opentab(event, 'v1')">
+                Entrega 1
+            </button>
+            <button class="tablinks" onclick="opentab(event, 'v2')">
+                Entrega 2
+            </button>
+        </div>
         <br>
-        <div class="tabcontent" id="v1">
+        <div class="tabcontent" id="v1" style="display: block;">
             <ul>
                 <li>Modificación del menú lateral. Se ha añadido el acceso a trabajos pendientes.</li>
                 <li>Modificación en las tablas de gestión de impresoras.
@@ -63,21 +59,28 @@
                     </ul>
                 </li>
         </div>
+        <div id="names">
+            <p>Noelia Calderón Mateo</p>
+            <p>Carlos González Torres</p>
+            <p>Miguel Robledo Blanco</p>
+            <p>José Andrés Velasco Santos</p>
+        </div>
+
     </div>
-<script>
-    function opentab(evt, cityName) {
-      var i, tabcontent, tablinks;
-      tabcontent = document.getElementsByClassName("tabcontent");
-      for (i = 0; i < tabcontent.length; i++) {
-        tabcontent[i].style.display = "none";
-      }
-      tablinks = document.getElementsByClassName("tablinks");
-      for (i = 0; i < tablinks.length; i++) {
-        tablinks[i].className = tablinks[i].className.replace(" active", "");
-      }
-      document.getElementById(cityName).style.display = "block";
-      evt.currentTarget.className += " active";
-    }
+    <script>
+        function opentab(evt, cityName) {
+            var i, tabcontent, tablinks;
+            tabcontent = document.getElementsByClassName("tabcontent");
+            for (i = 0; i < tabcontent.length; i++) {
+                tabcontent[i].style.display = "none";
+            }
+            tablinks = document.getElementsByClassName("tablinks");
+            for (i = 0; i < tablinks.length; i++) {
+                tablinks[i].className = tablinks[i].className.replace(" active", "");
+            }
+            document.getElementById(cityName).style.display = "block";
+            evt.currentTarget.className += " active";
+        }
     </script>
 </body>
 
