@@ -372,17 +372,17 @@ $(function () {
 
 //script para eliminar una fila nueva a las impresoras
 function deleteRow(id) {
-    Pmgr.rmPrinter(id).then(update());
+    Pmgr.rmPrinter(id).then(update);
 }
 
 //script para eliminar una fila de grupos
 function deleteRowg(id) {
-    Pmgr.rmGroup(id).then(update());
+    Pmgr.rmGroup(id).then(update);
 }
 
 //script para eliminar una fila de trabajos pendientes
 function deleteWRow(id) {
-    Pmgr.rmJob(id).then(update());
+    Pmgr.rmJob(id).then(update);
 }
 
 //Añadir una nueva impresora
@@ -397,7 +397,7 @@ function addRow() {
             [],
             PrinterStates.NO_INK
         )
-    ).then(update());
+    ).then(update);
     
 }
 
@@ -409,7 +409,7 @@ function addRowGr() {
             document.getElementById('nameg').value,
             []
         )
-    ).then(update());
+    ).then(update);
 }
 
 function addFile() {
@@ -428,7 +428,7 @@ function addFile() {
             "grupo09",
             file
         )
-    ).then(update());
+    ).then(update);
 }
 
 //Vincular una impresora a un grupo
