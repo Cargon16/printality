@@ -248,7 +248,7 @@ function getPrinters() {
         let tam = array.length;
         for (let i = 0; i < tam; i++) {
             html += `
-                    <option value= "${array[i]}" >${array[i]}</option>
+                    <option value= "${i}" >${array[i]}</option>
             `;
         };
     }
@@ -269,7 +269,7 @@ function getGroups() {
         let tam = array.length;
         for (let i = 0; i < tam; i++) {
             html += `
-                    <option value= "${array[i]}" >${array[i]}</option>
+                    <option value= "${i}" >${array[i]}</option>
             `;
         };
     }
@@ -363,7 +363,21 @@ $(document).ready(function () {
     $('#i').css('backgroundColor', '#718fb3');
 
 
+    $('#printers').on('change', function () {
+        updateAddOrDeleteButtons();
+    });
 
+    $('#groups').on('change', function () {
+        updateAddOrDeleteButtons();
+    });
+
+    $('#printersg').on('change', function () {
+        updateAddOrDeleteGButtons();
+    });
+
+    $('#groupsg').on('change', function () {
+        updateAddOrDeleteGButtons();
+    });
 });
 
 $(function () {
@@ -491,6 +505,60 @@ function delPrinterToGroup() {
     Pmgr.setGroup(g[x]);
     update();
 
+}
+
+function updateAddOrDeleteButtons() {
+    let printerSelected = $('#printers').val();
+    let groupSelected = $('#groups').val();
+
+    if (!isNaN(printerSelected) && !isNaN(groupSelected)) {
+        let group = Pmgr.globalState.groups[groupSelected];
+        let printer = Pmgr.globalState.printers[printerSelected];
+
+        if (group.printers.indexOf(printer.id) == -1) {
+            $('#submit_v').prop("disabled", false);
+            $('#submit_v').addClass("submit_v");
+            $('#submit_d').prop("disabled", true);
+            $('#submit_d').removeClass("submit_d");
+        } else {
+            $('#submit_v').prop("disabled", true);
+            $('#submit_v').removeClass("submit_v");
+            $('#submit_d').prop("disabled", false);
+            $('#submit_d').addClass("submit_d");
+        }
+    } else {
+        $('#submit_v').prop("disabled", false);
+        $('#submit_v').addClass("submit_v");
+        $('#submit_d').prop("disabled", false);
+        $('#submit_d').addClass("submit_d");
+    }
+}
+
+function updateAddOrDeleteGButtons() {
+    let printerSelected = $('#printersg').val();
+    let groupSelected = $('#groupsg').val();
+
+    if (!isNaN(printerSelected) && !isNaN(groupSelected)) {
+        let group = Pmgr.globalState.groups[groupSelected];
+        let printer = Pmgr.globalState.printers[printerSelected];
+
+        if (group.printers.indexOf(printer.id) == -1) {
+            $('#submit_vg').prop("disabled", false);
+            $('#submit_vg').addClass("submit_v");
+            $('#submit_dg').prop("disabled", true);
+            $('#submit_dg').removeClass("submit_d");
+        } else {
+            $('#submit_vg').prop("disabled", true);
+            $('#submit_vg').removeClass("submit_v");
+            $('#submit_dg').prop("disabled", false);
+            $('#submit_dg').addClass("submit_d");
+        }
+    } else {
+        $('#submit_vg').prop("disabled", false);
+        $('#submit_vg').addClass("submit_v");
+        $('#submit_dg').prop("disabled", false);
+        $('#submit_dg').addClass("submit_d");
+    }
 }
 
 function showGroupPrinters(printerId) {
