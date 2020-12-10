@@ -354,6 +354,8 @@ $(function () {
 //Función para ocultar/mostrar las distintas vistas
 function ocultar(parent, ajeno, ajeno2) {
     view = parent;
+    let msg = parent.slice(1, parent.length);
+    $('#search1').attr('placeholder', "Buscar " + msg + "...")
     $(ajeno).hide();
     $(ajeno2).hide();
     $(parent).show();
@@ -631,10 +633,14 @@ function editGroup() {
     Pmgr.setGroup(g[y]);
     update();
 }
+function getView() {
+    return view;
+}
 
 // cosas que exponemos para usarlas desde la consola
 /*window.populate = populate;*/
 window.Pmgr = Pmgr;
+window.getView = getView;
 window.createPrinterItem = createPrinterItem;
 window.createGroupItem = createGroupItem;
 window.createJobItem = createJobItem;
