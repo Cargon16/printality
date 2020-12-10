@@ -205,11 +205,23 @@ function createJobItem(job) {
 `;
 }
 */
+
+let view = '#impresoras';
 function buscar() {
     var input, filter, table, tr, td, i, txtValue;
     input = document.getElementById("search1");
     filter = input.value.toUpperCase();
-    table = document.getElementById("myTable");
+    if( view == '#impresoras') {
+        table = document.getElementById("myTable");
+        
+    }
+    else if( view == '#grupos') {
+        table = document.getElementById("myTable1");
+        
+    }
+    else if( view == '#documentos') {
+        table = document.getElementById('myWorks');
+    }
     tr = table.getElementsByTagName("tr");
     for (i = 0; i < tr.length; i++) {
         td = tr[i].getElementsByTagName("th")[0];
@@ -341,6 +353,7 @@ $(function () {
 
 //Función para ocultar/mostrar las distintas vistas
 function ocultar(parent, ajeno, ajeno2) {
+    view = parent;
     $(ajeno).hide();
     $(ajeno2).hide();
     $(parent).show();
