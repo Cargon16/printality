@@ -259,6 +259,12 @@ a:focus {
     margin-right: 3%;
     height: 3%;
 }
+#submit_v {
+    padding: 2px 10px;
+    border-radius: 3px;
+    margin-right: 3%;
+    height: 3%;
+}
 
 .submit_v:hover {
     background-color:   #4d7091;
@@ -269,6 +275,14 @@ a:focus {
     background-color: #b45959;
     color: whitesmoke;
     border-radius: 3px;
+    margin-left: 3%;
+    height: 3%;
+}
+
+#submit_d {
+    padding: 2px 10px;
+    border-radius: 3px;
+    margin-left: 3%;
     height: 3%;
 }
 .submit_d:hover {

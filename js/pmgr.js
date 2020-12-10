@@ -468,7 +468,7 @@ function addPrinterToGroup() {
     }
     if (i == g[x].printers.length) {
         g[x].printers.push(p[y].id);
-        alert("Se ha vinculado la impresora " + impresora + " del grupo " + grupo);
+       // alert("Se ha vinculado la impresora " + impresora + " del grupo " + grupo);
     } else alert("No se ha vinculado la impresora");
     Pmgr.setPrinter(p[y]);
     Pmgr.setGroup(g[x]);
@@ -498,7 +498,7 @@ function delPrinterToGroup() {
     }
     if (i < g[x].printers.length) {
         g[x].printers.splice(i, 1);
-        alert("Se ha desvinculado la impresora " + impresora + " del grupo " + grupo);
+        //alert("Se ha desvinculado la impresora " + impresora + " del grupo " + grupo);
     } else alert("No se ha desvinculado la impresora");
 
     Pmgr.setPrinter(p[y]);
