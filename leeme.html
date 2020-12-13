@@ -16,13 +16,13 @@
         <h1 id="titulo">PRINTALITY: Grupo 9</h1>
         <h3>Cambios realizados en la interfaz</h3>
         <div class="tab">
-            <button class="tablinks active" onclick="opentab(event, 'v1')">
+            <button class="tablinks active" id="entrega1" autofocus onclick="opentab(event, 'v1')">
                 Entrega 1
             </button>
-            <button class="tablinks" onclick="opentab(event, 'v2')">
+            <button class="tablinks" id="entrega2" onclick="opentab(event, 'v2')">
                 Entrega 2
             </button>
-            <button class="tablinks" onclick="opentab(event, 'v3')">
+            <button class="tablinks" id="entrega2" onclick="opentab(event, 'v3')">
                 Entrega 3
             </button>
         </div>
@@ -45,7 +45,7 @@
                 </li>
             </ul>
         </div>
-        <div class="tabcontent" id="v2">
+        <div class="tabcontent" id="v2" style="display: none;">
             <ul>
                 <li>Eliminado el botón de cancelar del menú superior.</li>
                 <li>Modificada la vista de impresión. Ahora utiliza input type file en vez de mostrar los trabajos
@@ -62,7 +62,7 @@
                     </ul>
                 </li>
         </div>
-        <div class="tabcontent" id="v3">
+        <div class="tabcontent" id="v3" style="display: none;">
             <ul>
                 <li>Modificada la url del servidor y el nombre y contraseña de usuario.</li>
                 <li>Modificado placeholder de la barra de busqueda, varía en funcion de la tabla seleccionada(impresoras,grupos o trabajos).</li>
