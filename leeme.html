@@ -22,6 +22,9 @@
             <button class="tablinks" onclick="opentab(event, 'v2')">
                 Entrega 2
             </button>
+            <button class="tablinks" onclick="opentab(event, 'v3')">
+                Entrega 3
+            </button>
         </div>
         <br>
         <div class="tabcontent" id="v1" style="display: block;">
@@ -59,12 +62,40 @@
                     </ul>
                 </li>
         </div>
+        <div class="tabcontent" id="v3">
+            <ul>
+                <li>Modificada la url del servidor y el nombre y contraseña de usuario.</li>
+                <li>Modificado placeholder de la barra de busqueda, varía en funcion de la tabla seleccionada(impresoras,grupos o trabajos).</li>
+                <li>Buscar filtra en todas las tablas.</li>
+                <li>Modificado el codigo de color para las tablas:
+                    <ul>
+                        <li>Verde y rojo para estados de impresión positivos y negativos(imprimiendo o sin papel).</li>
+                        <li>Azul para los grupos a los que pertenece una impresora.</li>
+                        <li>Negro para trabajos en cola.</li>
+                        <li>Gris para las impresoras pertenecientes a un grupo(vista gestión de grupos).</li> 
+                    </ul>
+                </li>
+                <li>Añadida funcionalidad al icono de editar(grupos e impresoras).</li>
+                <li>Scripts para borrar una fila de grupos, impresoras y trabajos.</li>
+                <li>El botón para imprimir trabajos solo acepta ficheros pdf.</li>
+                <li>Los botones de vincular y desvincular se activan y desactivan si:
+                    <ul>
+                        <li>Se intenta vincular una impresora a un grupo al que ya pertenece.</li>
+                        <li>Se intenta desvincular una impresora a un grupo al que no pertenece.</li>
+                    </ul>
+                </li>
+            
+                
+                
+                
+        </div>
         <div id="names">
             <p>Noelia Calderón Mateo</p>
             <p>Carlos González Torres</p>
             <p>Miguel Robledo Blanco</p>
             <p>José Andrés Velasco Santos</p>
         </div>
+        
 
     </div>
     <script>
