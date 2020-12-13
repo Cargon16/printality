@@ -393,6 +393,7 @@ $(document).ready(function () {
     $('#groupsg').on('change', function () {
         updateAddOrDeleteGButtons();
     });
+    
 });
 
 $(function () {
@@ -419,7 +420,7 @@ function checkPrinterModelo(id) {
 
     if (!regExp.test(document.getElementById(id).value)) {
         document.getElementById(id).value = "";
-        alert("Modelo no válido");
+        $(document.getElementById(id)).addClass("is-invalid");
         return false;
     }
 
@@ -431,7 +432,7 @@ function checkPrinterAlias(id) {
 
     if (!regExp.test(document.getElementById(id).value)) {
         document.getElementById(id).value = "";
-        alert("Alias no válido");
+        $(document.getElementById(id)).addClass("is-invalid");
         return false;
     }
 
@@ -443,7 +444,7 @@ function checkPrinterLugar(id) {
 
     if (!regExp.test(document.getElementById(id).value)) {
         document.getElementById(id).value = "";
-        alert("Lugar no válido");
+        $(document.getElementById(id)).addClass("is-invalid");
         return false;
     }
 
@@ -455,7 +456,7 @@ function checkPrinterIP(id) {
 
     if (!regExp.test(document.getElementById(id).value)) {
         document.getElementById(id).value = "";
-        alert("IP no válida");
+        $(document.getElementById(id)).addClass("is-invalid");
         return false;
     }
 
@@ -487,7 +488,7 @@ function checkGroupName(id) {
 
     if (!regExp.test(document.getElementById(id).value)) {
         document.getElementById(id).value = "";
-        alert("Nombre no válido");
+        $(document.getElementById(id)).addClass("is-invalid");
         return false;
     }
 
@@ -617,6 +618,25 @@ function updateAddOrDeleteButtons() {
         $('#submit_d').addClass("submit_d");
     }
 }
+$('#editModalP').on('hidden.bs.modal', function(){
+    $(this).find('form')[0].reset();
+    $('#ipEdit').removeClass("is-invalid");
+});
+$('#exampleModal').on('hidden.bs.modal', function(){
+    $(this).find('form')[0].reset();
+    $('#modelo').removeClass("is-invalid");
+    $('#alias').removeClass("is-invalid");
+    $('#lugar').removeClass("is-invalid");
+    $('#ip').removeClass("is-invalid");
+});
+$('#exampleModalGr').on('hidden.bs.modal', function(){
+    $(this).find('form')[0].reset();
+    $('#nameg').removeClass("is-invalid");
+});
+$('#editModalG').on('hidden.bs.modal', function(){
+    $(this).find('form')[0].reset();
+    $('#nameEdit').removeClass("is-invalid");
+});
 
 function updateAddOrDeleteGButtons() {
     let printerSelected = $('#printersg').val();
@@ -665,8 +685,8 @@ function editModalP(idPrinter) {
 }
 
 function editPrinter() {
-    if (checkPrinterAlias('aliasEdit') && checkPrinterLugar('lugarEdit') && checkPrinterIP('ipEdit')) {
-        $('#editModalP').modal('hide');
+    //if (checkPrinterAlias('aliasEdit') && checkPrinterLugar('lugarEdit') && checkPrinterIP('ipEdit')) {
+       
         $('body').removeClass('modal-open');
         $('.modal-backdrop').remove();
         let p = Pmgr.globalState.printers;
@@ -675,16 +695,28 @@ function editPrinter() {
             y++;
         }
 
-        if (document.getElementById('aliasEdit').value != "")
-            p[y].alias = document.getElementById('aliasEdit').value;
-        if (document.getElementById('lugarEdit').value != "")
-            p[y].location = document.getElementById('lugarEdit').value;
-        if (document.getElementById('ipEdit').value != "")
-            p[y].ip = document.getElementById('ipEdit').value;
+        if (document.getElementById('aliasEdit').value != "") {
+            if(checkPrinterAlias('aliasEdit')) {
+                $('#editModalP').modal('hide');
+                p[y].alias = document.getElementById('aliasEdit').value;
+            }
+        }
+        if (document.getElementById('lugarEdit').value != "") {
+         if(checkPrinterLugar('lugarEdit')) {
+            $('#editModalP').modal('hide');
+                p[y].location = document.getElementById('lugarEdit').value;
+            }
+        }
+        if (document.getElementById('ipEdit').value != ""){
+            if(checkPrinterIP('ipEdit')) {
+                $('#editModalP').modal('hide');
+                p[y].ip = document.getElementById('ipEdit').value;
+            }
+        }
 
         Pmgr.setPrinter(p[y]);
         update();
-    }
+    //}
 }
 
 let idG = idP + 1;
