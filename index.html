@@ -294,7 +294,7 @@
     <!-- ventana para seleccionar items para imprimir -->
     <div class="modal fade bd-example-modal-lg" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel"
       aria-hidden="true" id="trabajos">
-      <div class="modal-dialog modal-lg">
+      <div class="modal-dialog modal-lg" >
         <div class="modal-content">
           <div class="modal-header">
             <h5 class="modal-title">Seleciona un archivo pdf para imprimir</h5>
@@ -312,7 +312,8 @@
                 </select>
               </div>
 
-              <button type="button" class="btn btn-success accept" onclick="addFile();">Aceptar</button>
+              <button type="button" class="btn btn-success" onclick="addFile();"
+              aria-label="Close">Aceptar</button>
               <button type="button" class="btn btn-danger float-right" data-dismiss="modal"
               aria-label="Close">Cancelar</button>
             </form>

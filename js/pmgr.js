@@ -528,6 +528,9 @@ function addFile() {
             file
         )
     ).then(update);
+    $('#trabajos').modal('hide');
+    $('body').removeClass('modal-open');
+    $('.modal-backdrop').remove();
 }
 
 //Vincular una impresora a un grupo
@@ -618,6 +621,8 @@ function updateAddOrDeleteButtons() {
         $('#submit_d').addClass("submit_d");
     }
 }
+
+//limpiar modales
 $('#editModalP').on('hidden.bs.modal', function(){
     $(this).find('form')[0].reset();
     $('#ipEdit').removeClass("is-invalid");
@@ -636,6 +641,10 @@ $('#exampleModalGr').on('hidden.bs.modal', function(){
 $('#editModalG').on('hidden.bs.modal', function(){
     $(this).find('form')[0].reset();
     $('#nameEdit').removeClass("is-invalid");
+});
+$('#trabajos').on('hidden.bs.modal', function(){
+    $(this).find('form')[0].reset();
+   
 });
 
 function updateAddOrDeleteGButtons() {
