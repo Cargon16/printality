@@ -414,31 +414,100 @@ function deleteWRow(id) {
     Pmgr.rmJob(id).then(update);
 }
 
+function checkPrinterModelo(id) {
+    let regExp = /^.+$/;
+
+    if (!regExp.test(document.getElementById(id).value)) {
+        document.getElementById(id).value = "";
+        alert("Modelo no válido");
+        return false;
+    }
+
+    return true;
+}
+
+function checkPrinterAlias(id) {
+    let regExp = /^.+$/;
+
+    if (!regExp.test(document.getElementById(id).value)) {
+        document.getElementById(id).value = "";
+        alert("Alias no válido");
+        return false;
+    }
+
+    return true;
+}
+
+function checkPrinterLugar(id) {
+    let regExp = /^.+$/;
+
+    if (!regExp.test(document.getElementById(id).value)) {
+        document.getElementById(id).value = "";
+        alert("Lugar no válido");
+        return false;
+    }
+
+    return true;
+}
+
+function checkPrinterIP(id) {
+    let regExp = /^((25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)(\.|$)){4}$/;
+
+    if (!regExp.test(document.getElementById(id).value)) {
+        document.getElementById(id).value = "";
+        alert("IP no válida");
+        return false;
+    }
+
+    return true;
+}
+
 //Añadir una nueva impresora
 function addRow() {
-    Pmgr.addPrinter(
-        new Printer(
-            Pmgr.globalState.printers.length,
-            document.getElementById('alias').value,
-            document.getElementById('modelo').value,
-            document.getElementById('lugar').value,
-            document.getElementById('ip').value,
-            [],
-            PrinterStates.NO_INK
-        )
-    ).then(update);
-    
+    if (checkPrinterModelo('modelo') && checkPrinterAlias('alias') && checkPrinterLugar('lugar') && checkPrinterIP('ip')) {
+        $('#exampleModal').modal('hide');
+        $('body').removeClass('modal-open');
+        $('.modal-backdrop').remove();
+        Pmgr.addPrinter(
+            new Printer(
+                Pmgr.globalState.printers.length,
+                document.getElementById('alias').value,
+                document.getElementById('modelo').value,
+                document.getElementById('lugar').value,
+                document.getElementById('ip').value,
+                [],
+                PrinterStates.NO_INK
+            )
+        ).then(update);
+    }
+}
+
+function checkGroupName(id) {
+    let regExp = /^.+$/;
+
+    if (!regExp.test(document.getElementById(id).value)) {
+        document.getElementById(id).value = "";
+        alert("Nombre no válido");
+        return false;
+    }
+
+    return true;
 }
 
 //Añadir un nuevo grupo
 function addRowGr() {
-    Pmgr.addGroup(
-        new Group(
-            Pmgr.globalState.groups.length,
-            document.getElementById('nameg').value,
-            []
-        )
-    ).then(update);
+    if (checkGroupName('nameg')) {
+        $('#exampleModalGr').modal('hide');
+        $('body').removeClass('modal-open');
+        $('.modal-backdrop').remove();
+        Pmgr.addGroup(
+            new Group(
+                Pmgr.globalState.groups.length,
+                document.getElementById('nameg').value,
+                []
+            )
+        ).then(update);
+    }
 }
 
 function addFile() {
@@ -596,21 +665,26 @@ function editModalP(idPrinter) {
 }
 
 function editPrinter() {
-    let p = Pmgr.globalState.printers;
-    let y = 0;
-    while (y < p.length && p[y].id != idP) {
-        y++;
+    if (checkPrinterAlias('aliasEdit') && checkPrinterLugar('lugarEdit') && checkPrinterIP('ipEdit')) {
+        $('#editModalP').modal('hide');
+        $('body').removeClass('modal-open');
+        $('.modal-backdrop').remove();
+        let p = Pmgr.globalState.printers;
+        let y = 0;
+        while (y < p.length && p[y].id != idP) {
+            y++;
+        }
+
+        if (document.getElementById('aliasEdit').value != "")
+            p[y].alias = document.getElementById('aliasEdit').value;
+        if (document.getElementById('lugarEdit').value != "")
+            p[y].location = document.getElementById('lugarEdit').value;
+        if (document.getElementById('ipEdit').value != "")
+            p[y].ip = document.getElementById('ipEdit').value;
+
+        Pmgr.setPrinter(p[y]);
+        update();
     }
-
-    if (document.getElementById('aliasEdit').value != "")
-        p[y].alias = document.getElementById('aliasEdit').value;
-    if (document.getElementById('lugarEdit').value != "")
-        p[y].location = document.getElementById('lugarEdit').value;
-    if (document.getElementById('ipEdit').value != "")
-        p[y].ip = document.getElementById('ipEdit').value;
-
-    Pmgr.setPrinter(p[y]);
-    update();
 }
 
 let idG = idP + 1;
@@ -621,17 +695,22 @@ function editModalG(idGroup) {
 }
 
 function editGroup() {
-    let g = Pmgr.globalState.groups;
-    let y = 0;
-    while (y < g.length && g[y].id != idG) {
-        y++;
+    if (checkGroupName('nameEdit')) {
+        $('#editModalG').modal('hide');
+        $('body').removeClass('modal-open');
+        $('.modal-backdrop').remove();
+        let g = Pmgr.globalState.groups;
+        let y = 0;
+        while (y < g.length && g[y].id != idG) {
+            y++;
+        }
+
+        if (document.getElementById('nameEdit').value != "")
+            g[y].name = document.getElementById('nameEdit').value;
+
+        Pmgr.setGroup(g[y]);
+        update();
     }
-
-    if (document.getElementById('nameEdit').value != "")
-        g[y].name = document.getElementById('nameEdit').value;
-
-    Pmgr.setGroup(g[y]);
-    update();
 }
 function getView() {
     return view;
