@@ -402,12 +402,66 @@ $(function () {
 
 //script para eliminar una fila nueva a las impresoras
 function deleteRow(id) {
-    Pmgr.rmPrinter(id).then(update);
+    let printer;
+    Pmgr.globalState.printers.some(function (p) {
+        if (p.id == id) {
+            printer = p;
+            return true;
+        }
+    });
+
+    let jobs = printer.queue.length;
+    let groups = printer.groups.length;
+
+    if (jobs == 0 && groups == 0) Pmgr.rmPrinter(id).then(update);
+    else {
+        let message;
+        if (jobs > 0 && groups > 0) {
+            message = "La impresora tiene " + printer.queue.length +  " trabajo" + (jobs == 1 ? "" : "s") + " pendiente" + (jobs == 1 ? "" : "s") + " y " + printer.groups.length + " grupo" + (groups == 1 ? "" : "s") + " asociado" + (groups == 1 ? "" : "s");
+        } else if (jobs > 0) {
+            message = "La impresora tiene " + printer.queue.length +  " trabajo" + (jobs == 1 ? "" : "s") + " pendiente" + (jobs == 1 ? "" : "s");
+        } else {
+            message = "La impresora tiene " + printer.groups.length +  " grupo" + (groups == 1 ? "" : "s") + " asociado" + (groups == 1 ? "" : "s");
+        }
+
+        $('#warningModalMessage').text(message);
+        $('#warningModal').modal('show');
+        $('#warningModalOk').click(e => {
+            Pmgr.rmPrinter(id).then(update);
+            $('#warningModal').modal('hide');
+            $('body').removeClass('modal-open');
+            $('.modal-backdrop').remove();
+        });
+    }
 }
 
 //script para eliminar una fila de grupos
 function deleteRowg(id) {
-    Pmgr.rmGroup(id).then(update);
+    let group;
+    Pmgr.globalState.groups.some(function (g) {
+        if (g.id == id) {
+            group = g;
+            return true;
+        }
+    });
+
+    let printers = group.printers.length;
+
+    if (printers == 0) Pmgr.rmGroup(id).then(update);
+    else {
+        let message;
+        if (printers == 1) message = "El grupo tiene una impresora asignada";
+        else message = "El grupo tiene " + printers + " impresoras asignadas"
+
+        $('#warningModalMessage').text(message);
+        $('#warningModal').modal('show');
+        $('#warningModalOk').click(e => {
+            Pmgr.rmGroup(id).then(update);
+            $('#warningModal').modal('hide');
+            $('body').removeClass('modal-open');
+            $('.modal-backdrop').remove();
+        });
+    }
 }
 
 //script para eliminar una fila de trabajos pendientes
