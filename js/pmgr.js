@@ -67,42 +67,7 @@ function createPrinterItem(printer, position) {
             </tr>
  `;
 }
-/*
-  function createPrinterItem(printer) {
-  const rid = 'x_' + Math.floor(Math.random()*1000000);
-  const hid = 'h_'+rid;
-  const cid = 'c_'+rid;
 
-  // usar [] en las claves las evalua (ver https://stackoverflow.com/a/19837961/15472)
-  const PS = Pmgr.PrinterStates;
-  let pillClass = { [PS.PAUSED] : "badge-secondary",
-                    [PS.PRINTING] : "badge-success",
-                    [PS.NO_INK] : "badge-danger",
-                    [PS.NO_PAPER] : "badge-danger" };
-
-  let allJobs = printer.queue.map((id) =>
-     `<span class="badge badge-secondary">${id}</span>`
-  ).join(" ");
-
-  return `
-    <div class="card">
-    <div class="card-header" id="${hid}">
-        <h4 class="mb-0">
-            ${printer.alias}
-        </h4>
-        <span class="badge badge-pill ${pillClass[printer.status.toLowerCase()]}">${printer.status}</span>
-    </div>
-    <div>
-        <div class="card-body pcard">
-            ${printer.model} at ${printer.location}
-            <hr>
-            ${allJobs}
-        </div>
-    </div>
-    </div>
- `;
-}
- */
 
 
 function createGroupItem(group, position) {
@@ -110,18 +75,7 @@ function createGroupItem(group, position) {
     const hid = 'h_' + rid;
     const cid = 'c_' + rid;
 
-    // usar [] en las claves las evalua (ver https://stackoverflow.com/a/19837961/15472)
-    /* const PS = Pmgr.PrinterStates;
-     let pillClass = {
-         [PS.PAUSED]: "badge-secondary",
-         [PS.PRINTING]: "badge-success",
-         [PS.NO_INK]: "badge-danger",
-         [PS.NO_PAPER]: "badge-danger"
-     };
- 
-     let allJobs = group.queue.map((id) =>
-         `<span class="badge badge-secondary">${id}</span>`
-     ).join(" ");*/
+    
     let allPrinters = group.printers.map((id) =>
         `<span class="badge badge-secondary">${Pmgr.resolve(id).alias}</span>`
     ).join(" ");
@@ -138,43 +92,14 @@ function createGroupItem(group, position) {
             </tr>
  `;
 }
-/*
-function createGroupItem(group) {
-  let allPrinters = group.printers.map((id) =>
-     `<span class="badge badge-secondary">${Pmgr.resolve(id).alias}</span>`
-  ).join(" ");
- return `
-    <div class="card">
-    <div class="card-header">
-        <h4 class="mb-0">
-            <b class="pcard">${group.name}</b>
-        </h4>
-    </div>
-    <div class="card-body pcard">
-        ${allPrinters}
-    </div>
-    </div>
-`;
-}
-*/
+
 
 function createJobItem(file, position) {
     const rid = 'x_' + Math.floor(Math.random() * 1000000);
     const hid = 'h_' + rid;
     const cid = 'c_' + rid;
 
-    // usar [] en las claves las evalua (ver https://stackoverflow.com/a/19837961/15472)
-    /* const PS = Pmgr.PrinterStates;
-     let pillClass = {
-         [PS.PAUSED]: "badge-secondary",
-         [PS.PRINTING]: "badge-success",
-         [PS.NO_INK]: "badge-danger",
-         [PS.NO_PAPER]: "badge-danger"
-     };
- 
-     let allJobs = group.queue.map((id) =>
-         `<span class="badge badge-secondary">${id}</span>`
-     ).join(" ");*/
+   
 
     return `
             <tr>
@@ -189,22 +114,7 @@ function createJobItem(file, position) {
             </tr>
  `;
 }
-/*
-function createJobItem(job) {
- return `
-    <div class="card">
-    <div class="card-header">
-        <h4 class="mb-0">
-            <b class="pcard">${job.fileName}</b>
-        </h4>
-    </div>
-    <div class="card-body pcard">
-        ${job.owner} @${Pmgr.resolve(job.printer).alias}
-    </div>
-    </div>
-`;
-}
-*/
+
 
 let view = '#impresoras';
 function buscar() {
@@ -610,7 +520,7 @@ function addPrinterToGroup() {
     }
     if (i == g[x].printers.length) {
         g[x].printers.push(p[y].id);
-       // alert("Se ha vinculado la impresora " + impresora + " del grupo " + grupo);
+      
     } else alert("No se ha vinculado la impresora");
     Pmgr.setPrinter(p[y]);
     Pmgr.setGroup(g[x]);
@@ -640,7 +550,7 @@ function delPrinterToGroup() {
     }
     if (i < g[x].printers.length) {
         g[x].printers.splice(i, 1);
-        //alert("Se ha desvinculado la impresora " + impresora + " del grupo " + grupo);
+       
     } else alert("No se ha desvinculado la impresora");
 
     Pmgr.setPrinter(p[y]);
@@ -748,7 +658,7 @@ function editModalP(idPrinter) {
 }
 
 function editPrinter() {
-    //if (checkPrinterAlias('aliasEdit') && checkPrinterLugar('lugarEdit') && checkPrinterIP('ipEdit')) {
+   
        
         $('body').removeClass('modal-open');
         $('.modal-backdrop').remove();
@@ -779,7 +689,7 @@ function editPrinter() {
 
         Pmgr.setPrinter(p[y]);
         update();
-    //}
+  
 }
 
 let idG = idP + 1;
