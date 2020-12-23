@@ -524,38 +524,9 @@ function addFile() {
 
 //Vincular una impresora a un grupo
 function addPrinterToGroup() {
-<<<<<<< HEAD
     let pid = +$("#printers").val();
     let gid = +$("#groups").val();
     if (pid == -1 || gid == -1) return;
-=======
-    let impresora = $("#printers option:selected").text();
-    if (impresora == "Impresoras...") impresora = $("#printersg option:selected").text();
-    let grupo = $("#groups option:selected").text();
-    if (grupo == "Grupos...") grupo = $("#groupsg option:selected").text();
-    let g = Pmgr.globalState.groups;
-    let p = Pmgr.globalState.printers;
-    let x = 0,
-        y = 0;
-    while (x < g.length && g[x].name != grupo) {
-        x++;
-    }
-    while (y < p.length && p[y].alias != impresora) {
-        y++;
-    }
-
-    let i = 0;
-    while (g[x].printers[i] != p[y].id && i < g[x].printers.length) {
-        i++;
-    }
-    if (i == g[x].printers.length) {
-        g[x].printers.push(p[y].id);
-      
-    } else alert("No se ha vinculado la impresora");
-    Pmgr.setPrinter(p[y]);
-    Pmgr.setGroup(g[x]);
-    update();
->>>>>>> 596a6ef93dcfe28b9577ca7db8004b4d5b8aac76
 
     let impresora = Pmgr.resolve(pid);
     let groups = impresora.groups;
@@ -565,38 +536,9 @@ function addPrinterToGroup() {
 
 //Desvincular una impresora de un grupo
 function delPrinterToGroup() {
-<<<<<<< HEAD
     let pid = +$("#printers").val();
     let gid = +$("#groups").val();
     if (pid == -1 || gid == -1) return;
-=======
-    let impresora = $("#printers option:selected").text();
-    if (impresora == "Impresoras...") impresora = $("#printersg option:selected").text();
-    let grupo = $("#groups option:selected").text();
-    if (grupo == "Grupos...") grupo = $("#groupsg option:selected").text();
-    let g = Pmgr.globalState.groups;
-    let p = Pmgr.globalState.printers;
-    let x = 0,
-        y = 0;
-    while (x < g.length && g[x].name != grupo) {
-        x++;
-    }
-    while (y < p.length && p[y].alias != impresora) {
-        y++;
-    }
-    let i = 0;
-    while (g[x].printers[i] != p[y].id && i < g[x].printers.length) {
-        i++;
-    }
-    if (i < g[x].printers.length) {
-        g[x].printers.splice(i, 1);
-       
-    } else alert("No se ha desvinculado la impresora");
-
-    Pmgr.setPrinter(p[y]);
-    Pmgr.setGroup(g[x]);
-    update();
->>>>>>> 596a6ef93dcfe28b9577ca7db8004b4d5b8aac76
 
     let impresora = Pmgr.resolve(pid);
     let groups = impresora.groups.filter(id => id != gid);
