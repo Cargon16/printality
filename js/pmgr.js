@@ -44,8 +44,8 @@ function createPrinterItem(printer, position) {
         [PS.NO_PAPER]: "badge-danger"
     };
 
-    let allJobs = printer.queue.map((id) =>
-        `<span class="badge badge-dark">${id}</span>`
+    let allJobs = printer.queue.map(j => Pmgr.resolve(j)).map(j =>
+        `<span class="badge badge-dark">${j.fileName}</span>`
     ).join(" ");
     let allGroups = printer.groups.map(g => Pmgr.resolve(g)).map(g =>
         `<span data-id="${g.id}" class="badge badge-info">${g.name}</span>`
@@ -75,13 +75,12 @@ function createGroupItem(group, position) {
     const hid = 'h_' + rid;
     const cid = 'c_' + rid;
 
-    
-    let allPrinters = group.printers.map((id) =>
-        `<span class="badge badge-secondary">${Pmgr.resolve(id).alias}</span>`
+    let allPrinters = group.printers.map(p => Pmgr.resolve(p)).map(p =>
+        `<span data-id="${p.id}" class="badge badge-secondary">${p.alias}</span>`
     ).join(" ");
 
     return `
-            <tr>
+            <tr class="groupRow" data-id= "${group.id}">
               <th scope="row">${group.name}</th>
               <td>${allPrinters}</td>
               <td>
@@ -368,7 +367,16 @@ function deleteRowg(id) {
 
 //script para eliminar una fila de trabajos pendientes
 function deleteWRow(id) {
-    Pmgr.rmJob(id).then(update);
+    let message = "¿Quieres eliminar ese documento de la cola de impresión?";
+    $('#warningModalMessage').text(message);
+    $('#warningModal').modal('show');
+    $('#warningModalOk').click(e => {
+        Pmgr.rmJob(id).then(update);
+        $('#warningModal').modal('hide');
+        $('body').removeClass('modal-open');
+        $('.modal-backdrop').remove();
+    });
+
 }
 
 function checkPrinterModelo(id) {
@@ -443,6 +451,21 @@ $("#printer_list").on("click", "span[data-id]", e => {
     setTimeout(() => $("#groups").change(), 500);
 });
 
+//Mismo proceso para la tabla de grupos
+$("#group_list").on("click", "tr.groupRow", e => {
+    const pid = $(e.target).parents("tr.groupRow").attr("data-id"); 
+    $("#groupsg").val(pid);
+    setTimeout(() => $("#printersg").change(), 500);
+});
+
+$("#group_list").on("click", "span[data-id]", e => {
+    const gid = $(e.target).parents("tr.groupRow").attr("data-id");  
+    const pid = $(e.target).attr("data-id");
+    $("#groupsg").val(gid);
+    $("#printersg").val(pid);
+    setTimeout(() => $("#printersg").change(), 500);
+});
+
 // PROFE - validación cada vez que cambia
 $("#modelo").on("input paste change propertychange", e => checkPrinterModelo('modelo'));
 $("#alias").on("input paste change propertychange", e => checkPrinterAlias('alias'));
@@ -483,6 +506,9 @@ function checkGroupName(id) {
 
     return true;
 }
+
+//Revalidación de los campos en el modal de añadir grupo
+$("#nameg").on("input paste change propertychange", e => checkGroupName('nameg'));
 
 //Añadir un nuevo grupo
 function addRowGr() {
@@ -526,6 +552,12 @@ function addFile() {
 function addPrinterToGroup() {
     let pid = +$("#printers").val();
     let gid = +$("#groups").val();
+    console.log(view);
+    if(view == "#grupos"){
+        pid = +$("#printersg").val();
+        gid = +$("#groupsg").val();
+
+    }
     if (pid == -1 || gid == -1) return;
 
     let impresora = Pmgr.resolve(pid);
@@ -538,6 +570,12 @@ function addPrinterToGroup() {
 function delPrinterToGroup() {
     let pid = +$("#printers").val();
     let gid = +$("#groups").val();
+
+    if(view == "#grupos"){
+        pid = +$("#printersg").val();
+        gid = +$("#groupsg").val();
+
+    }
     if (pid == -1 || gid == -1) return;
 
     let impresora = Pmgr.resolve(pid);
@@ -598,14 +636,12 @@ $('#trabajos').on('hidden.bs.modal', function(){
 });
 
 function updateAddOrDeleteGButtons() {
-    let printerSelected = $('#printersg').val();
-    let groupSelected = $('#groupsg').val();
-
-    if (!isNaN(printerSelected) && !isNaN(groupSelected)) {
-        let group = Pmgr.globalState.groups[groupSelected];
-        let printer = Pmgr.globalState.printers[printerSelected];
-
-        if (group.printers.indexOf(printer.id) == -1) {
+    let printerSelected = +$('#printersg').val();
+    let groupSelected = +$('#groupsg').val();
+    if (printerSelected != -1 && groupSelected != -1) {
+        let group = Pmgr.resolve(groupSelected);
+        let printer = Pmgr.resolve(printerSelected);
+        if (! group.printers.includes(printer.id)) {
             $('#submit_vg').prop("disabled", false);
             $('#submit_vg').addClass("submit_v");
             $('#submit_dg').prop("disabled", true);
@@ -642,6 +678,12 @@ function editModalP(idPrinter) {
     $('#editModalP').modal('show');
     idP = idPrinter;
 }
+
+
+//Revalidación de los campos en el modal de editar impresoras
+$("#aliasEdit").on("input paste change propertychange", e => checkPrinterAlias('aliasEdit'));
+$("#lugarEdit").on("input paste change propertychange", e => checkPrinterLugar('lugarEdit'));
+$("#ipEdit").on("input paste change propertychange", e => checkPrinterIP('ipEdit'));
 
 function editPrinter() {
    
@@ -685,6 +727,8 @@ function editModalG(idGroup) {
     idG = idGroup;
 }
 
+//Revalidación de los campos en el modal de editar grupo
+$("#nameEdit").on("input paste change propertychange", e => checkGroupName('nameEdit'));
 function editGroup() {
     if (checkGroupName('nameEdit')) {
         $('#editModalG').modal('hide');
