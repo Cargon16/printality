@@ -47,12 +47,12 @@ function createPrinterItem(printer, position) {
     let allJobs = printer.queue.map((id) =>
         `<span class="badge badge-dark">${id}</span>`
     ).join(" ");
-    let allGroups = showGroupPrinters(printer.id).map((name) =>
-        `<span class="badge badge-info">${name}</span>`
+    let allGroups = printer.groups.map(g => Pmgr.resolve(g)).map(g =>
+        `<span data-id="${g.id}" class="badge badge-info">${g.name}</span>`
     ).join(" ");
 
     return `
-            <tr>
+            <tr class="printerRow" data-id="${printer.id}">
               <th scope="row">${printer.alias}</th>
               <td>${printer.model}</td>
               <td>${printer.location}</td>
@@ -67,42 +67,7 @@ function createPrinterItem(printer, position) {
             </tr>
  `;
 }
-/*
-  function createPrinterItem(printer) {
-  const rid = 'x_' + Math.floor(Math.random()*1000000);
-  const hid = 'h_'+rid;
-  const cid = 'c_'+rid;
 
-  // usar [] en las claves las evalua (ver https://stackoverflow.com/a/19837961/15472)
-  const PS = Pmgr.PrinterStates;
-  let pillClass = { [PS.PAUSED] : "badge-secondary",
-                    [PS.PRINTING] : "badge-success",
-                    [PS.NO_INK] : "badge-danger",
-                    [PS.NO_PAPER] : "badge-danger" };
-
-  let allJobs = printer.queue.map((id) =>
-     `<span class="badge badge-secondary">${id}</span>`
-  ).join(" ");
-
-  return `
-    <div class="card">
-    <div class="card-header" id="${hid}">
-        <h4 class="mb-0">
-            ${printer.alias}
-        </h4>
-        <span class="badge badge-pill ${pillClass[printer.status.toLowerCase()]}">${printer.status}</span>
-    </div>
-    <div>
-        <div class="card-body pcard">
-            ${printer.model} at ${printer.location}
-            <hr>
-            ${allJobs}
-        </div>
-    </div>
-    </div>
- `;
-}
- */
 
 
 function createGroupItem(group, position) {
@@ -110,18 +75,7 @@ function createGroupItem(group, position) {
     const hid = 'h_' + rid;
     const cid = 'c_' + rid;
 
-    // usar [] en las claves las evalua (ver https://stackoverflow.com/a/19837961/15472)
-    /* const PS = Pmgr.PrinterStates;
-     let pillClass = {
-         [PS.PAUSED]: "badge-secondary",
-         [PS.PRINTING]: "badge-success",
-         [PS.NO_INK]: "badge-danger",
-         [PS.NO_PAPER]: "badge-danger"
-     };
- 
-     let allJobs = group.queue.map((id) =>
-         `<span class="badge badge-secondary">${id}</span>`
-     ).join(" ");*/
+    
     let allPrinters = group.printers.map((id) =>
         `<span class="badge badge-secondary">${Pmgr.resolve(id).alias}</span>`
     ).join(" ");
@@ -138,43 +92,14 @@ function createGroupItem(group, position) {
             </tr>
  `;
 }
-/*
-function createGroupItem(group) {
-  let allPrinters = group.printers.map((id) =>
-     `<span class="badge badge-secondary">${Pmgr.resolve(id).alias}</span>`
-  ).join(" ");
- return `
-    <div class="card">
-    <div class="card-header">
-        <h4 class="mb-0">
-            <b class="pcard">${group.name}</b>
-        </h4>
-    </div>
-    <div class="card-body pcard">
-        ${allPrinters}
-    </div>
-    </div>
-`;
-}
-*/
+
 
 function createJobItem(file, position) {
     const rid = 'x_' + Math.floor(Math.random() * 1000000);
     const hid = 'h_' + rid;
     const cid = 'c_' + rid;
 
-    // usar [] en las claves las evalua (ver https://stackoverflow.com/a/19837961/15472)
-    /* const PS = Pmgr.PrinterStates;
-     let pillClass = {
-         [PS.PAUSED]: "badge-secondary",
-         [PS.PRINTING]: "badge-success",
-         [PS.NO_INK]: "badge-danger",
-         [PS.NO_PAPER]: "badge-danger"
-     };
- 
-     let allJobs = group.queue.map((id) =>
-         `<span class="badge badge-secondary">${id}</span>`
-     ).join(" ");*/
+   
 
     return `
             <tr>
@@ -189,22 +114,7 @@ function createJobItem(file, position) {
             </tr>
  `;
 }
-/*
-function createJobItem(job) {
- return `
-    <div class="card">
-    <div class="card-header">
-        <h4 class="mb-0">
-            <b class="pcard">${job.fileName}</b>
-        </h4>
-    </div>
-    <div class="card-body pcard">
-        ${job.owner} @${Pmgr.resolve(job.printer).alias}
-    </div>
-    </div>
-`;
-}
-*/
+
 
 let view = '#impresoras';
 function buscar() {
@@ -254,17 +164,13 @@ function getNamePrinters() {
 
 //generar las opciones de impresoras del select
 function getPrinters() {
-    let html = "<option>Impresoras...</option>";
-    let array = getNamePrinters();
-    if (array != null) {
-        let tam = array.length;
-        for (let i = 0; i < tam; i++) {
-            html += `
-                    <option value= "${i}" >${array[i]}</option>
-            `;
-        };
-    }
-    return html;
+    let all = ["<option value='-1'>Impresoras...</option>"];
+    for (let p of Pmgr.globalState.printers) {
+        all.push(`
+            <option value="${p.id}">${p.alias}</option>
+        `);
+    };
+    return all.join("\n");
 }
 //Array de los alias de los grupos generados.
 function getNameGroups() {
@@ -275,17 +181,13 @@ function getNameGroups() {
 
 //generar las opciones de impresoras del select
 function getGroups() {
-    let html = "<option>Grupos...</option>";
-    let array = getNameGroups();
-    if (array != null) {
-        let tam = array.length;
-        for (let i = 0; i < tam; i++) {
-            html += `
-                    <option value= "${i}" >${array[i]}</option>
-            `;
-        };
-    }
-    return html;
+    let all = ["<option value='-1'>Grupos...</option>"];
+    for (let p of Pmgr.globalState.groups) {
+        all.push(`
+            <option value="${p.id}">${p.name}</option>
+        `);
+    };
+    return all.join("\n");
 }
 
 
@@ -473,11 +375,13 @@ function checkPrinterModelo(id) {
     let regExp = /^.+$/;
 
     if (!regExp.test(document.getElementById(id).value)) {
-        document.getElementById(id).value = "";
+        // PROFE - no borreis valores del usuario, todavia puede corregirlos
+        // document.getElementById(id).value = "";
         $(document.getElementById(id)).addClass("is-invalid");
         return false;
-    }
+    } 
 
+    $(document.getElementById(id)).removeClass("is-invalid");
     return true;
 }
 
@@ -485,11 +389,12 @@ function checkPrinterAlias(id) {
     let regExp = /^.+$/;
 
     if (!regExp.test(document.getElementById(id).value)) {
-        document.getElementById(id).value = "";
+        // PROFE - no borreis valores del usuario, todavia puede corregirlos
+        // document.getElementById(id).value = "";
         $(document.getElementById(id)).addClass("is-invalid");
         return false;
     }
-
+    $(document.getElementById(id)).removeClass("is-invalid");
     return true;
 }
 
@@ -497,11 +402,13 @@ function checkPrinterLugar(id) {
     let regExp = /^.+$/;
 
     if (!regExp.test(document.getElementById(id).value)) {
-        document.getElementById(id).value = "";
+        // PROFE - no borreis valores del usuario, todavia puede corregirlos
+        // document.getElementById(id).value = "";
         $(document.getElementById(id)).addClass("is-invalid");
         return false;
-    }
+    } 
 
+    $(document.getElementById(id)).removeClass("is-invalid");
     return true;
 }
 
@@ -509,17 +416,45 @@ function checkPrinterIP(id) {
     let regExp = /^((25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)(\.|$)){4}$/;
 
     if (!regExp.test(document.getElementById(id).value)) {
-        document.getElementById(id).value = "";
+        // PROFE - no borreis valores del usuario, todavia puede corregirlos
+        // document.getElementById(id).value = "";
         $(document.getElementById(id)).addClass("is-invalid");
         return false;
     }
 
+    $(document.getElementById(id)).removeClass("is-invalid");
     return true;
 }
 
+// PROFE - cuando pinchas en una impresora, la selecciona para cambiar sus grupos
+$("#printer_list").on("click", "tr.printerRow", e => {
+    const pid = $(e.target).parents("tr.printerRow").attr("data-id");
+    console.log(pid);  
+    $("#printers").val(pid);
+    setTimeout(() => $("#groups").change(), 500);
+});
+
+// PROFE - cuando pinchas un grupo, lo selecciona para quitárselo a esa impresora
+$("#printer_list").on("click", "span[data-id]", e => {
+    const pid = $(e.target).parents("tr.printerRow").attr("data-id");  
+    const gid = $(e.target).attr("data-id");
+    $("#groups").val(gid);
+    $("#printers").val(pid);
+    setTimeout(() => $("#groups").change(), 500);
+});
+
+// PROFE - validación cada vez que cambia
+$("#modelo").on("input paste change propertychange", e => checkPrinterModelo('modelo'));
+$("#alias").on("input paste change propertychange", e => checkPrinterAlias('alias'));
+$("#lugar").on("input paste change propertychange", e => checkPrinterLugar('lugar'));
+$("#ip").on("input paste change propertychange", e => checkPrinterIP('ip'));
+
 //Añadir una nueva impresora
 function addRow() {
-    if (checkPrinterModelo('modelo') && checkPrinterAlias('alias') && checkPrinterLugar('lugar') && checkPrinterIP('ip')) {
+    if (checkPrinterModelo('modelo') 
+            && checkPrinterAlias('alias') 
+            && checkPrinterLugar('lugar') 
+            && checkPrinterIP('ip')) {
         $('#exampleModal').modal('hide');
         $('body').removeClass('modal-open');
         $('.modal-backdrop').remove();
@@ -589,75 +524,36 @@ function addFile() {
 
 //Vincular una impresora a un grupo
 function addPrinterToGroup() {
-    let impresora = $("#printers option:selected").text();
-    if (impresora == "Impresoras...") impresora = $("#printersg option:selected").text();
-    let grupo = $("#groups option:selected").text();
-    if (grupo == "Grupos...") grupo = $("#groupsg option:selected").text();
-    let g = Pmgr.globalState.groups;
-    let p = Pmgr.globalState.printers;
-    let x = 0,
-        y = 0;
-    while (x < g.length && g[x].name != grupo) {
-        x++;
-    }
-    while (y < p.length && p[y].alias != impresora) {
-        y++;
-    }
+    let pid = +$("#printers").val();
+    let gid = +$("#groups").val();
+    if (pid == -1 || gid == -1) return;
 
-    let i = 0;
-    while (g[x].printers[i] != p[y].id && i < g[x].printers.length) {
-        i++;
-    }
-    if (i == g[x].printers.length) {
-        g[x].printers.push(p[y].id);
-       // alert("Se ha vinculado la impresora " + impresora + " del grupo " + grupo);
-    } else alert("No se ha vinculado la impresora");
-    Pmgr.setPrinter(p[y]);
-    Pmgr.setGroup(g[x]);
-    update();
-
+    let impresora = Pmgr.resolve(pid);
+    let groups = impresora.groups;
+    groups.push(gid);
+    Pmgr.setPrinter({id: pid, groups}).then(update);
 }
 
 //Desvincular una impresora de un grupo
 function delPrinterToGroup() {
-    let impresora = $("#printers option:selected").text();
-    if (impresora == "Impresoras...") impresora = $("#printersg option:selected").text();
-    let grupo = $("#groups option:selected").text();
-    if (grupo == "Grupos...") grupo = $("#groupsg option:selected").text();
-    let g = Pmgr.globalState.groups;
-    let p = Pmgr.globalState.printers;
-    let x = 0,
-        y = 0;
-    while (x < g.length && g[x].name != grupo) {
-        x++;
-    }
-    while (y < p.length && p[y].alias != impresora) {
-        y++;
-    }
-    let i = 0;
-    while (g[x].printers[i] != p[y].id && i < g[x].printers.length) {
-        i++;
-    }
-    if (i < g[x].printers.length) {
-        g[x].printers.splice(i, 1);
-        //alert("Se ha desvinculado la impresora " + impresora + " del grupo " + grupo);
-    } else alert("No se ha desvinculado la impresora");
+    let pid = +$("#printers").val();
+    let gid = +$("#groups").val();
+    if (pid == -1 || gid == -1) return;
 
-    Pmgr.setPrinter(p[y]);
-    Pmgr.setGroup(g[x]);
-    update();
-
+    let impresora = Pmgr.resolve(pid);
+    let groups = impresora.groups.filter(id => id != gid);
+    Pmgr.setPrinter({id: pid, groups}).then(update);
 }
 
 function updateAddOrDeleteButtons() {
-    let printerSelected = $('#printers').val();
-    let groupSelected = $('#groups').val();
+    let printerSelected = +$('#printers').val();
+    let groupSelected = +$('#groups').val();
 
-    if (!isNaN(printerSelected) && !isNaN(groupSelected)) {
-        let group = Pmgr.globalState.groups[groupSelected];
-        let printer = Pmgr.globalState.printers[printerSelected];
+    if (printerSelected != -1 && groupSelected != -1) {
+        let group = Pmgr.resolve(groupSelected);
+        let printer = Pmgr.resolve(printerSelected);
 
-        if (group.printers.indexOf(printer.id) == -1) {
+        if (! group.printers.includes(printer.id)) {
             $('#submit_v').prop("disabled", false);
             $('#submit_v').addClass("submit_v");
             $('#submit_d').prop("disabled", true);
@@ -748,7 +644,7 @@ function editModalP(idPrinter) {
 }
 
 function editPrinter() {
-    //if (checkPrinterAlias('aliasEdit') && checkPrinterLugar('lugarEdit') && checkPrinterIP('ipEdit')) {
+   
        
         $('body').removeClass('modal-open');
         $('.modal-backdrop').remove();
@@ -779,7 +675,7 @@ function editPrinter() {
 
         Pmgr.setPrinter(p[y]);
         update();
-    //}
+  
 }
 
 let idG = idP + 1;
